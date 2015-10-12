@@ -1,0 +1,811 @@
+\documentclass[11pt,letterpaper,twocolumn,twosided]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{geometry}
+
+\geometry{verbose,landscape,letterpaper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=C++,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=2
+}
+
+\setlength{\columnsep}{0.5in}
+\setlength{\columnseprule}{1px}
+
+\begin{document}
+
+\title{Notebook ICPC-UFPS\\Semillero de Investigaci\'on en Linux y Software Libre}
+\author{Gerson Yesid L\'azaro - Angie Melissa Delgado}
+\maketitle
+\tableofcontents
+\lstloadlanguages{C++,Java}
+
+
+\section{Bonus: Input Output}
+
+\subsection{scanf y printf}
+\begin{lstlisting}
+#include <cstdio>
+
+scanf("%d",&value); //int
+scanf("%ld",&value); //long y long int
+scanf("%c",&value); //char 
+scanf("%f",&value); //float
+scanf("%lf",&value); //double
+scanf("%s",&value); //char*
+scanf("%lld",&value); //long long int
+scanf("%x",&value); //int hexadecimal
+scanf("%o",&value); //int octal
+\end{lstlisting}
+
+\section{Dynamic Programming}
+
+\subsection{Knapsack}
+Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.\\
+Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
+
+\begin{lstlisting}
+
+#include <algorithm>
+
+const int MAX_WEIGHT = 40;//Peso maximo de la mochila
+const int MAX_N = 1000; //Numero maximo de objetos
+int N;//Numero de objetos 
+int prices[MAX_N];//precios de cada producto
+int weights[MAX_N];//pesos de cada producto
+int memo[MAX_N][MAX_WEIGHT];//tabla dp
+
+//El metodo debe llamarse con 0 en el id, y la capacidad de la mochila en w
+int knapsack(int id, int w) {
+  	if (id == N || w == 0) {
+  		return 0;
+  	}
+  	if (memo[id][w] != -1) {
+  		return memo[id][w];
+  	}
+  	if (weights[id] > w){
+  		memo[id][w] = knapsack(id + 1, w);
+  	}else{
+  		memo[id][w] = max(knapsack(id + 1, w), prices[id] + knapsack(id + 1, w - weights[id]));
+  	}
+  	
+  	return memo[id][w];
+}
+
+//La tabla memo debe iniciar en -1
+memset(memo, -1, sizeof memo);
+\end{lstlisting}
+
+\subsection{Longest Increasing Subsequence}
+Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tamaño  limite del array, n es el tamaño del array. Puede aplicarse tambi\'en sobre strings, cambiando el parametro int s[] por string s. Si debe ser estrictamente creciente, cambiar el $\leq $ de "s[j] $\leq $ s[i]" por $<$.
+
+\begin{lstlisting}
+
+const int MAX = 1005;
+int memo[MAX];
+
+int longestIncreasingSubsequence(int s[], int n){
+	memo[0] = 1;
+	int output = 0;
+	for (int i = 1; i < n; i++){
+		memo[i] = 1;
+		for (int j = 0; j < i; j++){
+			if (s[j] <= s[i] && memo[i] < memo[j] + 1){
+				memo[i] =  memo[j] + 1;
+			} 
+		}
+		if(memo[i] > output){
+			output = memo[i];
+		}
+	}
+	return output;
+}
+\end{lstlisting}
+
+\section{Graph}
+
+\subsection{BFS}
+Algoritmo de b\'usqueda en anchura en grafos, recibe un nodo inicial s y visita todos los nodos alcanzables desde s. BFS tambi\'en halla la distancia m\'as corta entre el nodo inicial s y los dem\'as nodos si todas las aristas tienen peso 1.
+
+\begin{lstlisting}
+
+int v, e; //vertices, arcos
+int MAX=100005; 
+vector<int> ady[MAX]; //lista de Adyacencia
+long long distance[MAX];
+
+static void init() {
+    for (int j = 0; j <= v; j++) {
+        distance[j] = -1;
+        ady[j].clear();
+    }
+}
+
+static void bfs(int s){
+    queue<int> q;
+    q.push(s); //Inserto el nodo inicial
+    distance[s]=0;
+    int actual, i, next;
+        
+    while(q.size()>0){
+        actual=q.front();
+        q.pop();
+        for(i=0; i<ady[actual].size(); i++){
+            next=ady[actual][i];
+            if(distance[next]==-1){
+                distance[next]=distance[actual]+1;
+                q.push(next);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{DFS}
+Algoritmo de b\'usqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne informaci\'on de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
+
+\begin{lstlisting}
+
+int v, e; //vertices, arcos
+int MAX=100005; 
+vector<int> ady[MAX];
+int marked[MAX];
+
+void init(){
+	for (int j = 0; j <= v; j++) {
+       marked[j] = 0;
+       ady[j].clear();
+    }
+}
+
+static void dfs(int s){
+	marked[s]=1;
+	int i, next;
+
+	for(i=0; i<ady[s].size(); i++){
+		next=ady[s][i];
+		if(marked[next]==0){
+			dfs(next);
+		}
+	}
+}
+\end{lstlisting}
+
+\subsection{Dijkstra's Algorithm}
+Algoritmo que dado un grafo con pesos no negativos halla la ruta m\'inima entre un nodo inicial s y todos los dem\'as nodos.
+
+\begin{lstlisting}
+
+int v,e;
+vector<Node> ady[100001];
+int marked[100001];
+long long distance[100001];
+int prev[100001];
+
+class cmp
+{
+public:
+    bool operator()(Node n1,Node n2)
+    {
+      if(n1.second>n2.second)
+      return true;
+      else
+      return false;
+    }
+};
+
+void init(){
+    long long max=LLONG_MAX;
+    for(int j=0; j<=v; j++){
+        ady[j].clear();
+        marked[j]=0;
+        prev[j]=-1;
+        distance[j]=max;
+    }
+}
+
+void dijkstra(int s){
+    priority_queue< Node , vector<Node> , cmp > pq;
+    pq.push(Node(s, 0));//se inserta a la cola el nodo Inicial.
+    distance[s]=0;
+    int actual, j, adjacent;
+    long long weight;
+
+    while(!pq.empty()){
+        actual=pq.top().first;
+        pq.pop();
+        if(marked[actual]==0){
+            marked[actual]=1;
+            for(j=0; j<ady[actual].size(); j++){
+                adjacent=ady[actual][j].first;
+                weight=ady[actual][j].second;
+                if(marked[adjacent]==0){
+                    if(distance[adjacent] > distance[actual] + weight){
+                         distance[adjacent] = distance[actual] + weight;
+                         prev[adjacent]=actual;
+                         pq.push(Node(adjacent, distance[adjacent]));
+                     }
+                }
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Floyd-Warshall's Algorithm}
+Algoritmo para grafos que halla la distancia m\'inima entre cualquier par de nodos. Matrix[i][j] guardar\'a la distancia m\'inima entre el nodo i y el j.
+
+\begin{lstlisting}
+
+#define Node pair<int,long long> //(Vertice adyacente, peso)
+
+int v,e;
+int matrix[505][505];
+
+void floydWarshall(){
+    int k=0;
+    int aux, i ,j;
+    
+    while(k<v){
+        for(i=0; i<v; i++){
+            if(i!=k){
+                for(j=0; j<v; j++){
+                    if(j!=k){
+                        aux=matrix[i][k]+matrix[k][j];
+                        if(aux<matrix[i][j] && aux>0){ 
+                            matrix[i][j]=aux;
+                        }
+                    }
+                }
+            }
+        }
+        k++;
+    }
+}\end{lstlisting}
+
+\subsection{Kruskal's Algorithm}
+Algoritmo para hallar el arbol cobertor m\'inimo de un grafo  no dirigido y conexo. Utiliza la t\'ecnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.\\
+Para hallar los 2 arboles cobertores minimos, se debe ejecutar el algoritmo v-1 veces, en cada una de ellas dscartar una de las aristas previamente elegidas en el arbol.
+
+\begin{lstlisting}
+
+struct Edge{
+    int origen, destino, peso;
+
+    bool operator!=(const Edge& rhs) const{
+        if(rhs.origen!=origen || rhs.destino!=destino || rhs.peso!=peso){
+            return true;
+        }
+        return false;
+    }
+};
+
+int v,e;
+int MAX=10001;
+int parent[MAX];
+int rank[MAX]; 
+Edge edges[MAX];
+Edge answer[MAX];
+
+void init(){
+    for(int i=0; i<v; i++){
+        parent[i]=i;
+        rank[i]=0;
+    }
+}
+
+int cmp(const void* a, const void* b)
+{   
+    struct Edge* a1 = (struct Edge*)a;
+    struct Edge* b1 = (struct Edge*)b;
+    return a1->peso > b1->peso;
+}
+
+int find(int i){
+    if(parent[i]!=i){
+        parent[i]=find(parent[i]);
+    }
+    return parent[i];
+}
+
+void unionFind(int x, int y){
+    int xroot = find(x);
+    int yroot = find(y);
+ 
+    // Attach smaller rank tree under root of high rank tree
+    // (Union by rank)
+    if (rank[xroot] < rank[yroot])
+        parent[xroot] = yroot;
+    else if (rank[xroot] > rank[yroot])
+        parent[yroot] = xroot;
+ 
+    // If ranks are same, then make one as root and increment
+    // its rank by one
+    else{
+        parent[yroot] = xroot;
+        rank[xroot]++;
+    }
+}
+
+void kruskall(){
+    Edge actual;
+    int aux=0;
+    int i=0;
+    int x,y;
+    qsort(edges, e, sizeof(edges[0]), cmp);
+
+    while(aux<v-1){
+        actual=edges[i];
+        x=find(actual.origen);
+        y=find(actual.destino);
+
+        if(x!=y){
+            answer[aux]=actual;
+            aux++;
+            unionFind(x, y);
+        }
+        i++;
+    }
+}
+\end{lstlisting}
+
+\subsection{Tarjan's Algorithm}
+Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
+
+\begin{lstlisting}
+
+vector<int> ady[1010];
+int marked[1010];
+int prev[1010];
+int dfs_low[1010];
+int dfs_num[1010];
+int itsmos[1010];
+int n, e;
+int dfsRoot,rootChildren,cont;
+vector<pair<int,int>> bridges;
+
+void init(){
+    bridges.clear();
+    cont=0;
+    int i;
+    for(i=0; i<n; i++){
+        ady[i].clear();
+        marked[i]=0;
+        prev[i]=-1;
+        itsmos[i]=0;
+    }
+}
+
+void dfs(int u){
+    dfs_low[u]=dfs_num[u]=cont;
+    cont++;
+    marked[u]=1; //esto no estaba >.<
+    int j, v;
+
+    for(j=0; j<ady[u].size(); j++){
+        v=ady[u][j];
+        if(marked[v]==0){
+            prev[v]=u;
+            //para el caso especial 
+            if(u==dfsRoot){
+                rootChildren++;
+            }
+            dfs(v);
+            //PARA ITSMOS
+            if(dfs_low[v]>=dfs_num[u]){
+                itsmos[u]=1;
+            }
+            //PARA bridges
+            if(dfs_low[v]>dfs_num[u]){
+                bridges.push_back(make_pair(min(u,v),max(u,v)));
+            }
+            dfs_low[u]=min(dfs_low[u], dfs_low[v]);
+        }else if(v!=prev[u]){ //Arco que no sea backtrack
+            dfs_low[u]=min(dfs_low[u], dfs_num[v]);
+        }
+    }
+}
+\end{lstlisting}
+
+\section{Math}
+
+\subsection{Binary Exponentiation}
+Realiza $a^{b}$ y retorna el resultado m\'odulo c. Si se elimina el m\'odulo c, debe tenerse precauci\'on para no exceder el l\'imite
+
+\begin{lstlisting}
+
+
+int binaryExponentiation(int a, int b, int c){
+    if (b == 0){
+    	return 1;
+    } 
+    if (b % 2 == 0){
+        int temp = binaryExponentiation(a,b/2, c);
+        return ((long long)(temp) * temp) % c;
+    }else{
+        int temp = binaryExponentiation(a, b-1, c);
+        return ((long long)(temp) * a) % c;
+    }
+}
+\end{lstlisting}
+
+\subsection{Binomial Coefficient}
+Calcula el coeficiente binomial nCr, entendido como el n\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos.
+
+\begin{lstlisting}
+
+long long binomialCoefficient(long long n, long long r) {
+  if (r < 0 || n < r) { 
+  	return 0; 
+  }
+  r = min(r, n - r);
+  long long ans = 1;
+  for (int i = 1; i <= r; i++) {
+    ans = ans * (n - i + 1) / i;
+  }
+  return ans;
+}
+\end{lstlisting}
+
+\subsection{Catalan Number}
+Guarda en el array Catalan Numbers los numeros de Catalan hasta MAX.
+
+\begin{lstlisting}
+
+const int MAX = 30;
+long long catalanNumbers[MAX+1];
+
+void catalan(){
+	catalanNumbers[0] = 1;
+	for(int i = 1; i <= MAX; i++){
+		catalanNumbers[i] = (long long)(catalanNumbers[i-1]*((double)(2*((2 * i)- 1))/(i + 1)));
+	}
+}
+\end{lstlisting}
+
+\subsection{Euler Totient}
+Funci\'on totient o indicatriz ($\phi$) de Euler. Para cada posici\'on n del array result retorna el n\'umero de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
+
+\begin{lstlisting}
+
+#include <string.h>
+
+const int MAX = 100;
+int result[MAX]; 
+
+void totient () {
+	bool temp[MAX];
+	int i,j;
+	memset(temp,1,sizeof(temp));
+	for(i = 0; i < MAX; i++) {
+		result[i] = i;
+	}
+	for(i = 2; i < MAX; i++){
+		if(temp[i]) {
+			for(j = i; j < MAX ; j += i){
+				temp[j] = false;
+				result[j] = result[j] - (result[j]/i) ;
+			}
+			temp[i] = true ;
+		}
+	}
+}
+\end{lstlisting}
+
+\subsection{Gaussian Elimination}
+Resuelve sistemas de ecuaciones lineales por eliminaci\'on Gaussiana.  matrix contiene los valores de la matriz cuadrada y result los resultados de las ecuaciones. Retorna un vector con el valor de las n incongnitas. Los resultados pueden necesitar redondeo.
+
+\begin{lstlisting}
+
+#include <vector>
+#include <algorithm>
+#include <limits>
+#include <cmath>
+
+const int MAX = 100;
+int n = 3;
+double matrix[MAX][MAX];
+double result[MAX];
+
+vector<double> gauss() {
+	
+  	vector<double> ans(n, 0);
+  	double temp;
+	for (int i = 0; i < n; i++) {
+    	int pivot = i;
+	    for (int j = i + 1; j < n; j++) {
+	    	temp = fabs(matrix[j][i]) - fabs(matrix[pivot][i]);
+	      	if (temp > numeric_limits<double>::epsilon()) {
+	        	pivot = j;
+	      	}
+	    }
+	    
+	    swap(matrix[i], matrix[pivot]);
+	    swap(result[i], result[pivot]);
+	    
+	    if (!(fabs(matrix[i][i]) < numeric_limits<double>::epsilon())) {
+	    	
+	    	for (int k = i + 1; k < n; k++) {
+		      	temp = -matrix[k][i] /  matrix[i][i];
+		      	matrix[k][i] = 0;
+		      	for (int l = i + 1; l < n; l++) {
+		        	matrix[k][l] += matrix[i][l] * temp;
+		      	}
+		      	result[k] += result[i] * temp;
+		    }
+	    }
+  	}
+  	for (int m = n - 1; m >= 0; m--) {
+    	temp = result[m];
+    	for (int i = n - 1; i > m; i--) {
+    		temp -= ans[i] * matrix[m][i];
+    	}
+    	ans[m] = temp / matrix[m][m];
+  	}
+  	return ans;
+}
+\end{lstlisting}
+
+\subsection{Greatest common divisor}
+Calcula el m\'aximo com\'un divisor entre a y b mediante el algoritmo de Euclides
+
+\begin{lstlisting}
+int mcd(int a, int b) {
+	int aux;
+	while(b!=0){
+		a %= b;
+		aux = b;
+		b = a;
+		a = aux;
+	}
+	return a;
+}
+\end{lstlisting}
+
+\subsection{Lowest Common Multiple}
+Calculo del m\'inimo com\'un m\'ultiplo usando el m\'aximo com\'un divisor. REQUIERE mcd(a,b)
+
+\begin{lstlisting}
+
+int mcm(int a, int b) {
+	return a*b/mcd(a,b);
+}
+\end{lstlisting}
+
+\subsection{Prime Factorization}
+Guarda en primeFactors la lista de factores primos del value de menor a mayor. \\IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value (se  recomienda dejar un poco de excedente).
+
+\begin{lstlisting}
+
+#include <vector>
+
+vector <long long> primeFactors;
+
+void calculatePrimeFactors(long long value){
+	primeFactors.clear();
+	long long temp = value;
+	int factor;
+	for (int i = 0; (long long)primes[i] * primes[i] <= value; ++i){
+		factor = primes[i];
+		while (temp % factor == 0){
+			primeFactors.push_back(factor);
+			temp /= factor;
+		}
+	}
+	if (temp != 1) {
+		primeFactors.push_back(temp);
+	}
+}
+\end{lstlisting}
+
+\subsection{Sieve of Eratosthenes}
+Guarda en primes los n\'umeros primos menores o iguales a MAX
+
+\begin{lstlisting}
+
+#include <vector>
+
+const int MAX = 10000000;
+vector<int> primes;
+bool sieve[MAX+5];
+
+void calculatePrimes() {
+  sieve[0] = sieve[1] = 1;
+  int i;
+  for (i = 2; i * i <= MAX; i++) {
+    if (!sieve[i]) {
+      primes.push_back(i);
+      for (int j = i * i; j <= MAX; j += i)
+        sieve[j] = true;
+    }
+  }
+  for(;i <= MAX; i++){
+  	if (!sieve[i]) {
+      primes.push_back(i);
+  	}
+  }
+}
+\end{lstlisting}
+
+\section{String}
+
+\subsection{KMP's Algorithm}
+Encuentra si el string pattern se encuentra en el string cadena.
+
+\begin{lstlisting}
+
+#include <vector>
+
+vector<int> table(string pattern){
+	int m=pattern.size();
+	vector<int> border(m);
+	border[0]=0;
+
+	for(int i=1; i<m; ++i){
+		border[i]=border[i-1];
+		while(border[i]>0 && pattern[i]!=pattern[border[i]]){
+			border[i]=border[border[i]-1];
+		}
+		if(pattern[i] == pattern[border[i]]){
+			border[i]++;
+		}
+	}
+	return border;
+}
+
+bool kmp(string cadena, string pattern){
+	int n=cadena.size();
+	int m=pattern.size();
+	vector<int> tab=table(pattern);
+	int seen=0;
+
+	for(int i=0; i<n; i++){
+		while(seen>0 && cadena[i]!=pattern[seen]){
+			seen=tab[seen-1];
+		}
+		if(cadena[i]==pattern[seen])
+			seen++;
+		if(seen==m){
+			return true;
+		}
+	}
+	return false;
+}
+\end{lstlisting}
+
+\section{Tips and formulas}
+
+\subsection{Catalan Number}
+
+{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}\\ \\
+Primeros 30 n\'umeros de Catal\'an:\\
+\begin{tabular}{|l|l|}
+\hline
+n & $C_{n}$ \\ \hline
+0 & 1 \\ \hline
+1 & 1 \\ \hline
+2 & 2 \\ \hline
+3 & 5 \\ \hline
+4 & 14 \\ \hline
+5 & 42 \\ \hline
+6 & 132 \\ \hline
+7 & 429 \\ \hline
+8 & 1.430\\ \hline
+9 & 4.862\\ \hline
+10 & 16.796\\ \hline
+11 & 58.786\\ \hline
+12 & 208.012\\ \hline
+13 & 742.900\\ \hline
+14 & 2.674.440\\ \hline
+15 & 9.694.845\\ \hline
+16 & 35.357.670\\ \hline
+17 & 129.644.790\\ \hline
+18 & 477.638. 700\\ \hline
+19 & 1.767.263.190\\ \hline
+20 & 6.564.120.420\\ \hline
+21 & 24.466.267.020\\ \hline
+22 & 91.482.563.640\\ \hline
+23 & 343.059.613.650\\ \hline
+24 & 1.289.904.147.324\\ \hline
+25 & 4.861.946.401.452\\ \hline
+26 & 18.367.353.072.152\\ \hline
+27 & 69.533.550.916.004\\ \hline
+28 & 263.747.951.750.360\\ \hline
+29 & 1.002.242.216.651.368\\ \hline
+30 & 3.814.986.502.092.304\\ \hline
+\end{tabular}
+
+
+
+\subsection{Euclidean Distance}
+F\'ormula para calcular la distancia Euclideana entre dos puntos en el plano cartesiano (x,y). \\
+Extendible a 3 dimensiones\\ \\
+$ d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}} $
+
+
+
+
+\subsection{Permutation and combination}
+
+Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos\\ \\
+{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}\\
+
+Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.\\ \\
+
+
+{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}\\
+
+Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos\\ \\
+
+{\LARGE $ P_{n} = n! $}\\
+
+Elegir r elementos de n posibles con repetici\'on\\ \\
+
+{\LARGE $ n^{r} $}\\
+
+Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...\\ \\
+
+{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}\\
+
+Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos \\ \\
+
+{\LARGE $ \frac{n!}{(n-r)!}$}\\
+}
+\subsection{Time Complexities}
+
+Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.\\ 
+
+\begin{tabular}{|l|l|}
+\hline
+Complexity & n\\ \hline
+$O(n!)$ & 11\\ \hline
+$O(n^{5})$ & 50\\ \hline
+$O(2^{n}*n^{2})$ & 18\\ \hline
+$O(2^{n}*n)$ & 22\\ \hline
+$O(n^{4})$ & 100\\ \hline
+$O(n^{3})$ & 500\\ \hline
+$O(n^{2}\log_{2}n)$ & 1.000\\ \hline
+$O(n^{2})$ & 10.000\\ \hline
+$O(n\log_{2}n)$ & $10^{6}$\\ \hline
+$O(n)$ & $10^{8}$\\ \hline
+$O(\sqrt{n})$ & $10^{16}$\\ \hline
+$O(\log_{2}n)$ & -\\ \hline
+$O(1)$ & -\\ \hline
+\end{tabular}
+
+
+\subsection{mod: properties}
+
+\begin{enumerate}
+\item (a \% b) \% b = a \% b (Propiedad neutro)
+\item (ab) \% c = ((a \% c)(b \% c)) \% c (Propiedad asociativa en multiplicaci\'on)
+\item (a + b) \% c = ((a \% c) + (b \% c)) \% c (Propiedad asociativa en suma)
+\end{enumerate}
+\end{document}
