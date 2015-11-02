@@ -2,7 +2,6 @@ La función de Miller-Rabin determina si un número dado es o no un número prim
 
 #include <cstdlib>
 
-
 long long mulmod(long long a, long long b, long long mod){
     long long x = 0;
     long long y = a % mod;
@@ -29,8 +28,7 @@ long long modulo(long long base, long long exponent, long long mod){
 }
  
 
-bool miller(long long  p)
-{
+bool miller(long long  p){
     if (p < 2){
         return false;
     }
