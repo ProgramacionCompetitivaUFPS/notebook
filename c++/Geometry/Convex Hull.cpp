@@ -39,7 +39,9 @@ vector<point> convexHull(vector<point> P) {
 	pivot = P[0];
   	sort(++P.begin(), P.end(), angleCmp);     
 	vector<point> S;
-  	S.push_back(P[n-1]); S.push_back(P[0]); S.push_back(P[1]);   
+  	S.push_back(P[n-1]); 
+  	S.push_back(P[0]); 
+  	S.push_back(P[1]);   
   	i = 2;                                         
   	while (i < n) {           
     	j = S.size()-1;
