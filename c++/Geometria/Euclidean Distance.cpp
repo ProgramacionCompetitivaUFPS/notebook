@@ -1,4 +1,4 @@
-Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer m\'etodo, debe definirse previamente la estructura point
+Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer método, debe definirse previamente la estructura point
 
 #include <cmath>
 

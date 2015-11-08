@@ -1,4 +1,4 @@
-Calcula el per\'imetro de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. La estructura point debe estar definida, al igual que el m\'etodo euclideanDistance.
+Calcula el perímetro de un polígono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el polígono. La estructura point debe estar definida, al igual que el método euclideanDistance.
 
 #include <vector>
 

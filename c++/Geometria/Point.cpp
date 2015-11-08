@@ -1,4 +1,4 @@
-La estructura punto ser\'a la base sobre la cual se ejecuten otros algoritmos. 
+La estructura punto será la base sobre la cual se ejecuten otros algoritmos. 
 
 #include <cmath>
 

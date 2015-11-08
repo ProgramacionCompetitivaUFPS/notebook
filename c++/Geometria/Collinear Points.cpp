@@ -1,4 +1,4 @@
-Determina si el punto r est\'a en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
+Determina si el punto r está en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
 
 
 double cross(vec a, vec b) { 
