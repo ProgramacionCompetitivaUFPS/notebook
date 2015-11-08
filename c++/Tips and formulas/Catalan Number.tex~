@@ -1,6 +1,5 @@
 
-{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}
-\\ \\
+{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}\\ \\
 Primeros 30 n\'umeros de Catal\'an:
 \\ \\
 \begin{tabbing}

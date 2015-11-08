@@ -1,7 +1,7 @@
 Retorna el polígono convexo mas pequeño que cubre (ya sea en el borde o en el interior) un set de puntos. Recibe un vector de puntos, y retorna un vector de puntos indicando el polígono resultante. Es necesario que esten definidos previamente: 
 
 Estructuras: point y vec
-M\'etodos: collinear, euclideanDistance, inPolygon y angle.
+Métodos: collinear, euclideanDistance, inPolygon y angle.
 
 
 #include <cmath>
