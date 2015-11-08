@@ -66,12 +66,12 @@ scanf("%o",&value); //int octal
 \end{lstlisting}
 
 \section{Dynamic Programming}
-
-\subsection{Knapsack}
 Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.\\
 Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 
+\subsection{Knapsack}
 \begin{lstlisting}
+
 
 #include <algorithm>
 
@@ -108,6 +108,7 @@ Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en 
 
 \begin{lstlisting}
 
+
 const int MAX = 1005;
 int memo[MAX];
 
@@ -126,6 +127,254 @@ int longestIncreasingSubsequence(int s[], int n){
 		}
 	}
 	return output;
+}
+\end{lstlisting}
+
+\subsection{Max Range Sum}
+Dada una lista de enteros, retorna la m\'axima suma de un rango de la lista.
+
+\begin{lstlisting}
+
+#include <algorithm>
+
+int maxRangeSum(vector<int> a){
+	int sum = 0, ans = 0;
+	for (int i = 0; i < a.size(); i++){
+		if (sum + a[i] >= 0) {  
+			sum += a[i];
+		    ans = max(ans, sum);          
+	    }else{
+	    	sum = 0;
+	    }
+	}
+	return ans;
+}
+\end{lstlisting}
+
+\section{Geometry}
+
+\subsection{Point}
+La estructura punto ser\'a la base sobre la cual se ejecuten otros algoritmos. 
+\begin{lstlisting}
+
+
+#include <cmath>
+
+struct point { 
+	double x, y;
+  	point() { 
+  		x = y = 0.0; 
+  	}
+  	point(double _x, double _y) : x(_x), y(_y) {}        
+  	bool operator == (point other) const {
+   		return (fabs(x - other.x) < 1e-9 && (fabs(y - other.y) < 1e-9)); 
+   	}
+};
+
+\end{lstlisting}
+
+\subsection{Geometric Vector}
+Dados dos puntos A y B, crea el vector A -$>$ B. IMPORTANTE: Debe definirse la estructura point. Es llamado vec para no confundirlo con el vector propio de c++.
+\begin{lstlisting}
+
+
+
+struct vec { 
+	double x, y;  
+  	vec(double _x, double _y) : x(_x), y(_y) {} 
+};
+
+vec toVector(point a, point b) {       
+	return vec(b.x - a.x, b.y - a.y); 
+}
+\end{lstlisting}
+
+\subsection{Angle}
+Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la estructura point y vec. Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
+
+\begin{lstlisting}
+
+
+#include <vector>
+#include <cmath>
+
+double angle(point a, point b, point c) { 
+  	vec ba = toVector(b, a);
+  	vec bc = toVector(b, c);
+  	return acos((ba.x * bc.x + ba.y * bc.y) / sqrt((ba.x * ba.x + ba.y * ba.y) * (bc.x * bc.x + bc.y * bc.y))); 
+}
+\end{lstlisting}
+
+\subsection{Area}
+Calcula el \'area de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. El algor\'itmo utiliza el m\'etodo de determinante de la matriz de puntos de la figura. IMPORTANTE: Debe definirse previamente la estructura point.
+
+\begin{lstlisting}
+
+
+#include <vector>
+#include <cmath>
+
+double area(vector<point> P) {
+	double result = 0.0, x1, y1, x2, y2;
+  	for (int i = 0; i < P.size()-1; i++) {
+    	x1 = P[i].x; 
+    	x2 = P[i+1].x;
+    	y1 = P[i].y; 
+    	y2 = P[i+1].y;
+    	result += ((x1 * y2) - (x2 * y1));
+  	}
+  	return fabs(result) / 2.0; 
+}
+\end{lstlisting}
+
+\subsection{Collinear Points}
+Determina si el punto r est\'a en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
+
+\begin{lstlisting}
+
+
+
+double cross(vec a, vec b) { 
+	return a.x * b.y - a.y * b.x; 
+}
+bool collinear(point p, point q, point r) {
+	return fabs(cross(toVector(p, q), toVector(p, r))) < 1e-9; 
+}
+\end{lstlisting}
+
+\subsection{Convex Hull}
+Retorna el pol\'igono convexo mas peque\~no que cubre (ya sea en el borde o en el interior) un set de puntos. Recibe un vector de puntos, y retorna un vector de puntos indicando el pol\'igono resultante. Es necesario que esten definidos previamente: \\
+Estructuras: point y vec
+M\'etodos: collinear, euclideanDistance, inPolygon y angle.
+
+\begin{lstlisting}
+
+#include <cmath>
+#include <algorithm>
+#include <vector>
+
+point pivot;
+bool angleCmp(point a, point b) {                
+	if (collinear(pivot, a, b)){
+		return euclideanDistance(pivot, a) < euclideanDistance(pivot, b);
+	}                              
+        
+  	double d1x = a.x - pivot.x, d1y = a.y - pivot.y;
+  	double d2x = b.x - pivot.x, d2y = b.y - pivot.y;
+  	return (atan2(d1y, d1x) - atan2(d2y, d2x)) < 0; 
+}
+
+
+vector<point> convexHull(vector<point> P) {  
+  	int i, j, n = P.size();
+  	if (n <= 3) {
+    	if (!(P[0] == P[n-1])){
+    		P.push_back(P[0]);
+    	}  
+    	return P;
+  	}
+  	int P0 = 0;
+  	for (i = 1; i < n; i++){
+  		if (P[i].y < P[P0].y || (P[i].y == P[P0].y && P[i].x > P[P0].x)){
+  	 		P0 = i;
+  	 	}
+  	}
+
+  	point temp = P[0]; P[0] = P[P0]; P[P0] = temp; 
+	pivot = P[0];
+  	sort(++P.begin(), P.end(), angleCmp);     
+	vector<point> S;
+  	S.push_back(P[n-1]); 
+  	S.push_back(P[0]); 
+  	S.push_back(P[1]);    
+  	i = 2;                                         
+  	while (i < n) {           
+    	j = S.size()-1;
+    	if (ccw(S[j-1], S[j], P[i])){
+    		S.push_back(P[i++]);
+    	}else{
+    		S.pop_back();
+    	}  
+    }  
+  	return S; 
+}  
+\end{lstlisting}
+
+\subsection{Euclidean Distance}
+Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer m\'etodo, debe definirse previamente la estructura point
+\begin{lstlisting}
+
+
+#include <cmath>
+
+/*Trabajando con estructuras de tipo punto*/
+double euclideanDistance(point p1, point p2) {           
+  return hypot(p1.x - p2.x, p1.y - p2.y); 
+} 
+
+/*Trabajando con los valores x y y de cada punto*/
+double euclideanDistance(double x1, double y1, double x2, double y2){           
+  return hypot(x1 - x2, y1 - y2); 
+} 
+\end{lstlisting}
+
+\subsection{Perimeter}
+Calcula el per\'imetro de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. La estructura point debe estar definida, al igual que el m\'etodo euclideanDistance.
+\begin{lstlisting}
+
+
+#include <vector>
+
+double perimeter(vector<point> P) {
+	double result = 0.0;
+  	for (int i = 0; i < P.size()-1; i++){
+    	result += euclideanDistance(P[i], P[i+1]);
+  	}
+  	return result; 
+}
+
+\end{lstlisting}
+
+\subsection{Point in Polygon}
+Determina si un punto pt se encuentra en el pol\'igono P. Este pol\'igono se define como un vector de puntos, donde el punto 0 y n-1 son el mismo. IMPORTANTE: Deben incluirse las estructuras point y vec, ademas del m\'etodo angle.
+\begin{lstlisting}
+
+
+#include <cmath>
+
+bool ccw(point p, point q, point r) {
+    return cross(toVector(p, q), toVector(p, r)) > 0; 
+}
+  
+bool inPolygon(point pt, vector<point> P) {
+	if (P.size() == 0){
+  		return false;
+  	} 
+  	double sum = 0;    
+  	for (int i = 0; i < P.size()-1; i++) {
+    	if (ccw(pt, P[i], P[i+1])){
+    		sum += angle(P[i], pt, P[i+1]); 
+    	}else{
+    		sum -= angle(P[i], pt, P[i+1]);
+    	}
+    }
+  	return fabs(fabs(sum) - 2*acos(-1.0)) < 1e-9; 
+}
+\end{lstlisting}
+
+\subsection{Sexagesimal degrees and radians}
+Conversiones de grados sexagesimales a radianes y viceversa.
+\begin{lstlisting}
+
+
+#include <cmath>
+
+double DegToRad(double d) { 
+	return d * acos(-1.0) / 180.0; 
+}
+
+double RadToDeg(double r) { 
+	return r * 180.0 / acos(-1.0); 
 }
 \end{lstlisting}
 
@@ -170,7 +419,6 @@ static void bfs(int s){
 
 \subsection{DFS}
 Algoritmo de b\'usqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne informaci\'on de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
-
 \begin{lstlisting}
 
 int v, e; //vertices, arcos
@@ -200,7 +448,6 @@ static void dfs(int s){
 
 \subsection{Dijkstra's Algorithm}
 Algoritmo que dado un grafo con pesos no negativos halla la ruta m\'inima entre un nodo inicial s y todos los dem\'as nodos.
-
 \begin{lstlisting}
 
 int v,e;
@@ -247,8 +494,8 @@ void dijkstra(int s){
                 adjacent=ady[actual][j].first;
                 weight=ady[actual][j].second;
                 if(marked[adjacent]==0){
-                    if(distance[adjacent] > distance[actual] + weight){
-                         distance[adjacent] = distance[actual] + weight;
+                    if(distance[adjacent]>distance[actual]+weight){
+                         distance[adjacent]=distance[actual]+weight;
                          prev[adjacent]=actual;
                          pq.push(Node(adjacent, distance[adjacent]));
                      }
@@ -259,9 +506,34 @@ void dijkstra(int s){
 }
 \end{lstlisting}
 
+\subsection{Flood Fill}
+Dado un grafo implicito colorea y cuenta el tama\~no de las componentes conexas. Normalmente usado en rejillas 2D.
+\begin{lstlisting}
+
+//aka Coloring the connected components
+
+int dy[] = {1,1,0,-1,-1,-1, 0, 1}; 
+int dx[] = {0,1,1, 1, 0,-1,-1,-1};
+char grid[tam][tam];
+int X, Y;
+
+int floodfill(int y, int x, char c1, char c2) { 
+	if (y < 0 || y >= Y || x < 0 || x >= X) return 0;
+	
+	if (grid[y][x] != c1) return 0; // base case
+	
+	int ans = 1; 
+	grid[y][x] = c2; // se cambia el color para prevenir ciclos
+	
+	for (int i = 0; i < 8; i++)
+		ans += floodfill(y + dy[i], x + dx[i], c1, c2);
+	
+	return ans;
+}
+\end{lstlisting}
+
 \subsection{Floyd-Warshall's Algorithm}
 Algoritmo para grafos que halla la distancia m\'inima entre cualquier par de nodos. Matrix[i][j] guardar\'a la distancia m\'inima entre el nodo i y el j.
-
 \begin{lstlisting}
 
 #define Node pair<int,long long> //(Vertice adyacente, peso)
@@ -293,7 +565,6 @@ void floydWarshall(){
 \subsection{Kruskal's Algorithm}
 Algoritmo para hallar el arbol cobertor m\'inimo de un grafo  no dirigido y conexo. Utiliza la t\'ecnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.\\
 Para hallar los 2 arboles cobertores minimos, se debe ejecutar el algoritmo v-1 veces, en cada una de ellas dscartar una de las aristas previamente elegidas en el arbol.
-
 \begin{lstlisting}
 
 struct Edge{
@@ -376,14 +647,91 @@ void kruskall(){
 }
 \end{lstlisting}
 
+\subsection{Maxflow}
+Dado un grafo, halla el m\'aximo flujo entre una fuente s y un sumidero t.
+\begin{lstlisting}
+
+vector<int> adyNetwork [105]; 
+int capacity [105] [105]; //Capacidad de aristas de la red
+int flow [105] [105]; //Flujo de cada arista
+int anterior [105];
+
+void connect(int i, int j, int cap){
+    adyNetwork[i].push_back(j);
+    adyNetwork[j].push_back(i);
+    capacity[i][j]+=cap;
+    //Si el grafo es dirigido no hacer esta linea
+    //capacity[j][i]+=cap;
+}
+
+int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
+    int i, j, maxFlow, u, v, extra, start, end;
+    for(i=0; i<=n; i++){
+        for(j=0; j<=n; j++){
+            flow[i][j]=0;
+        }
+    }
+
+    maxFlow=0;
+
+    while(true){
+        for(i=0; i<=n; i++) anterior[i]=-1;
+
+        queue<int> q;
+        q.push(s);
+        anterior[s]=-2;
+
+        while(q.size()>0){
+            u=q.front();
+            q.pop();
+            if(u==t) break;
+            for(j=0; j<adyNetwork[u].size(); j++){
+                
+                v=adyNetwork[u][j];
+                if(anterior[v]==-1  && capacity[u][v] - flow[u][v]>0){
+                    q.push(v);
+                    anterior[v]=u;
+                }
+            }
+        }
+        if(anterior[t]==-1)break;
+
+        extra=1<<30;
+        end=t;
+        while(end!=s){
+            start=anterior[end];
+            extra=min(extra, capacity[start][end]-flow[start][end]);
+            end=start;
+        }
+
+        end=t;
+        while(end!=s){
+            start=anterior[end];
+            flow[start][end]+=extra;
+            flow[end][start]= -flow[start][end];
+            end=start;
+        }
+
+        maxFlow+=extra;
+    }
+
+    return maxFlow;
+}
+
+int main(){
+    //Para cada arista
+    connect(s,d,f);  //origen, destino, flujo
+}
+
+\end{lstlisting}
+
 \subsection{Tarjan's Algorithm}
-
-
+Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
 \begin{lstlisting}
 
 vector<int> ady[1010];
 int marked[1010];
-int prev[1010];
+int previous[1010];
 int dfs_low[1010];
 int dfs_num[1010];
 int itsmos[1010];
@@ -398,7 +746,7 @@ void init(){
     for(i=0; i<n; i++){
         ady[i].clear();
         marked[i]=0;
-        prev[i]=-1;
+        previous[i]=-1;
         itsmos[i]=0;
     }
 }
@@ -406,39 +754,45 @@ void init(){
 void dfs(int u){
     dfs_low[u]=dfs_num[u]=cont;
     cont++;
-    marked[u]=1; //esto no estaba >.<
+    marked[u]=1; 
     int j, v;
 
     for(j=0; j<ady[u].size(); j++){
         v=ady[u][j];
         if(marked[v]==0){
-            prev[v]=u;
+            previous[v]=u;
             //para el caso especial 
             if(u==dfsRoot){
                 rootChildren++;
             }
             dfs(v);
-            //PARA ITSMOS
+            //Itsmos
             if(dfs_low[v]>=dfs_num[u]){
                 itsmos[u]=1;
             }
-            //PARA bridges
+            //Bridges
             if(dfs_low[v]>dfs_num[u]){
                 bridges.push_back(make_pair(min(u,v),max(u,v)));
             }
             dfs_low[u]=min(dfs_low[u], dfs_low[v]);
-        }else if(v!=prev[u]){ //Arco que no sea backtrack
+        }else if(v!=previous[u]){ //Arco que no sea backtrack
             dfs_low[u]=min(dfs_low[u], dfs_num[v]);
         }
     }
 }
-\end{lstlisting}
+
+int main(){
+    //Antes de ejecutar el Algoritmo
+    cont=0;
+    dfsRoot=0;
+    rootChildren=0;
+    dfs(0);
+}\end{lstlisting}
 
 \section{Math}
 
 \subsection{Binary Exponentiation}
 Realiza $a^{b}$ y retorna el resultado m\'odulo c. Si se elimina el m\'odulo c, debe tenerse precauci\'on para no exceder el l\'imite
-
 \begin{lstlisting}
 
 
@@ -458,7 +812,6 @@ int binaryExponentiation(int a, int b, int c){
 
 \subsection{Binomial Coefficient}
 Calcula el coeficiente binomial nCr, entendido como el n\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos.
-
 \begin{lstlisting}
 
 long long binomialCoefficient(long long n, long long r) {
@@ -476,7 +829,6 @@ long long binomialCoefficient(long long n, long long r) {
 
 \subsection{Catalan Number}
 Guarda en el array Catalan Numbers los numeros de Catalan hasta MAX.
-
 \begin{lstlisting}
 
 const int MAX = 30;
@@ -492,7 +844,6 @@ void catalan(){
 
 \subsection{Euler Totient}
 Funci\'on totient o indicatriz ($\phi$) de Euler. Para cada posici\'on n del array result retorna el n\'umero de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
-
 \begin{lstlisting}
 
 #include <string.h>
@@ -521,7 +872,6 @@ void totient () {
 
 \subsection{Gaussian Elimination}
 Resuelve sistemas de ecuaciones lineales por eliminaci\'on Gaussiana.  matrix contiene los valores de la matriz cuadrada y result los resultados de las ecuaciones. Retorna un vector con el valor de las n incongnitas. Los resultados pueden necesitar redondeo.
-
 \begin{lstlisting}
 
 #include <vector>
@@ -575,7 +925,6 @@ vector<double> gauss() {
 
 \subsection{Greatest common divisor}
 Calcula el m\'aximo com\'un divisor entre a y b mediante el algoritmo de Euclides
-
 \begin{lstlisting}
 int mcd(int a, int b) {
 	int aux;
@@ -591,7 +940,6 @@ int mcd(int a, int b) {
 
 \subsection{Lowest Common Multiple}
 Calculo del m\'inimo com\'un m\'ultiplo usando el m\'aximo com\'un divisor. REQUIERE mcd(a,b)
-
 \begin{lstlisting}
 
 int mcm(int a, int b) {
@@ -599,10 +947,70 @@ int mcm(int a, int b) {
 }
 \end{lstlisting}
 
+\subsection{Miller-Rabin}
+La función de Miller-Rabin determina si un n\'umero dado es o no un n\'umero primo.
+\begin{lstlisting}
+
+#include <cstdlib>
+
+long long mulmod(long long a, long long b, long long mod){
+    long long x = 0;
+    long long y = a % mod;
+    while (b > 0){
+        if (b % 2 == 1){    
+            x = (x + y) % mod;
+        }
+        y = (y * 2) % mod;
+        b /= 2;
+    }
+    return x % mod;
+}
+
+long long modulo(long long base, long long exponent, long long mod){
+    long long x = 1;
+    long long y = base;
+    while (exponent > 0){
+        if (exponent % 2 == 1)
+            x = (x * y) % mod;
+        y = (y * y) % mod;
+        exponent = exponent / 2;
+    }
+    return x % mod;
+}
+ 
+
+bool miller(long long  p){
+    if (p < 2){
+        return false;
+    }
+    if (p != 2 && p % 2==0){
+        return false;
+    }
+    long long s = p - 1;
+    while (s % 2 == 0){
+        s /= 2;
+    }
+    for (int i = 0; i < 5; i++){
+        long long a = rand() % (p - 1) + 1;
+        long long temp = s;
+        long long mod = modulo(a, temp, p);
+        while (temp != p - 1 && mod != 1 && mod != p - 1){
+            mod = mulmod(mod, mod, p);
+            temp *= 2;
+        }
+        if (mod != p - 1 && temp % 2 == 0){
+            return false;
+        }
+    }
+    
+    return true;
+}
+\end{lstlisting}
+
 \subsection{Prime Factorization}
 Guarda en primeFactors la lista de factores primos del value de menor a mayor. \\IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value (se  recomienda dejar un poco de excedente).
-
 \begin{lstlisting}
+
 
 #include <vector>
 
@@ -627,7 +1035,6 @@ void calculatePrimeFactors(long long value){
 
 \subsection{Sieve of Eratosthenes}
 Guarda en primes los n\'umeros primos menores o iguales a MAX
-
 \begin{lstlisting}
 
 #include <vector>
@@ -658,7 +1065,6 @@ void calculatePrimes() {
 
 \subsection{KMP's Algorithm}
 Encuentra si el string pattern se encuentra en el string cadena.
-
 \begin{lstlisting}
 
 #include <vector>
@@ -702,104 +1108,186 @@ bool kmp(string cadena, string pattern){
 
 \section{Tips and formulas}
 
+\subsection{ASCII Table}
+Caracteres ASCII con sus respectivos valores num\'ericos.
+
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+0 \> NUL \> 16 \> DLE \\
+1 \> SOH \> 17 \> DC1 \\
+2 \> STX \> 18 \> DC2 \\
+3 \> ETX \> 19 \> DC3 \\
+4 \> EOT \> 20 \> DC4 \\
+5 \> ENQ \> 21 \> NAK \\
+6 \> ACK \> 22 \> SYN \\
+7 \> BEL \> 23 \> ETB \\
+8 \> BS \> 24 \> CAN \\
+9 \> TAB \> 25 \> EM \\
+10 \> LF \> 26 \> SUB \\
+11 \> VT \> 27 \> ESC \\
+12 \> FF \> 28 \> FS \\
+13 \> CR \> 29 \> GS \\
+14 \> SO \> 30 \> RS \\
+15 \> SI \> 31 \> US \\ 
+\end{tabbing}
+
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+32 \> (space) \> 48 \> 0 \\
+33 \> ! \> 49 \> 1 \\
+34 \> " \> 50 \> 2 \\
+35 \> \# \> 51 \> 3 \\
+36 \> \$ \> 52 \> 4 \\
+37 \> \% \> 53 \> 5 \\
+38 \> \& \> 54 \> 6 \\
+39 \> ' \> 55 \> 7 \\
+40 \> ( \> 56 \> 8 \\
+41 \> ) \> 57 \> 9 \\
+42 \> * \> 58 \> : \\
+43 \> + \> 59 \> ; \\
+44 \> , \> 60 \> < \\
+45 \> - \> 61 \> = \\
+46 \> . \> 62 \> > \\
+47 \> / \> 63 \> ? \\ 
+\end{tabbing}
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+64 \> @ \> 80 \> P \\
+65 \> A \> 81 \> Q \\
+66 \> B \> 82 \> R \\
+67 \> C \> 83 \> S \\
+68 \> D \> 84 \> T \\
+69 \> E \> 85 \> U \\
+70 \> F \> 86 \> V \\
+71 \> G \> 87 \> W \\
+72 \> H \> 88 \> X \\
+73 \> I \> 89 \> Y \\
+74 \> J \> 90 \> Z \\
+75 \> K \> 91 \> [ \\
+76 \> L \> 92 \> \textbackslash \\
+77 \> M \> 93 \> ] \\
+78 \> N \> 94 \> \textasciicircum \\
+79 \> O \> 95 \> \_ \\ 
+\end{tabbing}
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+96 \> ` \> 112 \> p \\
+97 \> a \> 113 \> q \\
+98 \> b \> 114 \> r \\
+99 \> c \> 115 \> s \\
+100 \> d \> 116 \> t \\
+101 \> e \> 117 \> u \\
+102 \> f \> 118 \> v \\
+103 \> g \> 119 \> w \\
+104 \> h \> 120 \> x \\
+105 \> i \> 121 \> y \\
+106 \> j \> 122 \> z \\
+107 \> k \> 123 \> \{ \\
+108 \> l \> 124 \> \textbar \\
+109 \> m \> 125 \> \} \\
+110 \> n \> 126 \> \textasciitilde \\
+111 \> o \> 127 \>  \\  
+\end{tabbing}
+
 \subsection{Catalan Number}
 
 {\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}\\ \\
-Primeros 30 n\'umeros de Catal\'an:\\
-\begin{tabular}{|l|l|}
-\hline
-n & $C_{n}$ \\ \hline
-0 & 1 \\ \hline
-1 & 1 \\ \hline
-2 & 2 \\ \hline
-3 & 5 \\ \hline
-4 & 14 \\ \hline
-5 & 42 \\ \hline
-6 & 132 \\ \hline
-7 & 429 \\ \hline
-8 & 1.430\\ \hline
-9 & 4.862\\ \hline
-10 & 16.796\\ \hline
-11 & 58.786\\ \hline
-12 & 208.012\\ \hline
-13 & 742.900\\ \hline
-14 & 2.674.440\\ \hline
-15 & 9.694.845\\ \hline
-16 & 35.357.670\\ \hline
-17 & 129.644.790\\ \hline
-18 & 477.638. 700\\ \hline
-19 & 1.767.263.190\\ \hline
-20 & 6.564.120.420\\ \hline
-21 & 24.466.267.020\\ \hline
-22 & 91.482.563.640\\ \hline
-23 & 343.059.613.650\\ \hline
-24 & 1.289.904.147.324\\ \hline
-25 & 4.861.946.401.452\\ \hline
-26 & 18.367.353.072.152\\ \hline
-27 & 69.533.550.916.004\\ \hline
-28 & 263.747.951.750.360\\ \hline
-29 & 1.002.242.216.651.368\\ \hline
-30 & 3.814.986.502.092.304\\ \hline
-\end{tabular}
-
+Primeros 30 n\'umeros de Catal\'an:
+\\ \\
+\begin{tabbing}
+\textbf{n}\hspace{3cm} \=  \textbf{$C_{n}$}\hspace{4cm}  \\ 
+0 \> 1 \\ 
+1 \> 1 \\ 
+2 \> 2 \\ 
+3 \> 5 \\ 
+4 \> 14 \\ 
+5 \> 42 \\ 
+6 \> 132 \\ 
+7 \> 429 \\ 
+8 \> 1.430\\ 
+9 \> 4.862\\ 
+10 \> 16.796\\ 
+11 \> 58.786\\
+12 \> 208.012\\
+13 \> 742.900\\ 
+14 \> 2.674.440\\ 
+15 \> 9.694.845\\ 
+16 \> 35.357.670\\
+17 \> 129.644.790\\
+18 \> 477.638. 700\\
+19 \> 1.767.263.190\\
+20 \> 6.564.120.420\\ 
+21 \> 24.466.267.020\\
+22 \> 91.482.563.640\\ 
+23 \> 343.059.613.650\\ 
+24 \> 1.289.904.147.324\\
+25 \> 4.861.946.401.452\\ 
+26 \> 18.367.353.072.152\\ 
+27 \> 69.533.550.916.004\\ 
+28 \> 263.747.951.750.360\\ 
+29 \> 1.002.242.216.651.368\\
+30 \> 3.814.986.502.092.304\\ 
+\end{tabbing}
 
 
 \subsection{Euclidean Distance}
-F\'ormula para calcular la distancia Euclideana entre dos puntos en el plano cartesiano (x,y). \\
-Extendible a 3 dimensiones\\ \\
+\\ \\
 $ d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}} $
-
+\\ \\
 
 
 
 \subsection{Permutation and combination}
 
-Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos\\ \\
-{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}\\
+Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos
+\\ \\
+{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}
+\\ \\
+Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.
+\\ \\
+{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}
+\\ \\
+Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos
+\\ \\
+{\LARGE $ P_{n} = n! $}
+\\ \\
+Elegir r elementos de n posibles con repetici\'on
+\\ \\
+{\LARGE $ n^{r} $}
+\\ \\
+Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...
+\\ \\
+{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}
+\\ \\
+Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos 
+\\ \\
+{\LARGE $ \frac{n!}{(n-r)!}$}}
+\\ \\
 
-Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.\\ \\
-
-
-{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}\\
-
-Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos\\ \\
-
-{\LARGE $ P_{n} = n! $}\\
-
-Elegir r elementos de n posibles con repetici\'on\\ \\
-
-{\LARGE $ n^{r} $}\\
-
-Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...\\ \\
-
-{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}\\
-
-Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos \\ \\
-
-{\LARGE $ \frac{n!}{(n-r)!}$}\\
-}
 \subsection{Time Complexities}
 
-Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.\\ 
+Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.
 
-\begin{tabular}{|l|l|}
-\hline
-Complexity & n\\ \hline
-$O(n!)$ & 11\\ \hline
-$O(n^{5})$ & 50\\ \hline
-$O(2^{n}*n^{2})$ & 18\\ \hline
-$O(2^{n}*n)$ & 22\\ \hline
-$O(n^{4})$ & 100\\ \hline
-$O(n^{3})$ & 500\\ \hline
-$O(n^{2}\log_{2}n)$ & 1.000\\ \hline
-$O(n^{2})$ & 10.000\\ \hline
-$O(n\log_{2}n)$ & $10^{6}$\\ \hline
-$O(n)$ & $10^{8}$\\ \hline
-$O(\sqrt{n})$ & $10^{16}$\\ \hline
-$O(\log_{2}n)$ & -\\ \hline
-$O(1)$ & -\\ \hline
-\end{tabular}
-
+\begin{tabbing}
+\textbf{Complexity}\hspace{4cm} \=  \textbf{n}\hspace{3cm}   \\ 
+$O(n!)$ \> 11\\ 
+$O(n^{5})$ \> 50\\ 
+$O(2^{n}*n^{2})$ \> 18\\ 
+$O(2^{n}*n)$ \> 22\\ 
+$O(n^{4})$ \> 100\\ 
+$O(n^{3})$ \> 500\\ 
+$O(n^{2}\log_{2}n)$ \> 1.000\\ 
+$O(n^{2})$ \> 10.000\\ 
+$O(n\log_{2}n)$ \> $10^{6}$\\ 
+$O(n)$ \> $10^{8}$\\ 
+$O(\sqrt{n})$ \> $10^{16}$\\ 
+$O(\log_{2}n)$ \> -\\ 
+$O(1)$ \> -\\ 
+\end{tabbing}
 
 \subsection{mod: properties}
 
