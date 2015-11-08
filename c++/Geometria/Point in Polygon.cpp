@@ -3,7 +3,8 @@ Determina si un punto pt se encuentra en el pol\'igono P. Este pol\'igono se def
 #include <cmath>
 
 bool ccw(point p, point q, point r) {
-  return cross(toVector(p, q), toVector(p, r)) > 0; }
+    return cross(toVector(p, q), toVector(p, r)) > 0; 
+}
   
 bool inPolygon(point pt, vector<point> P) {
 	if (P.size() == 0){
