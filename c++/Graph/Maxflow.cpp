@@ -1,4 +1,4 @@
-
+Dado un grfo, halla el máximo flujo entre una fuente s y un sumidero t.
 
 vector<int> adyNetwork [105]; 
 int capacity [105] [105]; //Capacidad de aristas de la red
