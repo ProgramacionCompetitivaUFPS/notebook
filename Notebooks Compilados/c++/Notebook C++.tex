@@ -66,10 +66,10 @@ scanf("%o",&value); //int octal
 \end{lstlisting}
 
 \section{Dynamic Programming}
-Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.\\
-Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 
 \subsection{Knapsack}
+Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.\\
+Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 \begin{lstlisting}
 
 
@@ -105,9 +105,7 @@ memset(memo, -1, sizeof memo);
 
 \subsection{Longest Increasing Subsequence}
 Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tamaño  limite del array, n es el tamaño del array. Puede aplicarse tambi\'en sobre strings, cambiando el parametro int s[] por string s. Si debe ser estrictamente creciente, cambiar el $\leq $ de "s[j] $\leq $ s[i]" por $<$.
-
 \begin{lstlisting}
-
 
 const int MAX = 1005;
 int memo[MAX];
@@ -132,7 +130,6 @@ int longestIncreasingSubsequence(int s[], int n){
 
 \subsection{Max Range Sum}
 Dada una lista de enteros, retorna la m\'axima suma de un rango de la lista.
-
 \begin{lstlisting}
 
 #include <algorithm>
@@ -154,44 +151,43 @@ int maxRangeSum(vector<int> a){
 \section{Geometry}
 
 \subsection{Point}
-La estructura punto ser\'a la base sobre la cual se ejecuten otros algoritmos. 
+La estructura punto ser\'a la base sobre la cual se ejecuten otros algoritmos.
 \begin{lstlisting}
-
 
 #include <cmath>
 
 struct point { 
-	double x, y;
-  	point() { 
-  		x = y = 0.0; 
-  	}
-  	point(double _x, double _y) : x(_x), y(_y) {}        
-  	bool operator == (point other) const {
-   		return (fabs(x - other.x) < 1e-9 && (fabs(y - other.y) < 1e-9)); 
-   	}
+  double x, y;
+    point() { 
+      x = y = 0.0; 
+    }
+    point(double _x, double _y) : x(_x), y(_y) {}        
+    bool operator == (point other) const {
+      return (fabs(x - other.x) < 1e-9 && (fabs(y - other.y) < 1e-9)); 
+    }
 };
 
 \end{lstlisting}
+
 
 \subsection{Geometric Vector}
 Dados dos puntos A y B, crea el vector A -$>$ B. IMPORTANTE: Debe definirse la estructura point. Es llamado vec para no confundirlo con el vector propio de c++.
 \begin{lstlisting}
 
 
-
 struct vec { 
-	double x, y;  
-  	vec(double _x, double _y) : x(_x), y(_y) {} 
+  double x, y;  
+    vec(double _x, double _y) : x(_x), y(_y) {} 
 };
 
 vec toVector(point a, point b) {       
-	return vec(b.x - a.x, b.y - a.y); 
+  return vec(b.x - a.x, b.y - a.y); 
 }
 \end{lstlisting}
 
+
 \subsection{Angle}
 Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la estructura point y vec. Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
-
 \begin{lstlisting}
 
 
@@ -207,7 +203,6 @@ double angle(point a, point b, point c) {
 
 \subsection{Area}
 Calcula el \'area de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. El algor\'itmo utiliza el m\'etodo de determinante de la matriz de puntos de la figura. IMPORTANTE: Debe definirse previamente la estructura point.
-
 \begin{lstlisting}
 
 
@@ -229,9 +224,7 @@ double area(vector<point> P) {
 
 \subsection{Collinear Points}
 Determina si el punto r est\'a en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
-
 \begin{lstlisting}
-
 
 
 double cross(vec a, vec b) { 
@@ -246,8 +239,8 @@ bool collinear(point p, point q, point r) {
 Retorna el pol\'igono convexo mas peque\~no que cubre (ya sea en el borde o en el interior) un set de puntos. Recibe un vector de puntos, y retorna un vector de puntos indicando el pol\'igono resultante. Es necesario que esten definidos previamente: \\
 Estructuras: point y vec
 M\'etodos: collinear, euclideanDistance, inPolygon y angle.
-
 \begin{lstlisting}
+
 
 #include <cmath>
 #include <algorithm>
@@ -286,7 +279,7 @@ vector<point> convexHull(vector<point> P) {
 	vector<point> S;
   	S.push_back(P[n-1]); 
   	S.push_back(P[0]); 
-  	S.push_back(P[1]);    
+  	S.push_back(P[1]);   
   	i = 2;                                         
   	while (i < n) {           
     	j = S.size()-1;
@@ -303,7 +296,6 @@ vector<point> convexHull(vector<point> P) {
 \subsection{Euclidean Distance}
 Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer m\'etodo, debe definirse previamente la estructura point
 \begin{lstlisting}
-
 
 #include <cmath>
 
@@ -322,7 +314,6 @@ double euclideanDistance(double x1, double y1, double x2, double y2){
 Calcula el per\'imetro de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. La estructura point debe estar definida, al igual que el m\'etodo euclideanDistance.
 \begin{lstlisting}
 
-
 #include <vector>
 
 double perimeter(vector<point> P) {
@@ -338,7 +329,6 @@ double perimeter(vector<point> P) {
 \subsection{Point in Polygon}
 Determina si un punto pt se encuentra en el pol\'igono P. Este pol\'igono se define como un vector de puntos, donde el punto 0 y n-1 son el mismo. IMPORTANTE: Deben incluirse las estructuras point y vec, ademas del m\'etodo angle.
 \begin{lstlisting}
-
 
 #include <cmath>
 
@@ -366,7 +356,6 @@ bool inPolygon(point pt, vector<point> P) {
 Conversiones de grados sexagesimales a radianes y viceversa.
 \begin{lstlisting}
 
-
 #include <cmath>
 
 double DegToRad(double d) { 
@@ -382,8 +371,8 @@ double RadToDeg(double r) {
 
 \subsection{BFS}
 Algoritmo de b\'usqueda en anchura en grafos, recibe un nodo inicial s y visita todos los nodos alcanzables desde s. BFS tambi\'en halla la distancia m\'as corta entre el nodo inicial s y los dem\'as nodos si todas las aristas tienen peso 1.
-
 \begin{lstlisting}
+
 
 int v, e; //vertices, arcos
 int MAX=100005; 
@@ -420,6 +409,7 @@ static void bfs(int s){
 \subsection{DFS}
 Algoritmo de b\'usqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne informaci\'on de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
 \begin{lstlisting}
+
 
 int v, e; //vertices, arcos
 int MAX=100005; 
@@ -562,10 +552,86 @@ void floydWarshall(){
     }
 }\end{lstlisting}
 
+\subsection{Kosaraju's Algorithm}
+Dado un grafo dirigido, calcula la componente fuertemente conexa a la que pertenece cada nodo.
+\begin{lstlisting}
+
+//aka Finding Strongly Connected Components
+
+vector<int> ady[tam];
+vector<int> rev[tam];
+vector<int> topoSort;
+int scc[tam];
+int marked[tam];
+int n,e; //vertices, arcos
+
+void init(){
+	topoSort.clear();
+	for(int i=0; i<n; i++){
+		ady[i].clear();
+		marked[i]=0;
+		scc[i]=-1;
+		rev[i].clear();
+	}
+}
+
+void topologicalSort(int u){
+	int i, v;
+	marked[u]=1;
+	for(i=0; i<ady[u].size(); i++){
+		v=ady[u][i];
+		if(marked[v]==0)
+			topologicalSort(v);
+	}
+	topoSort.push_back(u);
+}
+
+void dfs(int u, int comp){
+	scc[u]=comp;
+	int i, v;
+	for(i=0; i<rev[u].size(); i++){
+		v=rev[u][i];
+		if(scc[v]==-1)
+			dfs(v, comp);
+	}
+}
+
+int findScc(){
+	int i, j, v;
+	
+	//Construye el grafo invertido
+	for(i=0; i<n; i++){
+		for(j=0; j<ady[i].size(); j++){
+			v=ady[i][j];
+			rev[v].push_back(i);
+		}
+	}
+	
+	//Enumera todos los nodos del grafo original
+	for(i=0; i<n; i++){
+		if(marked[i]==0)
+			topologicalSort(i);
+	}
+
+	reverse(topoSort.begin(), topoSort.end());
+	
+	//dfs, de acuerdo al orden del toposort
+	int comp=0;
+	for(int i=0; i<n; i++){
+		v=topoSort[i];
+		if(scc[v]==-1)
+			dfs(v, comp++);
+	}
+	return comp;
+}
+
+\end{lstlisting}
+
 \subsection{Kruskal's Algorithm}
 Algoritmo para hallar el arbol cobertor m\'inimo de un grafo  no dirigido y conexo. Utiliza la t\'ecnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.\\
 Para hallar los 2 arboles cobertores minimos, se debe ejecutar el algoritmo v-1 veces, en cada una de ellas dscartar una de las aristas previamente elegidas en el arbol.
 \begin{lstlisting}
+
 
 struct Edge{
     int origen, destino, peso;
@@ -789,6 +855,47 @@ int main(){
     dfs(0);
 }\end{lstlisting}
 
+\subsection{Topological Sort}
+Dado un grafo ac\'iclico y dirigido, ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.\\
+Este ordenamiento es una manera de poner todos los nodos en una l\'inea recta de tal manera que las aristas vayan de izquierda a derecha.
+\begin{lstlisting}
+
+int v;
+vector<int> topoSort;
+vector<int> ady[tam];
+int marked[tam];
+
+void init(){
+	for (int j = 0; j <= v; j++) {
+       marked[j] = 0;
+       ady[j].clear();
+    }
+    topoSort.clear();
+}
+
+void dfs(int u){
+	int i, v;
+	marked[u]==1;
+	for(i=0; i<ady[u].size(); i++){
+		v=ady[u][i];
+		if(marked[v]==0)
+			dfs(v);
+	}
+	topoSort.push_back(u);
+}
+
+int main(){
+	init();
+	int i;
+	for(i=0; i<v; i++){
+		if(marked[i]==0)
+			dfs(i)
+	}
+	//imprimir topoSort en reversa :3
+}
+
+\end{lstlisting}
+
 \section{Math}
 
 \subsection{Binary Exponentiation}
@@ -1011,7 +1118,6 @@ bool miller(long long  p){
 Guarda en primeFactors la lista de factores primos del value de menor a mayor. \\IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value (se  recomienda dejar un poco de excedente).
 \begin{lstlisting}
 
-
 #include <vector>
 
 vector <long long> primeFactors;
@@ -1195,7 +1301,8 @@ Caracteres ASCII con sus respectivos valores num\'ericos.
 
 \subsection{Catalan Number}
 
-{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}\\ \\
+{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}
+\\ \\
 Primeros 30 n\'umeros de Catal\'an:
 \\ \\
 \begin{tabbing}
