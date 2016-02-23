@@ -60,4 +60,5 @@ class DisjointSet{
 	public int sizeOfSet(int i){
 		return size[find(i)];
 	}
+	
 }
