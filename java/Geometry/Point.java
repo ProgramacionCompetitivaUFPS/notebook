@@ -1,7 +1,7 @@
 La clase punto será la base sobre la cual se ejecuten otros algoritmos. 
 
 class Point { 
-	double x, y;
+	public double x, y;
   	public Point() { 
   		this.x = this.y = 0.0; 
   	}
@@ -9,14 +9,8 @@ class Point {
   		this.x = _x;
   		this.y = _y;
   	} 
-  	public double getX(){
-  		return this.x;
-  	}
-  	public double getY(){
-  		return this.y;
-  	}
   	public boolean equals(Point other){
-  		if(Math.abs(this.x - other.getX()) < 1e-9 && (Math.abs(this.y - other.getY()) < 1e-9)) {
+  		if(Math.abs(this.x - other.x) < 1e-9 && (Math.abs(this.y - other.y) < 1e-9)) {
   			return true;
   		}
   		return false;

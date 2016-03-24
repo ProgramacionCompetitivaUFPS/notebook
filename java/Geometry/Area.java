@@ -3,10 +3,10 @@ Calcula el area de un polígono representado como un ArrayList de puntos. IMPORT
 public static double area(ArrayList<Point> P) {
 	double result = 0.0, x1, y1, x2, y2;
   	for (int i = 0; i < P.size()-1; i++) {
-    	x1 = P.get(i).getX(); 
-    	x2 = P.get(i+1).getX();
-    	y1 = P.get(i).getY(); 
-    	y2 = P.get(i+1).getY();
+    	x1 = P.get(i).x; 
+    	x2 = P.get(i+1).x;
+    	y1 = P.get(i).y; 
+    	y2 = P.get(i+1).y;
     	result += ((x1 * y2) - (x2 * y1));
   	}
   	return Math.abs(result) / 2.0; 
