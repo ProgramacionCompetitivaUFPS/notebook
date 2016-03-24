@@ -8,7 +8,6 @@ class Vec {
         this.y = _y;
     }
 }
-
 static Vec toVector(Point a, Point b) {       
 	return new Vec(b.x - a.x, b.y - a.y); 
 }
