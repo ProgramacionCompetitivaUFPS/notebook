@@ -19,16 +19,17 @@ el recorrido.*/
 static void bfs(int s){
   queue<int> q;
   q.push(s); //Inserto el nodo inicial
-  dist[s]=0;
+  dist[s] = 0;
   int actual, i, next;
        
-  while(q.size()>0){
-    actual=q.front();
+  while( q.size() > 0 ){
+    actual = q.front();
     q.pop();
-    for(i=0; i<ady[actual].size(); i++){
-      next=ady[actual][i];
-      if(dist[next]==-1){
-        dist[next]=dist[actual]+1;
+
+    for( i = 0; i < ady[actual].size(); i++){
+      next = ady[actual][i];
+      if( dist[next] == -1 ){
+        dist[next] = dist[actual] + 1;
         q.push(next);
       }
     }
