@@ -1,6 +1,6 @@
 Algoritmo que dado un grafo con pesos no negativos halla la ruta mínima entre un nodo inicial s y todos los demás nodos.
 
-#define Node pair<int,int>
+#define Node pair<int,long long> //(Vertice adyacente, peso)
 
 int v,e; //v = cantidad de nodos, e = cantidad de aristas
 const int MAX = 100001; //Cantidad Máxima de Nodos
