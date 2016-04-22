@@ -2,11 +2,15 @@ Dado un grafo implicito colorea y cuenta el tamaño de las componentes conexas. 
 
 //aka Coloring the connected components
 
-int dy[] = {1,1,0,-1,-1,-1, 0, 1}; 
+const int tam = 1000; //Máximo tamaño de la rejilla
+int dy[] = {1,1,0,-1,-1,-1, 0, 1}; //Estructura auxiliar para los desplazamientos
 int dx[] = {0,1,1, 1, 0,-1,-1,-1};
-char grid[tam][tam];
-int X, Y;
+char grid[tam][tam]; //Matriz de caracteres
+int X, Y; //Tamaño de la matriz
 
+/*Este método debe ser llamado con las coordenadas x, y donde se inicia el 
+recorrido. c1 es el color que estoy buscando, c2 el color con el que se va 
+a pintar. Retorna el tamaño de la componente conexa*/
 int floodfill(int y, int x, char c1, char c2) { 
 	if (y < 0 || y >= Y || x < 0 || x >= X) return 0;
 	
