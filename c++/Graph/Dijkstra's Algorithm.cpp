@@ -19,7 +19,8 @@ public:
   }
 };
 
-//Debe llamarse al iniciar cada caso de prueba para limpiar las estructuras. Debe haberse leido v antes de hacer el llamado.
+/*Debe llamarse al iniciar cada caso de prueba para limpiar las estructuras. 
+Debe haberse leido v antes de hacer el llamado. */
 void init(){
   long long max = LLONG_MAX;
   for(int j = 0; j <= v; j++){
