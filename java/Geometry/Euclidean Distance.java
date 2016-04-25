@@ -7,7 +7,7 @@ static double euclideanDistance(Point p1, Point p2) {
 } 
 /*Trabajando con los valores x y y de cada punto*/
 static double euclideanDistance(double x1, double y1, double x2, double y2){ 
-    return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));         
+    return Math.hypot(x2 - x1, y2 - y1);         
 } 
 
 
