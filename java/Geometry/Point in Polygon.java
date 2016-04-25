@@ -6,16 +6,16 @@ static boolean ccw(Point p, Point q, Point r) {
 }
   
 static boolean inPolygon(Point pt, ArrayList<Point> P) {
-	if (P.size() == 0){
-  		return false;
-  	} 
-  	double sum = 0;    
-  	for (int i = 0; i < P.size()-1; i++) {
-    	if (ccw(pt, P.get(i), P.get(i+1))){
-    		sum += angle(P.get(i), pt, P.get(i+1)); 
-    	}else{
-    		sum -= angle(P.get(i), pt, P.get(i+1));
-    	}
+    if (P.size() == 0){
+        return false;
+    } 
+    double sum = 0;    
+    for (int i = 0; i < P.size()-1; i++) {
+        if (ccw(pt, P.get(i), P.get(i+1))){
+            sum += angle(P.get(i), pt, P.get(i+1)); 
+        }else{
+    	    sum -= angle(P.get(i), pt, P.get(i+1));
+        }
     }
     if(Math.abs(Math.abs(sum) - 2*Math.acos(-1.0)) < 1e-9){
       return true;
