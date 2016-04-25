@@ -3,7 +3,7 @@ Calcula el perímetro de un polígono representado como un vector de puntos. IMP
 public static double perimeter(ArrayList<Point> P) {
 	double result = 0.0;
   	for (int i = 0; i < P.size()-1; i++){
-    	result += euclideanDistance(P.get(i), P.get(i+1));
+        result += euclideanDistance(P.get(i), P.get(i+1));
   	}
   	return result; 
 }

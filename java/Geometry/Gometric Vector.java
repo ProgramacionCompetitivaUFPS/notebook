@@ -1,7 +1,7 @@
 Dados dos puntos A y B, crea el vector A->B. IMPORTANTE: Debe definirse la clase Point. Es llamado Vec para no confundirlo con vector como colección de elementos.
 
 
-class Vec { 
+static class Vec { 
     public double x, y;
     public Vec(double _x, double _y) {
         this.x = _x;
