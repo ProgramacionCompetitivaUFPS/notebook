@@ -7,4 +7,4 @@ so.print("Imprime sin salto de linea");
 so.println("Imprime con salto de linea");
 
 //Al finalizar
-bw.flush();
+so.flush();
