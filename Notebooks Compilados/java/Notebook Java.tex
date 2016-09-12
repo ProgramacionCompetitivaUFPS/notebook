@@ -10,7 +10,7 @@
 \usepackage{color}
 \usepackage{geometry}
 
-\geometry{verbose,landscape,letterpaper,tmargin=2cm,bmargin=2cm,lmargin=2.5cm,rmargin=1.5cm}
+\geometry{verbose,landscape,letterpaper,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
 
 \usepackage{listings}
 \usepackage{color}
@@ -20,7 +20,7 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-  language=C++,
+  language=Java,
   aboveskip=3mm,
   belowskip=3mm,
   showstringspaces=false,
@@ -41,8 +41,8 @@
 
 \begin{document}
 
-\title{Notebook ICPC-UFPS\\Semillero de Investigaci\'on en Linux y Software Libre}
-\author{Gerson Yesid L\'azaro - Angie Melissa Delgado}
+\title{Programaci\'on Competitiva UFPS}
+\author{Gerson Lazaro - Melissa Delgado}
 \maketitle
 \tableofcontents
 \lstloadlanguages{C++,Java}
@@ -51,12 +51,11 @@
 \section{Bonus: Input Output}
 
 \subsection{Scanner}
-Libreria para recibir las entradas; reemplaza el Scanner original, mejorando su eficiencia. \\
+
+Libreria para recibir las entradas; reemplaza el Scanner original, mejorando su eficiencia. 
 Contiene los metodos next, nextLine y hasNext. Para recibir datos numericos, hacer casting de next.
 
 \begin{lstlisting}
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -112,26 +111,95 @@ public class Main {
 }
 \end{lstlisting}
 
-\subsection{printWriter}
+\subsection{PrintWriter}
 Utilizar en lugar del System.out.println para mejorar la eficiencia.
 \begin{lstlisting}
 
 
 import java.io.PrintWriter;
 
-PrintWriter so = new PrintWriter(System.out);
+PrintWriter so = new PrintWriter(new BufferedWriter(new OutputStreamWriter(System.out)));
 so.print("Imprime sin salto de linea");
 so.println("Imprime con salto de linea");
 
 //Al finalizar
-bw.flush();
+so.close();
 \end{lstlisting}
 
+\section{Data Structures}
+
+\subsection{Disjoint Set}
+\begin{lstlisting}
+import java.util.*;
+
+class DisjointSet{
+	private int [] parent, rank, size;
+	private int cantSets;
+
+	//Inicializa todas las estructuras
+	public DisjointSet(int n){
+		parent=new int[n];
+		rank=new int[n];
+		size=new int[n];
+		cantSets=n;
+
+		int i;
+		for(i=0; i<n; i++){
+			parent[i]=i;
+			rank[i]=0; //Se usa para tener un control sobre el "tamano" del arbol
+			size[i]=1;
+		}
+	}
+
+	//Operaciones
+	public int find(int i){
+		if(parent[i]==i)	return i;
+		else{
+			int x=find(parent[i]);
+			//Compresion de ruta
+			parent[i]=x;
+			return x;
+		}
+	}
+
+	public void union(int i, int j){
+		int x=find(i);
+		int y=find(j);
+
+		if(x!=y){
+			cantSets--;
+
+			//El set maas pequeno (rank) se agrega al set mas grande
+			if(rank[x]>rank[y]){
+				parent[y]=x;
+				size[x]=size[x]+size[y];
+			}else{
+				parent[x]=y;
+				size[y]=size[y]+size[x];
+
+				if(rank[x]==rank[y]){
+					rank[y]=rank[y]+1;
+				}
+			}
+
+		}
+	}
+
+	public int numDisjointSets(){
+		return cantSets;
+	}
+
+	public int sizeOfSet(int i){
+		return size[find(i)];
+	}
+	
+}\end{lstlisting}
+
 \section{Dynamic Programming}
-Dados N articulos, cada uno con su propio valor y peso y un tama\~no maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.\\
-Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 
 \subsection{Knapsack}
+Dados N articulos, cada uno con su propio valor y peso y un tama\~no m\'aximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.
+Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 \begin{lstlisting}
 
 
@@ -162,9 +230,9 @@ static int knapsack(int id, int w) {
 \end{lstlisting}
 
 \subsection{Longest increasing subsequence}
-Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tama\~no  limite del array, n es el tama\~no del array. Puede aplicarse tambi\'en sobre strings, cambiando el parametro int s[] por string s. Si debe ser estrictamente creciente, cambiar el <= de s[j] <= s[i] por <
-
+Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tama\~no  limite del array, n es el tama\~no del array. Puede aplicarse tambi\'en sobre strings, cambiando el parametro int s[ ] por string s. Si debe ser estrictamente creciente, cambiar el $\leq$ de s[ j ] $\leq$ s[ i ] por $<$
 \begin{lstlisting}
+
 
 	static int MAX = 1005;
 	static int memo[] = new int[MAX];
@@ -188,12 +256,196 @@ Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en 
 	}
 \end{lstlisting}
 
+\subsection{Max Range Sum}
+Dado un arreglo de enteros, retorna la m\'axima suma de un rango de la lista.
+\begin{lstlisting}
+
+
+static int maxRangeSum(int[] a){
+	int sum = 0, ans = 0;
+	for (int i = 0; i < a.length; i++){
+		if (sum + a[i] >= 0) {  
+			sum += a[i];
+		    ans = Math.max(ans, sum);          
+	    }else{
+	    	sum = 0;
+	    }
+	}
+	return ans;
+}
+\end{lstlisting}
+
+\section{Geometry}
+
+\subsection{Angle}
+Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la clase Point y Vec (Geometric Vector). Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
+\begin{lstlisting}
+
+
+static double angle(Point a, Point b, Point c) { 
+  	Vec ba = toVector(b, a);
+  	Vec bc = toVector(b, c);
+  	return Math.acos((ba.x * bc.x + ba.y * bc.y) / Math.sqrt((ba.x * ba.x + ba.y * ba.y) * (bc.x * bc.x + bc.y * bc.y))); 
+}
+\end{lstlisting}
+
+\subsection{Area}
+Calcula el area de un pol\'igono representado como un ArrayList de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. El algor\'itmo utiliza el metodo de determinante de la matriz de puntos de la figura. IMPORTANTE: Debe definirse previamente la clase Point.
+\begin{lstlisting}
+
+
+public static double area(ArrayList<Point> P) {
+    double result = 0.0, x1, y1, x2, y2;
+    for (int i = 0; i < P.size()-1; i++) {
+    	x1 = P.get(i).x; 
+    	x2 = P.get(i+1).x;
+    	y1 = P.get(i).y; 
+    	y2 = P.get(i+1).y;
+    	result += ((x1 * y2) - (x2 * y1));
+    }
+    return Math.abs(result) / 2.0; 
+}
+\end{lstlisting}
+
+\subsection{Collinear Points}
+Determina si el punto r est\'a en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
+\begin{lstlisting}
+
+
+
+static double cross(Vec a, Vec b) { 
+	return a.x * b.y - a.y * b.x; 
+}
+static boolean collinear(Point p, Point q, Point r) {
+	return Math.abs(cross(toVector(p, q), toVector(p, r))) < 1e-9; 
+}
+\end{lstlisting}
+
+\subsection{Euclidean Distance}
+Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer m\'etodo, debe definirse previamente la clase Point
+\begin{lstlisting}
+
+
+    
+/*Trabajando con la clase Point*/
+static double euclideanDistance(Point p1, Point p2) {           
+  return Math.hypot(p1.x - p2.x, p1.y - p2.y); 
+} 
+/*Trabajando con los valores x y y de cada punto*/
+static double euclideanDistance(double x1, double y1, double x2, double y2){ 
+    return Math.hypot(x2 - x1, y2 - y1);         
+} 
+
+
+\end{lstlisting}
+
+\subsection{Gometric Vector}
+Dados dos puntos A y B, crea el vector A->B. IMPORTANTE: Debe definirse la clase Point. Es llamado Vec para no confundirlo con vector como colecci\'on de elementos.
+\begin{lstlisting}
+
+
+
+static class Vec { 
+    public double x, y;
+    public Vec(double _x, double _y) {
+        this.x = _x;
+        this.y = _y;
+    }
+}
+static Vec toVector(Point a, Point b) {       
+	return new Vec(b.x - a.x, b.y - a.y); 
+}
+
+
+
+\end{lstlisting}
+
+\subsection{Perimeter}
+Calcula el per\'imetro de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. La estructura point debe estar definida, al igual que el m\'etodo euclideanDistance.
+\begin{lstlisting}
+
+
+public static double perimeter(ArrayList<Point> P) {
+	double result = 0.0;
+  	for (int i = 0; i < P.size()-1; i++){
+        result += euclideanDistance(P.get(i), P.get(i+1));
+  	}
+  	return result; 
+}
+\end{lstlisting}
+
+\subsection{Point in Polygon}
+Determina si un punto pt se encuentra en el pol\'igono P. Este pol\'igono se define como un vector de puntos, donde el punto 0 y n-1 son el mismo. IMPORTANTE: Deben incluirse las estructuras point y vec, ademas del m\'etodo angle y el m\'etodo cross que se encuentra en Collinear Points.
+\begin{lstlisting}
+
+
+
+static boolean ccw(Point p, Point q, Point r) {
+    return cross(toVector(p, q), toVector(p, r)) > 0; 
+}
+  
+static boolean inPolygon(Point pt, ArrayList<Point> P) {
+    if (P.size() == 0){
+        return false;
+    } 
+    double sum = 0;    
+    for (int i = 0; i < P.size()-1; i++) {
+        if (ccw(pt, P.get(i), P.get(i+1))){
+            sum += angle(P.get(i), pt, P.get(i+1)); 
+        }else{
+    	    sum -= angle(P.get(i), pt, P.get(i+1));
+        }
+    }
+    if(Math.abs(Math.abs(sum) - 2*Math.acos(-1.0)) < 1e-9){
+      return true;
+    }
+    return false;
+}
+\end{lstlisting}
+
+\subsection{Point}
+La clase punto ser\'a la base sobre la cual se ejecuten otros algoritmos. 
+\begin{lstlisting}
+
+
+static class Point { 
+	public double x, y;
+  	public Point() { 
+  		this.x = this.y = 0.0; 
+  	}
+  	public Point(double _x, double _y){
+  		this.x = _x;
+  		this.y = _y;
+  	} 
+  	public boolean equals(Point other){
+  		if(Math.abs(this.x - other.x) < 1e-9 && (Math.abs(this.y - other.y) < 1e-9)) {
+  			return true;
+  		}
+  		return false;
+  	}
+}
+\end{lstlisting}
+
+\subsection{Sexagesimal degrees and radians}
+Conversiones de grados sexagesimales a radianes y viceversa.
+\begin{lstlisting}
+
+
+static double DegToRad(double d) { 
+	return d * Math.PI / 180.0; 
+}
+
+static double RadToDeg(double r) { 
+	return r * 180.0 / Math.PI;
+}
+\end{lstlisting}
+
 \section{Graphs}
 
 \subsection{BFS}
 Algoritmo de b\'usqueda en anchura en grafos, recibe un nodo inicial s y visita todos los nodos alcanzables desde s. BFS tambi\'en halla la distancia m\'as corta entre el nodo inicial s y los dem\'as nodos si todas las aristas tienen peso 1.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 import java.util.Queue;
@@ -234,8 +486,8 @@ static void bfs(int s){
 
 \subsection{DFS}
 Algoritmo de b\'usqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne informaci\'on de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 
@@ -268,8 +520,8 @@ static void dfs(int s){
 
 \subsection{Dijkstra's Algorithm}
 Algoritmo que dado un grafo con pesos no negativos halla la ruta m\'inima entre un nodo inicial s y todos los dem\'as nodos.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -363,10 +615,10 @@ static class Node implements Comparable<Node> {
 \end{lstlisting}
 
 \subsection{Floyd-Warshall's Algorithm}
-Algoritmo para grafos que halla la distancia m\'inima entre cualquier par de nodos. Matrix[i][j] guardar\'a la distancia m\'inima entre el nodo i y el j.\\
+Algoritmo para grafos que halla la distancia m\'inima entre cualquier par de nodos. Matrix[i][j] guardar\'a la distancia m\'inima entre el nodo i y el j.
 Ajustar los tipos de datos segun el problema.
-
 \begin{lstlisting}
+
 
 static int v, e; //vertices, arcos
 static int MAX=505;     
@@ -405,8 +657,8 @@ static void floydWarshall(){
 
 \subsection{Kruskal's Algorithm}
 Algoritmo para hallar el arbol cobertor m\'inimo de un grafo  no dirigido y conexo. Utiliza la t\'ecnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -490,10 +742,10 @@ static class Edge implements Comparable<Edge> {
 }
 \end{lstlisting}
 
-\subsection{Trajan's Algorithm}
+\subsection{Tarjan's Algorithm}
 Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 import java.lang.Math;
@@ -569,8 +821,8 @@ static class Edge{
 
 \subsection{Binary Exponentiation}
 Realiza $a^{b}$ y retorna el resultado m\'odulo c. Si se elimina el m\'odulo c, debe tenerse precauci\'on para no exceder el l\'imite
-
 \begin{lstlisting}
+
 
 static int binaryExponentiation(int a, int b, int c){
     if (b == 0){
@@ -588,8 +840,8 @@ static int binaryExponentiation(int a, int b, int c){
 
 \subsection{Binomial Coefficient}
 Calcula el coeficiente binomial nCr, entendido como el n\'umero de subconjuntos  de k elementos escogidos de un conjunto con n elementos.
-
 \begin{lstlisting}
+
 
 static long binomialCoefficient(long n, long r) {
   if (r < 0 || n < r) { 
@@ -606,8 +858,8 @@ static long binomialCoefficient(long n, long r) {
 
 \subsection{Catalan Number}
 Guarda en el array Catalan Numbers los numeros de Catalan hasta MAX.
-
 \begin{lstlisting}
+
 
 static int MAX = 30;
 static long catalanNumbers[] = new long[MAX+1];
@@ -621,9 +873,9 @@ static void catalan(){
 \end{lstlisting}
 
 \subsection{Euler Totient}
-Funci\'on totient o indicatriz ($\phi $) de Euler. Para cada posici\'on n del array result retorna el n\'umero de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
-
+Funci\'on totient o indicatriz ($\phi$) de Euler. Para cada posici\'on n del array result retorna el n\'umero de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD = 1)
 \begin{lstlisting}
+
 
 static void totient(int n, int resultados[]){
 	boolean aux[]=new boolean[n];
@@ -644,8 +896,8 @@ static void totient(int n, int resultados[]){
 
 \subsection{Gaussian Elimination}
 Resuelve sistemas de ecuaciones lineales por eliminaci\'on Gaussiana. matrix contiene los valores de la matriz cuadrada y result los resultados de las ecuaciones. Retorna un vector con el valor de las n incongnitas. Los resultados pueden necesitar redondeo.
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 
@@ -702,10 +954,10 @@ static ArrayList<Double> gauss() {
 
 \subsection{Greatest common divisor}
 Calcula el m\'aximo com\'un divisor entre a y b mediante el algoritmo de Euclides
-
 \begin{lstlisting}
 
-int mcd(int a, int b) {
+
+static int mcd(int a, int b) {
 	int aux;
 	while(b!=0){
 		a %= b;
@@ -718,19 +970,19 @@ int mcd(int a, int b) {
 \end{lstlisting}
 
 \subsection{Lowest Common multiple}
-C\'alculo del m\'inimo com\'un m\'ultiplo usando el m\'aximo com\'un divisor REQUIERE mcd(a,b)
-
+Calculo del m\'inimo com\'un m\'ultiplo usando el m\'aximo com\'un divisor REQUIERE mcd(a,b)
 \begin{lstlisting}
 
-int mcm(int a, int b) {
+
+static int mcm(int a, int b) {
 	return a*b/mcd(a,b);
 }
 \end{lstlisting}
 
 \subsection{Prime Factorization}
 Guarda en primeFactors la lista de factores primos del value de menor a mayor. IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value (se  recomienda dejar un poco de excedente).
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 
@@ -755,8 +1007,8 @@ static void calculatePrimeFactors(long value){
 
 \subsection{Sieve of Eratosthenes}
 Guarda en primes los n\'umeros primos menores a MAX
-
 \begin{lstlisting}
+
 
 import java.util.ArrayList;
 
@@ -785,8 +1037,8 @@ static void calculatePrimes() {
 \section{String}
 
 \subsection{KMP's Algorithm}
-
 Encuentra si el string pattern se encuentra en el string cadena.
+
 \begin{lstlisting}
 
 import java.util.ArrayList;
@@ -834,104 +1086,187 @@ static boolean kmp(String cadena, String pattern){
 
 \section{Tips and formulas}
 
+\subsection{ASCII Table}
+Caracteres ASCII con sus respectivos valores num\'ericos.
+
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+0 \> NUL \> 16 \> DLE \\
+1 \> SOH \> 17 \> DC1 \\
+2 \> STX \> 18 \> DC2 \\
+3 \> ETX \> 19 \> DC3 \\
+4 \> EOT \> 20 \> DC4 \\
+5 \> ENQ \> 21 \> NAK \\
+6 \> ACK \> 22 \> SYN \\
+7 \> BEL \> 23 \> ETB \\
+8 \> BS \> 24 \> CAN \\
+9 \> TAB \> 25 \> EM \\
+10 \> LF \> 26 \> SUB \\
+11 \> VT \> 27 \> ESC \\
+12 \> FF \> 28 \> FS \\
+13 \> CR \> 29 \> GS \\
+14 \> SO \> 30 \> RS \\
+15 \> SI \> 31 \> US \\ 
+\end{tabbing}
+
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+32 \> (space) \> 48 \> 0 \\
+33 \> ! \> 49 \> 1 \\
+34 \> " \> 50 \> 2 \\
+35 \> \# \> 51 \> 3 \\
+36 \> \$ \> 52 \> 4 \\
+37 \> \% \> 53 \> 5 \\
+38 \> \& \> 54 \> 6 \\
+39 \> ' \> 55 \> 7 \\
+40 \> ( \> 56 \> 8 \\
+41 \> ) \> 57 \> 9 \\
+42 \> * \> 58 \> : \\
+43 \> + \> 59 \> ; \\
+44 \> , \> 60 \> < \\
+45 \> - \> 61 \> = \\
+46 \> . \> 62 \> > \\
+47 \> / \> 63 \> ? \\ 
+\end{tabbing}
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+64 \> @ \> 80 \> P \\
+65 \> A \> 81 \> Q \\
+66 \> B \> 82 \> R \\
+67 \> C \> 83 \> S \\
+68 \> D \> 84 \> T \\
+69 \> E \> 85 \> U \\
+70 \> F \> 86 \> V \\
+71 \> G \> 87 \> W \\
+72 \> H \> 88 \> X \\
+73 \> I \> 89 \> Y \\
+74 \> J \> 90 \> Z \\
+75 \> K \> 91 \> [ \\
+76 \> L \> 92 \> \textbackslash \\
+77 \> M \> 93 \> ] \\
+78 \> N \> 94 \> \textasciicircum \\
+79 \> O \> 95 \> \_ \\ 
+\end{tabbing}
+
+\begin{tabbing}
+\textbf{No.}\hspace{1cm} \=  \textbf{ASCII}\hspace{2cm} \= \textbf{No.}\hspace{1cm} \= \textbf{ASCII}\hspace{2cm}  \\ 
+96 \> ` \> 112 \> p \\
+97 \> a \> 113 \> q \\
+98 \> b \> 114 \> r \\
+99 \> c \> 115 \> s \\
+100 \> d \> 116 \> t \\
+101 \> e \> 117 \> u \\
+102 \> f \> 118 \> v \\
+103 \> g \> 119 \> w \\
+104 \> h \> 120 \> x \\
+105 \> i \> 121 \> y \\
+106 \> j \> 122 \> z \\
+107 \> k \> 123 \> \{ \\
+108 \> l \> 124 \> \textbar \\
+109 \> m \> 125 \> \} \\
+110 \> n \> 126 \> \textasciitilde \\
+111 \> o \> 127 \>  \\  
+\end{tabbing}
+
 \subsection{Catalan Number}
 
-{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}\\ \\
-Primeros 30 n\'umeros de Catal\'an:\\
-\begin{tabular}{|l|l|}
-\hline
-n & $C_{n}$ \\ \hline
-0 & 1 \\ \hline
-1 & 1 \\ \hline
-2 & 2 \\ \hline
-3 & 5 \\ \hline
-4 & 14 \\ \hline
-5 & 42 \\ \hline
-6 & 132 \\ \hline
-7 & 429 \\ \hline
-8 & 1.430\\ \hline
-9 & 4.862\\ \hline
-10 & 16.796\\ \hline
-11 & 58.786\\ \hline
-12 & 208.012\\ \hline
-13 & 742.900\\ \hline
-14 & 2.674.440\\ \hline
-15 & 9.694.845\\ \hline
-16 & 35.357.670\\ \hline
-17 & 129.644.790\\ \hline
-18 & 477.638. 700\\ \hline
-19 & 1.767.263.190\\ \hline
-20 & 6.564.120.420\\ \hline
-21 & 24.466.267.020\\ \hline
-22 & 91.482.563.640\\ \hline
-23 & 343.059.613.650\\ \hline
-24 & 1.289.904.147.324\\ \hline
-25 & 4.861.946.401.452\\ \hline
-26 & 18.367.353.072.152\\ \hline
-27 & 69.533.550.916.004\\ \hline
-28 & 263.747.951.750.360\\ \hline
-29 & 1.002.242.216.651.368\\ \hline
-30 & 3.814.986.502.092.304\\ \hline
-\end{tabular}
-
+{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}
+\\ \\
+Primeros 30 n\'umeros de Catal\'an:
+\\ \\
+\begin{tabbing}
+\textbf{n}\hspace{3cm} \=  \textbf{$C_{n}$}\hspace{4cm}  \\ 
+0 \> 1 \\ 
+1 \> 1 \\ 
+2 \> 2 \\ 
+3 \> 5 \\ 
+4 \> 14 \\ 
+5 \> 42 \\ 
+6 \> 132 \\ 
+7 \> 429 \\ 
+8 \> 1.430\\ 
+9 \> 4.862\\ 
+10 \> 16.796\\ 
+11 \> 58.786\\
+12 \> 208.012\\
+13 \> 742.900\\ 
+14 \> 2.674.440\\ 
+15 \> 9.694.845\\ 
+16 \> 35.357.670\\
+17 \> 129.644.790\\
+18 \> 477.638. 700\\
+19 \> 1.767.263.190\\
+20 \> 6.564.120.420\\ 
+21 \> 24.466.267.020\\
+22 \> 91.482.563.640\\ 
+23 \> 343.059.613.650\\ 
+24 \> 1.289.904.147.324\\
+25 \> 4.861.946.401.452\\ 
+26 \> 18.367.353.072.152\\ 
+27 \> 69.533.550.916.004\\ 
+28 \> 263.747.951.750.360\\ 
+29 \> 1.002.242.216.651.368\\
+30 \> 3.814.986.502.092.304\\ 
+\end{tabbing}
 
 
 \subsection{Euclidean Distance}
-F\'ormula para calcular la distancia Euclideana entre dos puntos en el plano cartesiano (x,y). \\
-Extendible a 3 dimensiones\\ \\
-$ d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}} $
 
+$ d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}} $
+\\ \\
 
 
 
 \subsection{Permutation and combination}
 
-Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos\\ \\
-{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}\\
+Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos
+\\ \\
+{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}
+\\ \\
+Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.
+\\ \\
+{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}
+\\ \\
+Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos
+\\ \\
+{\LARGE $ P_{n} = n! $}
+\\ \\
+Elegir r elementos de n posibles con repetici\'on
+\\ \\
+{\LARGE $ n^{r} $}
+\\ \\
+Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...
+\\ \\
+{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}
+\\ \\
+Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos 
+\\ \\
+{\LARGE $ \frac{n!}{(n-r)!}$}
+\\ \\
 
-Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.\\ \\
-
-
-{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}\\
-
-Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos\\ \\
-
-{\LARGE $ P_{n} = n! $}\\
-
-Elegir r elementos de n posibles con repetici\'on\\ \\
-
-{\LARGE $ n^{r} $}\\
-
-Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...\\ \\
-
-{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}\\
-
-Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos \\ \\
-
-{\LARGE $ \frac{n!}{(n-r)!}$}\\
-}
 \subsection{Time Complexities}
 
-Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.\\ 
+Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.
 
-\begin{tabular}{|l|l|}
-\hline
-Complexity & n\\ \hline
-$O(n!)$ & 11\\ \hline
-$O(n^{5})$ & 50\\ \hline
-$O(2^{n}*n^{2})$ & 18\\ \hline
-$O(2^{n}*n)$ & 22\\ \hline
-$O(n^{4})$ & 100\\ \hline
-$O(n^{3})$ & 500\\ \hline
-$O(n^{2}\log_{2}n)$ & 1.000\\ \hline
-$O(n^{2})$ & 10.000\\ \hline
-$O(n\log_{2}n)$ & $10^{6}$\\ \hline
-$O(n)$ & $10^{8}$\\ \hline
-$O(\sqrt{n})$ & $10^{16}$\\ \hline
-$O(\log_{2}n)$ & -\\ \hline
-$O(1)$ & -\\ \hline
-\end{tabular}
-
+\begin{tabbing}
+\textbf{Complexity}\hspace{4cm} \=  \textbf{n}\hspace{3cm}   \\ 
+$O(n!)$ \> 11\\ 
+$O(n^{5})$ \> 50\\ 
+$O(2^{n}*n^{2})$ \> 18\\ 
+$O(2^{n}*n)$ \> 22\\ 
+$O(n^{4})$ \> 100\\ 
+$O(n^{3})$ \> 500\\ 
+$O(n^{2}\log_{2}n)$ \> 1.000\\ 
+$O(n^{2})$ \> 10.000\\ 
+$O(n\log_{2}n)$ \> $10^{6}$\\ 
+$O(n)$ \> $10^{8}$\\ 
+$O(\sqrt{n})$ \> $10^{16}$\\ 
+$O(\log_{2}n)$ \> -\\ 
+$O(1)$ \> -\\ 
+\end{tabbing}
 
 \subsection{mod: properties}
 

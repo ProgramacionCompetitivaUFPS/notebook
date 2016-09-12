@@ -1,6 +1,6 @@
 La clase punto será la base sobre la cual se ejecuten otros algoritmos. 
 
-class Point { 
+static class Point { 
 	public double x, y;
   	public Point() { 
   		this.x = this.y = 0.0; 
