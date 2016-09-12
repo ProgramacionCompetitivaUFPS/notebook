@@ -1,6 +1,6 @@
 Dado un grafo dirigido, calcula la componente fuertemente conexa a la que pertenece cada nodo.
-//aka Finding Strongly Connected Components
 
+//aka Finding Strongly Connected Components
 vector<int> ady[tam];
 vector<int> rev[tam];
 vector<int> topoSort;

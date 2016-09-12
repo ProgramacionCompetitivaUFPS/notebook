@@ -36,6 +36,7 @@ static void dijkstra(int s) {
 
     while (pq.size() > 0) {
         actual = pq.peek().adjacent;
+        pq.poll();
         if (marked[actual] == 0) {
             marked[actual] = 1;
             for (j = 0; j < ady[actual].size(); j++) {
@@ -50,7 +51,6 @@ static void dijkstra(int s) {
                 }
             }
         }
-        pq.poll();
     }
 }
 
