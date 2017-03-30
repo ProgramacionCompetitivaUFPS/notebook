@@ -6,7 +6,7 @@ Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en 
 	static int longestIncreasingSubsequence(int s[]){
 		int n = s.length;
 		memo[0] = 1;
-		int output = 0;
+		int output = 1;
 		for (int i = 1; i < n; i++){
 			memo[i] = 1;
 			for (int j = 0; j < i; j++){
