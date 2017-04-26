@@ -28,4 +28,4 @@ int knapsack(int id, int w) {
 }
 
 //La tabla memo debe iniciar en -1
-memset(memo, -1, sizeof memo);
+memset(memo, -1, sizeof(memo[0][0]) * MAX_N * MAX_WEIGHT );
