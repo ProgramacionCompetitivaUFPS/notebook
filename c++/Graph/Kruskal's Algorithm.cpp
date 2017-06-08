@@ -17,7 +17,6 @@ struct Edge{
 int v, e; //v = nodos, e = arcos
 const int MAX = 10001; //Cantidad máxima de nodos
 int parent[MAX]; //estructura de DS
-int r[MAX]; //estructura de la implementación de DS (rank)
 Edge edges[MAX]; //Lista de arcos del grafo
 Edge answer[MAX]; //Lista de arcos del arbol cobertor mínimo
 
@@ -26,7 +25,6 @@ Debe haberse leido v antes de hacer el llamado. */
 void init(){
   for(int i = 0; i < v; i++){
     parent[i] = i;
-    r[i] = 0;
   }
 }
 
@@ -38,26 +36,12 @@ int cmp(const void* a, const void* b){
 
 /*        Métodos Disjoint Set          */
 int find(int i){
-  if( parent[i] != i ){
-    parent[i] = find(parent[i]);
-  }
+  parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
   return parent[i];
 }
 
 void unionFind(int x, int y){
-  int xroot = find(x);
-  int yroot = find(y);
- 
-  // Attach smaller r tree under root of high r tree
-  if (r[xroot] < r[yroot])
-    parent[xroot] = yroot;
-  else if (r[xroot] > r[yroot])
-    parent[yroot] = xroot;
-  else{
-    parent[yroot] = xroot;
-    r[xroot]++;
-  }
-
+  parent[ find(x) ] = find(y);
 }
 
 /*       FIN: Métodos Disjoint Set         */

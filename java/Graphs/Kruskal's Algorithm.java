@@ -23,25 +23,12 @@ static void init() {
 
 //UNION-FIND   
 static int find(int i){
-    if(parent[i]!=i){
-        parent[i]=find(parent[i]);
-    }
-        return parent[i];
+    parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
+    return parent[i];
 }
 
 static void unionFind(int x, int y){
-    int xroot = find(x);
-    int yroot = find(y);
-     
-    if (rank[xroot] < rank[yroot])
-        parent[xroot] = yroot;
-    else if (rank[xroot] > rank[yroot])
-        parent[yroot] = xroot;
-     
-    else{
-        parent[yroot] = xroot;
-        rank[xroot]++;
-    }
+    parent[ find(x) ] = find(y);
 }
 
 static void kruskall(){

@@ -1,33 +1,26 @@
 import java.util.*;
 
 class DisjointSet{
-	private int [] parent, rank, size;
+	private int [] parent, size;
 	private int cantSets;
 
 	//Inicializa todas las estructuras :)
 	public DisjointSet(int n){
 		parent=new int[n];
-		rank=new int[n];
 		size=new int[n];
 		cantSets=n;
 
 		int i;
 		for(i=0; i<n; i++){
 			parent[i]=i;
-			rank[i]=0; //Se usa para tener un control sobre el "tamaño" del arbol
 			size[i]=1;
 		}
 	}
 
 	//Operaciones
 	public int find(int i){
-		if(parent[i]==i)	return i;
-		else{
-			int x=find(parent[i]);
-			//Compresión de ruta
-			parent[i]=x;
-			return x;
-		}
+		parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
+    	return parent[i];
 	}
 
 	public void union(int i, int j){
@@ -36,20 +29,7 @@ class DisjointSet{
 
 		if(x!=y){
 			cantSets--;
-
-			//El set más pequeño (rank) se añade al set más grande
-			if(rank[x]>rank[y]){
-				parent[y]=x;
-				size[x]=size[x]+size[y];
-			}else{
-				parent[x]=y;
-				size[y]=size[y]+size[x];
-
-				if(rank[x]==rank[y]){
-					rank[y]=rank[y]+1;
-				}
-			}
-
+			parent[x] = y;
 		}
 	}
 
