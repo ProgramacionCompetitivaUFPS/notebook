@@ -4,7 +4,6 @@ SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 static int v, e; //vertices, arcos
 static int MAX=100005; 
 static ArrayList<Integer> ady[] = new ArrayList[MAX]; //lista de Adyacencia
-static long distance[] = new long[MAX];
 static int color[] = new int[MAX];
 static boolean bipartite;
 
@@ -14,7 +13,6 @@ static void bfs(int s){
     q.add(s); 
     color[s] = 0;
     int actual, i, next;
-    bipartite=true;
 
     while( !q.isEmpty() && bipartite ){
         actual = q.poll();

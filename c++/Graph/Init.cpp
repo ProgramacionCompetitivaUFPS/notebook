@@ -13,6 +13,7 @@ void init() {
     topoSort.clear(); //Topological Sort
     loops = false; //Loop Check
     cantSCC = 0; //Tarjan
+    bipartite = true; //Bipartite Check
 
     for( int j = 0; j <= v; j++ ) {
         dist[j] = -1; //Distancia a cada nodo (BFS)
@@ -24,6 +25,7 @@ void init() {
         dfs_num[j] = -1;
         dfs_low[j] = 0;
         itsmos[j] = 0;
+        color[j] = -1; //Bipartite Check
 
         for(j = 0; j < v; j++)  ady[i][j] = INF; //Warshall
     }
