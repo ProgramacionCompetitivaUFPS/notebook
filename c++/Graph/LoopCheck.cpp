@@ -12,18 +12,6 @@ bool loops; //Bandera de ciclos en el grafo
  	-1 - Unvisited
 */
 
-/* Se debe llamar este metodo apenas se inicia cada caso de prueba */
-void init(){
-	int i;
-	
-	loops = false;
-	
-	for(i = 0; i <= v; i++ ){
-		dfs_num[i] = -1;
-		ady[i].clear();
-	}
-}
-
 /*
 Este metodo debe ser llamado desde un nodo inicial.
 Cortara su ejecucion en el momento que encuentre algun ciclo en el grafo.
@@ -38,9 +26,8 @@ void graphCheck( int u){
 	for(j = 0; j < ady[u].size(); j++ ){
 		next = ady[u][j];
 		
-		if( dfs_num[next] == -1 ){
-			graphCheck( next );
-		}else if( dfs_num[next] == 2 ){
+		if( dfs_num[next] == -1 )	graphCheck( next );
+		else if( dfs_num[next] == 2 ){
 			loops = true;
 			break;
 		}
@@ -51,15 +38,7 @@ void graphCheck( int u){
 
 
 int main(){
-	cin >> v;
-	
-	init(); //llamado al metodo justo despues de leer la cantidad de nodos del grafo.
-	
-	for( s = 1; s <= v && !loops; s++ ){
+	for( int s = 1; s <= v && !loops; s++ ){ //Por si el grafo es NO conexo
 		if( dfs_num[s] == -1 ) graphCheck(s);
 	}
-	
-	//La variable loops guarda si el grafo tiene o no algun ciclo :)
-	
-	return 0;
 }

@@ -3,12 +3,14 @@ public static void init(){
     answer=new ArrayList<Edge>();
     rta = 0;
 	pq = new PriorityQueue<Node>();
+    loops = false;
 
 
 
     ciclooooo 
     visited[i] = false;
 	dfs_num[i] = -1;
+    ady[i].clear();
     ady[i]=new ArrayList<Integer>();
         marked[i]=false;
         prev[i]=-1;
