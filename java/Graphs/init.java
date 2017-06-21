@@ -14,6 +14,7 @@ static void init() {
     bridges = new ArrayList<Edge>(); //Puentes
     cantSCC = 0; //Tarjan
     topoSort = new ArrayList<Integer>(); //Topological Sort
+    bipartite = true;
 
     for (int j = 0; j <= v; j++) {
         distance[j] = -1; //Distancia a cada nodo (BFS)
@@ -26,6 +27,7 @@ static void init() {
         dfs_num[j] = -1;
         dfs_low[j] = 0;
         itsmos[j] = false;
+        color[j] = -1; //Bipartite Check
 
         for(j = 0; j < v; j++)  ady[i][j] = Integer.MAX_VALUE; //Warshall
     }
