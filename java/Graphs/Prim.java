@@ -1,6 +1,5 @@
 Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. 
-
-import java.util.*;
+Requiere de la clase Node
 
 static int v, e; //vertices, arcos
 static int MAX=100005; 
@@ -8,16 +7,6 @@ static ArrayList<Node> ady[] = new ArrayList[MAX];
 static boolean marked[] = new boolean[MAX];
 static int rta;
 static PriorityQueue<Node> pq;
-
-//limpiar las estructuras de datos    
-static void init() {
-	rta = 0;
-	pq = new PriorityQueue<Node>();
-    for (int j = 0; j <= v; j++) {
-        marked[j] = false;
-        ady[j] = new ArrayList<Node>();
-    }
-}
 
 static void prim(){
 	process(0); //Nodo inicial;
@@ -47,19 +36,3 @@ static void process( int u ){
 		}
 	}
 }
-
-static class Node implements Comparable<Node> {
-	public int adjacent;
-    public int cost;
- 
-	public Node(int ady, int c) {
-	    this.adjacent = ady;
-	    this.cost = c;
-    }
- 
-	@Override
-	public int compareTo(Node o) {
-	    if (this.cost >= o.cost)  return 1;
-        else    return -1;
-	}
-} 

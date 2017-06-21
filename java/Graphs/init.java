@@ -1,6 +1,10 @@
 public static void init(){
     edges=new ArrayList<Edge>();
     answer=new ArrayList<Edge>();
+    rta = 0;
+	pq = new PriorityQueue<Node>();
+
+
 
     ciclooooo 
     visited[i] = false;
@@ -10,4 +14,6 @@ public static void init(){
         prev[i]=-1;
         itsmos[i]=0;
         parent[i] = i;
+        marked[j] = false;
+        ady[j] = new ArrayList<Node>();
 }
