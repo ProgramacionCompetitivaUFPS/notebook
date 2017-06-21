@@ -25,7 +25,7 @@ static void bfs(int s){
     distance[s]=0;
     int actual, i, next;
         
-    while(!q.isEmpty()){
+    while( !q.isEmpty() ){
         actual=q.poll();
         for(i=0; i<ady[actual].size(); i++){
             next=ady[actual].get(i);

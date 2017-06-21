@@ -1,23 +1,24 @@
 Dado un grafo, halla el máximo flujo entre una fuente s y un sumidero t.
 
-vector<int> adyNetwork [105]; 
-int capacity [105] [105]; //Capacidad de aristas de la red
-int flow [105] [105]; //Flujo de cada arista
-int anterior [105];
+static int n; //Cantidad de nodos del grafo
+static ArrayList<Integer> adyNetwork[] = new ArrayList[105]; //lista de Adyacencia
+static int capacity[][]  = new int[105][105]; //Capacidad de aristas de la red
+static int flow[][] = new int[105][105]; //Flujo de cada arista
+static int anterior[] = new int[105];
 
-void connect(int i, int j, int cap){
-    adyNetwork[i].push_back(j);
-    adyNetwork[j].push_back(i);
+static void connect(int i, int j, int cap){
+    adyNetwork[i].add(j);
+    adyNetwork[j].add(i);
     capacity[i][j] += cap;
     //Si el grafo es dirigido no hacer esta linea
-    //capacity[j][i]+=cap;
+    //capacity[j][i] += cap;
 }
 
-int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
+static int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
     int i, j, maxFlow, u, v, extra, start, end;
     for( i = 0; i <= n; i++ ){
         for( j = 0; j <= n; j++ ){
-            flow[i][j]=0;
+            flow[i][j] = 0;
         }
     }
 
@@ -26,29 +27,28 @@ int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
     while( true ){
         for( i = 0; i <= n; i++ ) anterior[i] = -1;
 
-        queue<int> q;
-        q.push(s);
+        Queue<Integer> q = new LinkedList<Integer>();
+        q.add(s);
         anterior[s] = -2;
 
-        while( q.size() > 0 ){
-            u = q.front();
-            q.pop();
+        while( !q.isEmpty() ){
+            u = q.poll();
             if( u == t ) break;
             for( j = 0; j < adyNetwork[u].size(); j++){
-                v = adyNetwork[u][j];
+                v = adyNetwork[u].get(j);
                 if( anterior[v] == -1  && capacity[u][v] - flow[u][v] > 0 ){
-                    q.push(v);
+                    q.add(v);
                     anterior[v] = u;
                 }
             }
         }
         if( anterior[t] == -1 ) break;
 
-        extra = 1 << 30;
+        extra = Integer.MAX_VALUE;
         end = t;
-        while( end != s){
+        while( end != s ){
             start = anterior[end];
-            extra = min( extra, capacity[start][end]-flow[start][end] );
+            extra = Math.min( extra, capacity[start][end]-flow[start][end] );
             end = start;
         }
 
@@ -66,7 +66,7 @@ int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
     return maxFlow;
 }
 
-int main(){
+public static void main( String args[] ){
     //Para cada arista
     connect( s, d, f);  //origen, destino, flujo
 }
