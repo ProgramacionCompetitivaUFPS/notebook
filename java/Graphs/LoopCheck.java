@@ -1,4 +1,5 @@
 Determina si un Grafo DIRIGIDO tiene o no ciclos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 static final int MAX = 10010; //Cantidad maxima de nodos
 static int v; //Cantidad de Nodos del grafo

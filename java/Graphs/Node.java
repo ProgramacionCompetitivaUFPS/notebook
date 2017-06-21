@@ -1,3 +1,5 @@
+Estructura Node con su comparador. Usada en algoritmos como Dijkstra.
+
 static class Node implements Comparable<Node> {
 	public int adjacent;
     public int cost;

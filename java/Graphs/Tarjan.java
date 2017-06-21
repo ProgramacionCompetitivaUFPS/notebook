@@ -1,17 +1,16 @@
 Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; 
 static int n = 5000; // Máxima cantidad de nodos
 static int dfs_low[] = new int[n];
 static int dfs_num[] = new int[n];
-static boolean visited[] = new boolean[n];
+static boolean marked[] = new boolean[n];
 static Stack<Integer> s;
 static int dfsCont, cantSCC;
 static ArrayList<Integer> ady[] = new ArrayList[n];
 	
-public static void main (String[] args) throws java.lang.Exception{
-	cantSCC = 0;
-
+public static void main (String[] args){
     for( int i = 0; i < v; i++ ){ //Por si el grafo no es conexo
         if( dfs_num[i] == -1 ){
             dfsCont = 0;
@@ -25,7 +24,7 @@ public static void tarjanSCC( int u ){
 	dfs_low[u] = dfs_num[u] = dfsCont;
 	dfsCont++;
 	s.push(u);
-	visited[u] = true;
+	marked[u] = true;
 		
 	int j, v;
 		
@@ -36,7 +35,7 @@ public static void tarjanSCC( int u ){
 			tarjanSCC( v );
 		}
 			
-		if( visited[v] ){
+		if( marked[v] ){
 			dfs_low[u] = Math.min( dfs_low[u], dfs_low[v] );
 		}
 	}
@@ -49,7 +48,7 @@ public static void tarjanSCC( int u ){
 		while( !s.empty() ){
 			v = s.peek();
 			s.pop();
-			visited[v] = false;
+			marked[v] = false;
 			System.out.println(v);
 			if( u == v ) break;
 		}

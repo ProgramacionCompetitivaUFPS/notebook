@@ -1,7 +1,5 @@
 Algoritmo para hallar los puentes e itsmos en un grafo no dirigido. Requiere de la clase Edge.
-
-import java.util.ArrayList;
-import java.lang.Math;
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 static int n, e; //vertices, arcos
 static int MAX=1010;     
@@ -10,7 +8,7 @@ static boolean marked[]=new boolean [MAX];
 static int prev[]=new int [MAX];
 static int dfs_low[]=new int [MAX];
 static int dfs_num[]=new int [MAX];
-static int itsmos[]=new int [MAX];
+static boolean itsmos[]=new int [MAX];
 static ArrayList<Edge> bridges;
 static int dfsRoot, rootChildren, cont;
 
@@ -30,7 +28,7 @@ static void dfs(int u){
             dfs(v);
 
             //Itmos
-            if( dfs_low[v] >= dfs_num[u] )  itsmos[u]=1;
+            if( dfs_low[v] >= dfs_num[u] )  itsmos[u] = true;
             
             //Puentes
             if( dfs_low[v] > dfs_num[u] )   bridges.add(new Edge( Math.min(u,v),Math.max(u,v)) );
@@ -41,11 +39,8 @@ static void dfs(int u){
 }
 
 public static void main(String args[]){
-    //Antes de ejecutar el Algoritmo
-    cont = dfsRoot = rootChildren = 0;
-    bridges = new ArrayList<Edge>();
     dfs( dfsRoot );
     /* Caso especial */
-    itmos[dfsRoot] = ( itmos[ dfsRoot ] == 1 && rootChildren > 1 ) ? 1 : 0;
+    itmos[dfsRoot] = ( itmos[ dfsRoot ] && rootChildren > 1 ) ? true : false;
 }
 

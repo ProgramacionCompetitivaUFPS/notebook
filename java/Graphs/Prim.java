@@ -1,5 +1,6 @@
 Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. 
 Requiere de la clase Node
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 static int v, e; //vertices, arcos
 static int MAX=100005; 
