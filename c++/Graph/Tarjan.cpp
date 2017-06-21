@@ -47,8 +47,6 @@ void tarjanSCC( int u ){
 }
 
 int main (){
-	cantSCC = 0;
-
     for( int i = 0; i < v; i++ ){ //Por si el grafo no es conexo
         if( dfs_num[i] == -1 ){
             dfsCont = 0;
