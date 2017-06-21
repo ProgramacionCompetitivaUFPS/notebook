@@ -66,6 +66,5 @@ int main(){
   dijkstra(origen);
   //Para imprimir la distancia más corta desde el nodo inicial al nodo destino
   dist[destino];
-
   //Para imprimir la ruta más corta se debe imprimir de manera recursiva la estructura previous.
 }

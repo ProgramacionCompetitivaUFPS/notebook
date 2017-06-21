@@ -21,7 +21,7 @@ static void init() {
 //Recibe el nodo inicial s
 static void bfs(int s){
     Queue<Integer> q=new LinkedList<Integer>();
-    q.add(s); //Inserto el nodo inicial
+    q.add(s); 
     distance[s]=0;
     int actual, i, next;
         

@@ -1,4 +1,4 @@
-Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
+Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
 
 import java.util.ArrayList;
 import java.lang.Math;

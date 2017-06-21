@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 
-static int v, e; //vertices, arcos
-static int MAX=100005; 
-static ArrayList<Node> ady[] = new ArrayList[MAX];
-static int marked[] = new int[MAX];
-static long distance[] = new long[MAX];
-static int prev[] = new int[MAX];
+static int v, e; //v = cantidad de nodos, e = cantidad de aristas
+static int MAX=100005; //Cantidad Máxima de Nodos
+static ArrayList<Node> ady[] = new ArrayList[MAX]; //Lista de Adyacencia del grafo
+static int marked[] = new int[MAX]; //Estructura auxiliar para marcar los nodos visitados
+static long distance[] = new long[MAX]; //Estructura auxiliar para llevar las distancias a cada nodo
+static int prev[] = new int[MAX]; //Estructura auxiliar para almacenar las rutas
 
 //Método para limpiar los valores de las estructuras.
 //Llamarlo siempre antes de utilizar el método dijkstra()
