@@ -3,8 +3,8 @@ Dado un grafo implicito colorea y cuenta el tamaño de las componentes conexas. 
 //aka Coloring the connected components
 
 const int tam = 1000; //Máximo tamaño de la rejilla
-int dy[] = {1,1,0,-1,-1,-1, 0, 1}; //Estructura auxiliar para los desplazamientos
-int dx[] = {0,1,1, 1, 0,-1,-1,-1};
+int dy[] = {1,1,0,-1,-1,-1, 0, 1}; //Estructura auxiliar para los desplazamientos (8 direcciones)
+int dx[] = {0,1,1, 1, 0,-1,-1,-1}; //Estructura auxiliar para los desplazamientos (8 direcciones)
 char grid[tam][tam]; //Matriz de caracteres
 int X, Y; //Tamaño de la matriz
 

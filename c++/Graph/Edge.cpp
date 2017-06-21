@@ -1,3 +1,5 @@
+Estructura Edge con su comparador. Usada en algoritmos como Kruskal y Puentes e Itmos.
+
 struct Edge{
 
   int source, dest, weight;

@@ -1,4 +1,5 @@
 Algoritmo para grafos que halla la distancia mínima entre cualquier par de nodos. ady[i][j] guardará la distancia mínima entre el nodo i y el j.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; //vertices, arcos
 const int MAX = 505; //Cantidad máxima de nodos del grafo

@@ -4,6 +4,7 @@ public static void init(){
     rta = 0;
 	pq = new PriorityQueue<Node>();
     loops = false;
+    topoSort.clear();
 
 
 

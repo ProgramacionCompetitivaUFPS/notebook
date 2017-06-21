@@ -1,10 +1,11 @@
 Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; 
 const int MAX = 5000; // Máxima cantidad de nodos
 int dfs_low[MAX];
 int dfs_num[MAX];
-bool visited[MAX];
+bool marked[MAX];
 vector<int> s;
 int dfsCont, cantSCC;
 vector<int> ady[];
@@ -13,7 +14,7 @@ void tarjanSCC( int u ){
 	dfs_low[u] = dfs_num[u] = dfsCont;
 	dfsCont++;
 	s.push_back(u);
-	visited[u] = true;
+	marked[u] = true;
 		
 	int j, v;
 		
@@ -24,7 +25,7 @@ void tarjanSCC( int u ){
 			tarjanSCC( v );
 		}
 			
-		if( visited[v] ){
+		if( marked[v] ){
 			dfs_low[u] = min( dfs_low[u], dfs_low[v] );
 		}
 	}
@@ -37,7 +38,7 @@ void tarjanSCC( int u ){
 		while( true ){
 			v = s.back();
 			s.pop_back();
-			visited[v] = false;
+			marked[v] = false;
 			cout << v << "\n";
 			if( u == v ) break;
 		}

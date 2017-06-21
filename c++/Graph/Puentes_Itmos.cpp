@@ -1,14 +1,15 @@
 Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 vector<int> ady[1010];
 int marked[1010];
 int previous[1010];
 int dfs_low[1010];
 int dfs_num[1010];
-int itsmos[1010];
+bool itsmos[1010];
 int n, e;
 int dfsRoot,rootChildren,cont;
-vector<pair<int,int>> bridges;
+vector< pair<int,int> > bridges;
 
 void dfs(int u){
     dfs_low[u] = dfs_num[u] = cont;
@@ -25,7 +26,7 @@ void dfs(int u){
             dfs(v);
 
             //Itsmos
-            if( dfs_low[v] >= dfs_num[u] )  itsmos[u]=1;
+            if( dfs_low[v] >= dfs_num[u] )  itsmos[u] = 1;
             
             //Bridges
             if( dfs_low[v] > dfs_num[u] ) bridges.push_back(make_pair(min(u,v),max(u,v)));

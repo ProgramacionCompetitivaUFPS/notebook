@@ -1,4 +1,5 @@
 Determina si un Grafo DIRIGIDO tiene o no ciclos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 const int MAX = 10010; //Cantidad maxima de nodos
 int v; //Cantidad de Nodos del grafo
@@ -13,10 +14,10 @@ bool loops; //Bandera de ciclos en el grafo
 */
 
 /*
-Este metodo debe ser llamado desde un nodo inicial.
+Este metodo debe ser llamado desde un nodo inicial u.
 Cortara su ejecucion en el momento que encuentre algun ciclo en el grafo.
 */
-void graphCheck( int u){
+void graphCheck( int u ){
 	int j, next;
 	
 	if( loops ) return;

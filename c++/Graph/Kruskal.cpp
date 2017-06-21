@@ -1,5 +1,6 @@
 Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. Utiliza la técnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.
 Requiere de la struct Edge.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; //v = nodos, e = arcos
 const int MAX = 10001; //Cantidad máxima de NODOS

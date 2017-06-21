@@ -1,5 +1,6 @@
 Dado un grafo acíclico y dirigido, ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.
 Este ordenamiento es una manera de poner todos los nodos en una línea recta de tal manera que las aristas vayan de izquierda a derecha.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v; //Cantidad de nodos del grafo
 const int MAX=100005; //Cantidad máxima de nodos del grafo
@@ -20,7 +21,7 @@ void dfs( int u ){
 
 int main(){
 	for(i=0; i<v; i++){
-		if( !marked[i] )	dfs(i)
+		if( !marked[i] )	dfs(i);
 	}
 	//imprimir topoSort en reversa :3
 }
