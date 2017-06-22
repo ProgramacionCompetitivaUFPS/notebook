@@ -15,7 +15,5 @@ void calculatePrimeFactors(long long value){
 			temp /= factor;
 		}
 	}
-	if (temp != 1) {
-		primeFactors.push_back(temp);
-	}
+	if (temp != 1) primeFactors.push_back(temp);
 }

@@ -12,13 +12,10 @@ static void calculatePrimes() {
   for (i = 2; i * i <= MAX; ++i) {
     if (!sieve[i]) {
       primes.add(i);
-      for (int j = i * i; j <= MAX; j += i)
-        sieve[j] = true;
+      for (int j = i * i; j <= MAX; j += i) sieve[j] = true;
     }
   }
   for(; i <= MAX; i++){
-  	if (!sieve[i]) {
-      primes.add(i);
-    }
+  	if (!sieve[i]) primes.add(i);
   }
 }

@@ -3,7 +3,7 @@ Dados dos puntos A y B, crea el vector A->B. IMPORTANTE: Debe definirse la estru
 
 struct vec { 
 	double x, y;  
-  	vec(double _x, double _y) : x(_x), y(_y) {} 
+  vec(double _x, double _y) : x(_x), y(_y) {} 
 };
 
 vec toVector(point a, point b) {       

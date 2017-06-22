@@ -15,7 +15,5 @@ static void calculatePrimeFactors(long value){
 			temp /= factor;
 		}
 	}
-	if (temp != 1) {
-		primeFactors.add(temp);
-	}
+	if (temp != 1) primeFactors.add(temp);
 }

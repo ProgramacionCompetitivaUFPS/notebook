@@ -9,12 +9,12 @@ void totient () {
 	bool temp[MAX];
 	int i,j;
 	memset(temp,1,sizeof(temp));
-	for(i = 0; i < MAX; i++) {
+	for (i = 0; i < MAX; i++) {
 		result[i] = i;
 	}
-	for(i = 2; i < MAX; i++){
-		if(temp[i]) {
-			for(j = i; j < MAX ; j += i){
+	for (i = 2; i < MAX; i++){
+		if (temp[i]) {
+			for (j = i; j < MAX ; j += i){
 				temp[j] = false;
 				result[j] = result[j] - (result[j]/i) ;
 			}

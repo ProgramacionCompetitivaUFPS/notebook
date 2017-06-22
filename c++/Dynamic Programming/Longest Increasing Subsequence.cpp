@@ -13,9 +13,7 @@ int longestIncreasingSubsequence(int s[], int n){
 				memo[i] =  memo[j] + 1;
 			} 
 		}
-		if(memo[i] > output){
-			output = memo[i];
-		}
+		output = max(output, memo[i]);
 	}
 	return output;
 }

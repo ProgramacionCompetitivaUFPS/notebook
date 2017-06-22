@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 public class Main {
     
-   static class Scanner{
+  static class Scanner{
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     StringTokenizer st = new StringTokenizer("");
     int spaces = 0;

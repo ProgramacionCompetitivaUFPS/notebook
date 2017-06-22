@@ -1,5 +1,5 @@
 Calculo del mínimo común múltiplo usando el máximo común divisor REQUIERE mcd(a,b)
 
-static int mcm(int a, int b) {
-	return a*b/mcd(a,b);
+static int mcm (int a, int b) {
+	return a * b / mcd(a, b);
 }
