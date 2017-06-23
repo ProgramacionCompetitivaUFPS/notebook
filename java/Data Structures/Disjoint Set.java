@@ -1,5 +1,4 @@
-import java.util.*;
-
+Estructura de datos para modelar una coleccion de conjuntos disyuntos. Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos disyuntos en un conjunto mayor.
 class DisjointSet{
 	private int [] parent, size;
 	private int cantSets;
@@ -30,6 +29,7 @@ class DisjointSet{
 		if(x!=y){
 			cantSets--;
 			parent[x] = y;
+			size[y] += size[x];
 		}
 	}
 
