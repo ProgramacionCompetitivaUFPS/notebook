@@ -1,15 +1,4 @@
-La función de Miller-Rabin determina si un número dado es o no un número primo. IMPORTANTE: Debe utilizarse el método binaryExponentiation.
-
-public static long mulmod (long a, long b, long mod) {
-  long x = 0;
-  long y = a % mod;
-  while (b > 0){
-    if (b % 2 == 1) x = (x + y) % mod;
-    y = (y * 2) % mod;
-    b /= 2;
-  }
-  return x % mod;
-}
+La función de Miller-Rabin determina si un número dado es o no un número primo. IMPORTANTE: Debe utilizarse el método binaryExponentiation y Modular Multiplication.
 
 public static boolean miller (long p) {
   if (p < 2 || (p != 2 && p % 2==0)) return false;
