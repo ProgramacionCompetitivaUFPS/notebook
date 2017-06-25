@@ -1,4 +1,4 @@
-Estructura de datos para modelar una coleccion de conjuntos disyuntos. Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos disyuntos en un conjunto mayor.
+Estructura de datos para modelar una colección de conjuntos disyuntos. Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos disyuntos en un conjunto mayor.
 
 const int MAX = 10001; //Cantidad máxima de conjuntos disyuntos
 int parent[MAX]; //estructura de DS
