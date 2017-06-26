@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper,twocolumn,twosided]{article}
+\documentclass[10pt,letterpaper,twocolumn,twosided]{article}
 
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -9,7 +9,10 @@
 \usepackage{hyperref}
 \usepackage{color}
 \usepackage{geometry}
-
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{supertabular}
+\usepackage{booktabs}
 \geometry{verbose,landscape,letterpaper,tmargin=2cm,bmargin=2cm,lmargin=1cm,rmargin=1cm}
 
 \usepackage{listings}
@@ -33,7 +36,20 @@
   stringstyle=\color{mauve},
   breaklines=true,
   breakatwhitespace=true
-  tabsize=2
+  tabsize=2,
+  literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1 {ñ}{{\~n}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\EUR}}1 {£}{{\pounds}}1
 }
 
 \setlength{\columnsep}{0.5in}
@@ -41,8 +57,8 @@
 
 \begin{document}
 
-\title{Programaci\'on Competitiva UFPS}
-\author{Gerson L\'azaro - Melissa Delgado}
+\title{Algoritmos de referencia para competencias ICPC (C++)}
+\author{Grupo de Estudio en Programación Competitiva \\ Semillero de Investigación en Linux y Software libre SILUX \\ Gerson Lázaro - Melissa Delgado}
 \maketitle
 \tableofcontents
 \lstloadlanguages{C++,Java}
@@ -65,13 +81,121 @@ scanf("%x",&value); //int hexadecimal
 scanf("%o",&value); //int octal
 \end{lstlisting}
 
+\section{Data Structures}
+
+\subsection{Disjoint Set}
+\begin{lstlisting}
+Estructura de datos para modelar una colección de conjuntos disyuntos. Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos disyuntos en un conjunto mayor.
+
+const int MAX = 10001; //Cantidad máxima de conjuntos disyuntos
+int parent[MAX]; //estructura de DS
+int size[MAX]; //Estructura para almacenar el tamaño de los conjuntos.
+int cantSets; //Cantidad de conjuntos disyuntos existentes
+
+/* Recibe la cantidad de conjuntos disyuntos iniciales */
+void init( int n ){
+    cantSets = n;
+    for( int i = 0; i <= n; i++ ){
+        parent[i] = i;
+        size[i] = 1;
+    }
+}
+
+int find(int i){
+  parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
+  return parent[i];
+}
+
+void unionFind(int x, int y){
+  x = find(x);
+  y = find(y);
+
+  if( x != y ){
+      cantSets--;
+      parent[x] = y;
+      size[y] += size[x];
+  }
+}
+
+int sizeOfSet( int i ){
+    return size[ find(i) ];
+}\end{lstlisting}
+
+\subsection{RMQ}
+\begin{lstlisting}
+Range minimum query. Recibe como parametro en el constructor un array de valores. Las consultas se realizan con el método rmq(indice_inicio, indice_final) y pueden actualizarse los valores con update_point(indice, nuevo_valor)
+
+
+class SegmentTree {         
+private: vector<int> st, A;            
+  int n;
+  int left (int p) { return p << 1; }     
+  int right(int p) { return (p << 1) + 1; }
+
+  void build(int p, int L, int R) { 
+    if (L == R) 
+      st[p] = L;
+    else { 
+      build(left(p) , L, (L + R) / 2);
+      build(right(p), (L + R) / 2 + 1, R);
+      int p1 = st[left(p)], p2 = st[right(p)];
+      st[p] = (A[p1] <= A[p2]) ? p1 : p2;
+    } 
+  }
+
+  int rmq(int p, int L, int R, int i, int j) { 
+    if (i >  R || j <  L) return -1; 
+    if (L >= i && R <= j) return st[p]; 
+    int p1 = rmq(left(p) , L, (L+R) / 2, i, j);
+    int p2 = rmq(right(p), (L+R) / 2 + 1, R, i, j);
+
+    if (p1 == -1) return p2;   
+    if (p2 == -1) return p1; 
+    return (A[p1] <= A[p2]) ? p1 : p2; } 
+
+  int update_point(int p, int L, int R, int idx, int new_value) {
+    int i = idx, j = idx;
+
+    if (i > R || j < L)
+      return st[p];
+    if (L == i && R == j) {
+      A[i] = new_value; 
+      return st[p] = L; 
+    }
+    int p1, p2;
+    p1 = update_point(left(p) , L, (L + R) / 2, idx, new_value);
+    p2 = update_point(right(p), (L + R) / 2 + 1, R, idx, new_value);
+    return st[p] = (A[p1] <= A[p2]) ? p1 : p2;
+  }
+
+public:
+  SegmentTree(const vector<int> &_A) {
+    A = _A; n = (int)A.size();
+    st.assign(4 * n, 0);   
+    build(1, 0, n - 1);
+  }
+
+  int rmq(int i, int j) { return rmq(1, 0, n - 1, i, j); }
+
+  int update_point(int idx, int new_value) {
+    return update_point(1, 0, n - 1, idx, new_value); }
+};
+  
+int main() {
+  int arr[] = { 18, 17, 13, 19, 15, 11, 20 }; 
+  vector<int> A(arr, arr + 7);                  
+  SegmentTree st(A);
+
+  return 0;
+}
+\end{lstlisting}
+
 \section{Dynamic Programming}
 
 \subsection{Knapsack}
-Dados N articulos, cada uno con su propio valor y peso y un tama\~no m\'aximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.
-Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 \begin{lstlisting}
-
+Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.
+Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 
 #include <algorithm>
 
@@ -84,36 +208,49 @@ int memo[MAX_N][MAX_WEIGHT];//tabla dp
 
 //El metodo debe llamarse con 0 en el id, y la capacidad de la mochila en w
 int knapsack(int id, int w) {
-  	if (id == N || w == 0) {
-  		return 0;
-  	}
-  	if (memo[id][w] != -1) {
-  		return memo[id][w];
-  	}
-  	if (weights[id] > w){
-  		memo[id][w] = knapsack(id + 1, w);
-  	}else{
-  		memo[id][w] = max(knapsack(id + 1, w), prices[id] + knapsack(id + 1, w - weights[id]));
-  	}
-  	
-  	return memo[id][w];
+  if (id == N || w == 0) return 0;
+  if (memo[id][w] != -1) return memo[id][w];
+  if (weights[id] > w) memo[id][w] = knapsack(id + 1, w);
+  else memo[id][w] = max(knapsack(id + 1, w), prices[id] + knapsack(id + 1, w - weights[id]));
+  return memo[id][w];
 }
 
 //La tabla memo debe iniciar en -1
-memset(memo, -1, sizeof memo);
+memset(memo, -1, sizeof(memo[0][0]) * MAX_N * MAX_WEIGHT);
 \end{lstlisting}
 
-\subsection{Longest Increasing Subsequence}
-Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tama\~no  limite del array, n es el tama\~no del array. Puede aplicarse tambi\'en sobre strings, cambiando el parametro int s[ ] por string s. Si debe ser estrictamente creciente, cambiar el $\leq$ de $s[ j ] \leq s[i]$ por $<$
+\subsection{Longest Common Subsequence}
 \begin{lstlisting}
+Dados dos Strings, encuentra el largo de la subsecuencia en común mas larga entre ellas.
 
+const int M_MAX = 20; // Máximo size del String 1
+const int N_MAX = 20; // Máximo size del String 2 
+int m, n; // Size de Strings 1 y 2
+string X; // String 1
+string Y; // String 2
+int memo[M_MAX + 1][N_MAX + 1];
+
+int lcs (int m, int n) {
+  for (int i = 0; i <= m; i++) {
+    for (int j = 0; j <= n; j++) {
+      if (i == 0 || j == 0) memo[i][j] = 0;
+      else if (X[i - 1] == Y[j - 1]) memo[i][j] = memo[i - 1][j - 1] + 1;
+      else memo[i][j] = max(memo[i - 1][j], memo[i][j - 1]);
+    }
+  }
+  return memo[m][n];
+}\end{lstlisting}
+
+\subsection{Longest Increasing Subsequence}
+\begin{lstlisting}
+Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tamaño  limite del array, n es el tamaño del array. Puede aplicarse también sobre strings, cambiando el parametro int s[] por string s. Si debe ser estrictamente creciente, cambiar el <= de s[j] <= s[i] por <
 
 const int MAX = 1005;
 int memo[MAX];
 
 int longestIncreasingSubsequence(int s[], int n){
 	memo[0] = 1;
-	int output = 0;
+	int output = 1;
 	for (int i = 1; i < n; i++){
 		memo[i] = 1;
 		for (int j = 0; j < i; j++){
@@ -121,18 +258,15 @@ int longestIncreasingSubsequence(int s[], int n){
 				memo[i] =  memo[j] + 1;
 			} 
 		}
-		if(memo[i] > output){
-			output = memo[i];
-		}
+		output = max(output, memo[i]);
 	}
 	return output;
 }
 \end{lstlisting}
 
 \subsection{Max Range Sum}
-Dada una lista de enteros, retorna la máxima suma de un rango de la lista.
 \begin{lstlisting}
-
+Dada una lista de enteros, retorna la máxima suma de un rango de la lista.
 
 #include <algorithm>
 
@@ -141,10 +275,8 @@ int maxRangeSum(vector<int> a){
 	for (int i = 0; i < a.size(); i++){
 		if (sum + a[i] >= 0) {  
 			sum += a[i];
-		    ans = max(ans, sum);          
-	    }else{
-	    	sum = 0;
-	    }
+		  ans = max(ans, sum);          
+	  } else sum = 0;
 	}
 	return ans;
 }
@@ -153,45 +285,38 @@ int maxRangeSum(vector<int> a){
 \section{Geometry}
 
 \subsection{Angle}
-Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la estructura point y vec (Geometric Vector). Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
-
 \begin{lstlisting}
+Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la estructura point y vec (Geometric Vector). Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
 
 #include <vector>
 #include <cmath>
 
 double angle(point a, point b, point c) { 
-  	vec ba = toVector(b, a);
-  	vec bc = toVector(b, c);
-  	return acos((ba.x * bc.x + ba.y * bc.y) / sqrt((ba.x * ba.x + ba.y * ba.y) * (bc.x * bc.x + bc.y * bc.y))); 
+  vec ba = toVector(b, a);
+  vec bc = toVector(b, c);
+  return acos((ba.x * bc.x + ba.y * bc.y) / sqrt((ba.x * ba.x + ba.y * ba.y) * (bc.x * bc.x + bc.y * bc.y))); 
 }
 \end{lstlisting}
 
 \subsection{Area}
-Calcula el area de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. El algor\'itmo utiliza el metodo de determinante de la matriz de puntos de la figura. IMPORTANTE: Debe definirse previamente la estructura point.
 \begin{lstlisting}
-
+Calcula el area de un polígono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el polígono. El algorítmo utiliza el metodo de determinante de la matriz de puntos de la figura. IMPORTANTE: Debe definirse previamente la estructura point.
 
 #include <vector>
 #include <cmath>
 
 double area(vector<point> P) {
-	double result = 0.0, x1, y1, x2, y2;
-  	for (int i = 0; i < P.size()-1; i++) {
-    	x1 = P[i].x; 
-    	x2 = P[i+1].x;
-    	y1 = P[i].y; 
-    	y2 = P[i+1].y;
-    	result += ((x1 * y2) - (x2 * y1));
-  	}
-  	return fabs(result) / 2.0; 
+	double result = 0.0;
+  for (int i = 0; i < P.size()-1; i++) {
+  	result += ((P[i].x * P[i + 1].y) - (P[i + 1].x * P[i].y));
+  }
+	return fabs(result) / 2.0; 
 }
 \end{lstlisting}
 
 \subsection{Collinear Points}
-Determina si el punto r est\'a en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
 \begin{lstlisting}
-
+Determina si el punto r está en la misma linea que los puntos p y q. IMPORTANTE: Deben incluirse las estructuras point y vec.
 
 
 double cross(vec a, vec b) { 
@@ -203,12 +328,11 @@ bool collinear(point p, point q, point r) {
 \end{lstlisting}
 
 \subsection{Convex Hull}
-Retorna el pol\'igono convexo mas peque\~no que cubre (ya sea en el borde o en el interior) un set de puntos. Recibe un vector de puntos, y retorna un vector de puntos indicando el pol\'igono resultante. Es necesario que esten definidos previamente: 
+\begin{lstlisting}
+Retorna el polígono convexo mas pequeño que cubre (ya sea en el borde o en el interior) un set de puntos. Recibe un vector de puntos, y retorna un vector de puntos indicando el polígono resultante. Es necesario que esten definidos previamente: 
 
 Estructuras: point y vec
-M\'etodos: collinear, euclideanDistance, inPolygon y angle.
-\begin{lstlisting}
-
+Métodos: collinear, euclideanDistance, ccw (de inPolygon) y angle.
 
 
 #include <cmath>
@@ -217,55 +341,41 @@ M\'etodos: collinear, euclideanDistance, inPolygon y angle.
 
 point pivot;
 bool angleCmp(point a, point b) {                
-	if (collinear(pivot, a, b)){
-		return euclideanDistance(pivot, a) < euclideanDistance(pivot, b);
-	}                              
-        
-  	double d1x = a.x - pivot.x, d1y = a.y - pivot.y;
-  	double d2x = b.x - pivot.x, d2y = b.y - pivot.y;
-  	return (atan2(d1y, d1x) - atan2(d2y, d2x)) < 0; 
+	if (collinear(pivot, a, b)) return euclideanDistance(pivot, a) < euclideanDistance(pivot, b);
+  double d1x = a.x - pivot.x, d1y = a.y - pivot.y;
+  double d2x = b.x - pivot.x, d2y = b.y - pivot.y;
+  return (atan2(d1y, d1x) - atan2(d2y, d2x)) < 0; 
 }
 
-
 vector<point> convexHull(vector<point> P) {  
-  	int i, j, n = P.size();
-  	if (n <= 3) {
-    	if (!(P[0] == P[n-1])){
-    		P.push_back(P[0]);
-    	}  
-    	return P;
-  	}
-  	int P0 = 0;
-  	for (i = 1; i < n; i++){
-  		if (P[i].y < P[P0].y || (P[i].y == P[P0].y && P[i].x > P[P0].x)){
-  	 		P0 = i;
-  	 	}
-  	}
-
-  	point temp = P[0]; P[0] = P[P0]; P[P0] = temp; 
+  int i, j, n = P.size();
+  if (n <= 3) {
+  	if (!(P[0] == P[n-1])) P.push_back(P[0]);  
+  	return P;
+	}
+  int P0 = 0;
+  for (i = 1; i < n; i++){
+  	if (P[i].y < P[P0].y || (P[i].y == P[P0].y && P[i].x > P[P0].x)) P0 = i;
+  }
+  point temp = P[0]; P[0] = P[P0]; P[P0] = temp; 
 	pivot = P[0];
-  	sort(++P.begin(), P.end(), angleCmp);     
+  sort(++P.begin(), P.end(), angleCmp);     
 	vector<point> S;
-  	S.push_back(P[n-1]); 
-  	S.push_back(P[0]); 
-  	S.push_back(P[1]);   
-  	i = 2;                                         
-  	while (i < n) {           
-    	j = S.size()-1;
-    	if (ccw(S[j-1], S[j], P[i])){
-    		S.push_back(P[i++]);
-    	}else{
-    		S.pop_back();
-    	}  
-    }  
-  	return S; 
-}  
-\end{lstlisting}
+  S.push_back(P[n-1]); 
+  S.push_back(P[0]); 
+	S.push_back(P[1]);   
+  i = 2;                                         
+  while (i < n) {           
+  	j = S.size()-1;
+    if (ccw(S[j-1], S[j], P[i])) S.push_back(P[i++]);
+    else S.pop_back();
+  }  
+  return S; 
+}  \end{lstlisting}
 
 \subsection{Euclidean Distance}
-Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer m\'etodo, debe definirse previamente la estructura point
 \begin{lstlisting}
-
+Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer método, debe definirse previamente la estructura point
 
 #include <cmath>
 
@@ -281,14 +391,13 @@ double euclideanDistance(double x1, double y1, double x2, double y2){
 \end{lstlisting}
 
 \subsection{Geometric Vector}
-Dados dos puntos A y B, crea el vector $A->B$. IMPORTANTE: Debe definirse la estructura point. Es llamado vec para no confundirlo con el vector propio de c++.
 \begin{lstlisting}
-
+Dados dos puntos A y B, crea el vector A->B. IMPORTANTE: Debe definirse la estructura point. Es llamado vec para no confundirlo con el vector propio de c++.
 
 
 struct vec { 
 	double x, y;  
-  	vec(double _x, double _y) : x(_x), y(_y) {} 
+  vec(double _x, double _y) : x(_x), y(_y) {} 
 };
 
 vec toVector(point a, point b) {       
@@ -297,73 +406,60 @@ vec toVector(point a, point b) {
 \end{lstlisting}
 
 \subsection{Perimeter}
-Calcula el per\'imetro de un pol\'igono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el pol\'igono. La estructura point debe estar definida, al igual que el m\'etodo euclideanDistance.
 \begin{lstlisting}
-
+Calcula el perímetro de un polígono representado como un vector de puntos. IMPORTANTE: Definir P[0] = P[n-1] para cerrar el polígono. La estructura point debe estar definida, al igual que el método euclideanDistance.
 
 #include <vector>
 
 double perimeter(vector<point> P) {
 	double result = 0.0;
-  	for (int i = 0; i < P.size()-1; i++){
-    	result += euclideanDistance(P[i], P[i+1]);
-  	}
-  	return result; 
+  for (int i = 0; i < P.size()-1; i++){
+  	result += euclideanDistance(P[i], P[i+1]);
+  }
+  return result; 
 }
 
 \end{lstlisting}
 
 \subsection{Point in Polygon}
-Determina si un punto pt se encuentra en el pol\'igono P. Este pol\'igono se define como un vector de puntos, donde el punto 0 y n-1 son el mismo. IMPORTANTE: Deben incluirse las estructuras point y vec, ademas del m\'etodo angle, y el m\'etodo cross que se encuentra en Collinear Points.
 \begin{lstlisting}
-
+Determina si un punto pt se encuentra en el polígono P. Este polígono se define como un vector de puntos, donde el punto 0 y n-1 son el mismo. IMPORTANTE: Deben incluirse las estructuras point y vec, ademas del método angle, y el método cross que se encuentra en Collinear Points.
 
 #include <cmath>
 
 bool ccw(point p, point q, point r) {
-    return cross(toVector(p, q), toVector(p, r)) > 0; 
+  return cross(toVector(p, q), toVector(p, r)) > 0; 
 }
   
 bool inPolygon(point pt, vector<point> P) {
-	if (P.size() == 0){
-  		return false;
-  	} 
-  	double sum = 0;    
-  	for (int i = 0; i < P.size()-1; i++) {
-    	if (ccw(pt, P[i], P[i+1])){
-    		sum += angle(P[i], pt, P[i+1]); 
-    	}else{
-    		sum -= angle(P[i], pt, P[i+1]);
-    	}
-    }
-  	return fabs(fabs(sum) - 2*acos(-1.0)) < 1e-9; 
+	if (P.size() == 0) return false; 
+  double sum = 0;    
+  for (int i = 0; i < P.size()-1; i++) {
+    if (ccw(pt, P[i], P[i+1])) sum += angle(P[i], pt, P[i+1]); 
+    else sum -= angle(P[i], pt, P[i+1]);
+  }
+  return fabs(fabs(sum) - 2*acos(-1.0)) < 1e-9; 
 }
 \end{lstlisting}
 
 \subsection{Point}
-La estructura punto ser\'a la base sobre la cual se ejecuten otros algoritmos. 
 \begin{lstlisting}
-
+La estructura punto será la base sobre la cual se ejecuten otros algoritmos. 
 
 #include <cmath>
 
 struct point { 
 	double x, y;
-  	point() { 
-  		x = y = 0.0; 
-  	}
+  	point() { x = y = 0.0; }
   	point(double _x, double _y) : x(_x), y(_y) {}        
   	bool operator == (point other) const {
    		return (fabs(x - other.x) < 1e-9 && (fabs(y - other.y) < 1e-9)); 
    	}
-};
-
-\end{lstlisting}
+};\end{lstlisting}
 
 \subsection{Sexagesimal degrees and radians}
-Conversiones de grados sexagesimales a radianes y viceversa.
 \begin{lstlisting}
-
+Conversiones de grados sexagesimales a radianes y viceversa.
 
 #include <cmath>
 
@@ -379,27 +475,18 @@ double RadToDeg(double r) {
 \section{Graph}
 
 \subsection{BFS}
-Algoritmo de b\'usqueda en anchura en grafos, recibe un nodo inicial s y visita todos los nodos alcanzables desde s. BFS tambi\'en halla la distancia m\'as corta entre el nodo inicial s y los dem\'as nodos si todas las aristas tienen peso 1.
 \begin{lstlisting}
-
+Algoritmo de búsqueda en anchura en grafos, recibe un nodo inicial s y visita todos los nodos alcanzables desde s. BFS también halla la distancia más corta entre el nodo inicial s y los demás nodos si todas las aristas tienen peso 1.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; //vertices, arcos
-const int MAX=100005; //Cantidad maxima de nodos del grafo
+const int MAX=100005; //Cantidad máxima de nodos del grafo
 vector<int> ady[MAX]; //lista de Adyacencia del grafo
 long long dist[MAX]; //Estructura auxiliar para almacenar la distancia a cada nodo.
 
-/*Debe llamarse al iniciar cada caso de prueba luego de haber leido v
-Limpia todas las estructuras de datos.*/
-static void init() {
-  for (int j = 0; j <= v; j++) {
-    dist[j] = -1;
-    ady[j].clear();
-  }
-}
-
-/*Este metodo se llama con el indice del nodo desde el que se desea comenzar
+/*Este método se llama con el indice del nodo desde el que se desea comenzar
 el recorrido.*/
-static void bfs(int s){
+void bfs(int s){
   queue<int> q;
   q.push(s); //Inserto el nodo inicial
   dist[s] = 0;
@@ -421,26 +508,55 @@ static void bfs(int s){
 }
 \end{lstlisting}
 
-\subsection{DFS}
-Algoritmo de b\'usqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne informaci\'on de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
+\subsection{Bipartite Check}
 \begin{lstlisting}
-
+Algoritmo para la detección de grafos bipartitos. Modificación de BFS.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; //vertices, arcos
-const int MAX=100005; //Cantidad maxima de nodos del grafo
+const int MAX=100005; //Cantidad máxima de nodos del grafo
 vector<int> ady[MAX]; //lista de Adyacencia del grafo
-int marked[MAX]; //Estructura auxiliar para marcar los nodos ya visitados
+int color[MAX]; //Estructura auxiliar para almacenar la distancia a cada nodo.
+bool bipartite;
 
-/*Debe llamarse al iniciar cada caso de prueba luego de haber leido v
-Limpia todas las estructuras de datos.*/
-void init(){
-	for(int j = 0; j <= v; j++) {
-    marked[j] = 0;
-    ady[j].clear();
+/*Este método se llama con el indice del nodo desde el que se desea comenzar
+el recorrido.*/
+void bfs(int s){
+  queue<int> q;
+  q.push(s);
+  color[s] = 0;
+  int actual, i, next;
+       
+  while( q.size() > 0 ){
+    actual = q.front();
+    q.pop();
+
+    for( i = 0; i < ady[actual].size(); i++){
+      next = ady[actual][i];
+      if( color[next] == -1 ){
+        color[next] = 1 - color[actual];
+        q.push(next);
+      }else if( color[next] == color[actual] ){
+        bipartite = false;
+        return;
+      }
+    }
   }
-}
 
-/*Este metodo se llama con el indice del nodo desde el que se desea comenzar
+}
+\end{lstlisting}
+
+\subsection{DFS}
+\begin{lstlisting}
+Algoritmo de búsqueda en profundidad para grafos. Parte de un nodo inicial s visita a todos sus vecinos. DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y puede ser modificado para que retorne información de los nodos dependiendo del problema. Permite hallar ciclos en un grafo.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+
+int v, e; //vertices, arcos
+const int MAX=100005; //Cantidad máxima de nodos del grafo
+vector<int> ady[MAX]; //lista de Adyacencia del grafo
+bool marked[MAX]; //Estructura auxiliar para marcar los nodos ya visitados
+
+/*Este método se llama con el indice del nodo desde el que se desea comenzar
 el recorrido.*/
 static void dfs(int s){
 	marked[s] = 1;
@@ -448,53 +564,35 @@ static void dfs(int s){
 
 	for( i = 0; i < ady[s].size(); i++ ){
 		next = ady[s][i];
-		if( marked[next] == 0 ){
-			dfs(next);
-		}
+		if( !marked[next] )	dfs(next);
 	}
 }
 \end{lstlisting}
 
 \subsection{Dijkstra's Algorithm}
-Algoritmo que dado un grafo con pesos no negativos halla la ruta m\'inima entre un nodo inicial s y todos los dem\'as nodos.
 \begin{lstlisting}
+Algoritmo que dado un grafo con pesos no negativos halla la ruta mínima entre un nodo inicial s y todos los demás nodos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-
-#define Node pair<int,int>
+#define Node pair<int,long long> //(Vertice adyacente, peso)
 
 int v,e; //v = cantidad de nodos, e = cantidad de aristas
-const int MAX = 100001; //Cantidad Maxima de Nodos
+const int MAX = 100001; //Cantidad Máxima de Nodos
 vector<Node> ady[MAX]; //Lista de Adyacencia del grafo
-int marked[MAX]; //Estructura auxiliar para marcar los nodos visitados
+bool marked[MAX]; //Estructura auxiliar para marcar los nodos visitados
 long long dist[MAX]; //Estructura auxiliar para llevar las distancias a cada nodo
 int previous[MAX]; //Estructura auxiliar para almacenar las rutas
 
 class cmp{
 public:
-  bool operator()(Node n1,Node n2){
-    if(n1.second>n2.second)
-      return true;
-    else
-      return false;
-  }
+  bool operator()(Node n1, Node n2){
+    return (n1.second>n2.second);
 };
 
-/*Debe llamarse al iniciar cada caso de prueba para limpiar las estructuras. 
-Debe haberse leido v antes de hacer el llamado. */
-void init(){
-  long long max = LLONG_MAX;
-  for(int j = 0; j <= v; j++){
-    ady[j].clear();
-    marked[j] = 0;
-    previous[j] = -1;
-    dist[j] = max;
-  }
-}
-
-//El metodo debe llamarse con el indice del nodo inicial.
-void dijkstra(int s){
+//El método debe llamarse con el indice del nodo inicial.
+void dijkstra( int s ){
     priority_queue< Node , vector<Node> , cmp > pq;
-    pq.push(Node(s, 0));//se inserta a la cola el nodo Inicial.
+    pq.push( Node(s, 0) );
     dist[s] = 0;
     int actual, j, adjacent;
     long long weight;
@@ -503,12 +601,12 @@ void dijkstra(int s){
       actual = pq.top().first;
       pq.pop();
 
-      if( marked[actual] == 0 ){
+      if( !marked[actual] ){
         marked[actual] = 1;
         for( j = 0; j < ady[actual].size(); j++ ){
           adjacent = ady[actual][j].first;
           weight = ady[actual][j].second;
-          if( marked[adjacent] == 0 ){
+          if( !marked[adjacent] ){
             if( dist[adjacent] > dist[actual] + weight ){
               dist[adjacent] = dist[actual] + weight;
               previous[adjacent] = actual;
@@ -524,28 +622,50 @@ void dijkstra(int s){
 int main(){
   int origen, destino;
   dijkstra(origen);
-  //Para imprimir la distancia mas corta desde el nodo inicial al nodo destino
+  //Para imprimir la distancia más corta desde el nodo inicial al nodo destino
   dist[destino];
+  //Para imprimir la ruta más corta se debe imprimir de manera recursiva la estructura previous.
+}\end{lstlisting}
 
-  //Para imprimir la ruta mas corta se debe imprimir de manera recursiva la estructura previous.
+\subsection{Edge}
+\begin{lstlisting}
+Estructura Edge con su comparador. Usada en algoritmos como Kruskal y Puentes e Itmos.
+
+struct Edge{
+
+  int source, dest, weight;
+
+  bool operator != (const Edge& rhs) const{
+    if(rhs.source != source || rhs.dest != dest || rhs.weight != weight){
+      return true;
+    }
+    return false;
+  }
+
+};
+
+/* Comparador de Edges */
+int cmp(const void* a, const void* b){   
+  struct Edge* a1 = (struct Edge*)a;
+  struct Edge* b1 = (struct Edge*)b;
+  return a1->weight > b1->weight;
 }\end{lstlisting}
 
 \subsection{Flood Fill}
-Dado un grafo implicito colorea y cuenta el tama\~no de las componentes conexas. Normalmente usado en rejillas 2D.
 \begin{lstlisting}
-
+Dado un grafo implicito colorea y cuenta el tamaño de las componentes conexas. Normalmente usado en rejillas 2D.
 
 //aka Coloring the connected components
 
-const int tam = 1000; //Maximo tamano de la rejilla
-int dy[] = {1,1,0,-1,-1,-1, 0, 1}; //Estructura auxiliar para los desplazamientos
-int dx[] = {0,1,1, 1, 0,-1,-1,-1};
+const int tam = 1000; //Máximo tamaño de la rejilla
+int dy[] = {1,1,0,-1,-1,-1, 0, 1}; //Estructura auxiliar para los desplazamientos (8 direcciones)
+int dx[] = {0,1,1, 1, 0,-1,-1,-1}; //Estructura auxiliar para los desplazamientos (8 direcciones)
 char grid[tam][tam]; //Matriz de caracteres
-int X, Y; //Tamano de la matriz
+int X, Y; //Tamaño de la matriz
 
-/*Este metodo debe ser llamado con las coordenadas x, y donde se inicia el 
+/*Este método debe ser llamado con las coordenadas x, y donde se inicia el 
 recorrido. c1 es el color que estoy buscando, c2 el color con el que se va 
-a pintar. Retorna el tamano de la componente conexa*/
+a pintar. Retorna el tamaño de la componente conexa*/
 int floodfill(int y, int x, char c1, char c2) { 
 	if (y < 0 || y >= Y || x < 0 || x >= X) return 0;
 	
@@ -561,192 +681,100 @@ int floodfill(int y, int x, char c1, char c2) {
 }
 \end{lstlisting}
 
-\subsection{Floyd-Warshall's Algorithm}
-Algoritmo para grafos que halla la distancia m\'inima entre cualquier par de nodos. Matrix[i][j] guardar\'a la distancia m\'inima entre el nodo i y el j.
+\subsection{Floyd Warshall}
 \begin{lstlisting}
+Algoritmo para grafos que halla la distancia mínima entre cualquier par de nodos. ady[i][j] guardará la distancia mínima entre el nodo i y el j.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-
-#define Node pair<int,long long> //(Vertice adyacente, peso)
-
-int v,e;
-int matrix[505][505];
+int v, e; //vertices, arcos
+const int MAX = 505; //Cantidad máxima de nodos del grafo
+int ady[505][505]; //Matriz de adyacencia del grafo
 
 void floydWarshall(){
-    int k=0;
-    int aux, i ,j;
+   int k, i ,j;
     
-    while(k<v){
-        for(i=0; i<v; i++){
-            if(i!=k){
-                for(j=0; j<v; j++){
-                    if(j!=k){
-                        aux=matrix[i][k]+matrix[k][j];
-                        if(aux<matrix[i][j] && aux>0){ 
-                            matrix[i][j]=aux;
-                        }
-                    }
-                }
+    for( k = 0; k < v; k++ ){
+        for( i = 0; i < v; i++ ){
+            for( j = 0; j < v; j++ ){
+                ady[i][j] = min( ady[i][j], ( ady[i][k] + ady[k][j] ) );
             }
         }
-        k++;
     }
-}\end{lstlisting}
-
-\subsection{Kosaraju's Algorithm}
-Dado un grafo dirigido, calcula la componente fuertemente conexa a la que pertenece cada nodo.
-//aka Finding Strongly Connected Components
-\begin{lstlisting}
-
-
-vector<int> ady[tam];
-vector<int> rev[tam];
-vector<int> topoSort;
-int scc[tam];
-int marked[tam];
-int n,e; //vertices, arcos
-
-void init(){
-	topoSort.clear();
-	for(int i=0; i<n; i++){
-		ady[i].clear();
-		marked[i]=0;
-		scc[i]=-1;
-		rev[i].clear();
-	}
 }
-
-void topologicalSort(int u){
-	int i, v;
-	marked[u]=1;
-	for(i=0; i<ady[u].size(); i++){
-		v=ady[u][i];
-		if(marked[v]==0)
-			topologicalSort(v);
-	}
-	topoSort.push_back(u);
-}
-
-void dfs(int u, int comp){
-	scc[u]=comp;
-	int i, v;
-	for(i=0; i<rev[u].size(); i++){
-		v=rev[u][i];
-		if(scc[v]==-1)
-			dfs(v, comp);
-	}
-}
-
-int findScc(){
-	int i, j, v;
-	
-	//Construye el grafo invertido
-	for(i=0; i<n; i++){
-		for(j=0; j<ady[i].size(); j++){
-			v=ady[i][j];
-			rev[v].push_back(i);
-		}
-	}
-	
-	//Enumera todos los nodos del grafo original
-	for(i=0; i<n; i++){
-		if(marked[i]==0)
-			topologicalSort(i);
-	}
-
-	reverse(topoSort.begin(), topoSort.end());
-	
-	//dfs, de acuerdo al orden del toposort
-	int comp=0;
-	for(int i=0; i<n; i++){
-		v=topoSort[i];
-		if(scc[v]==-1)
-			dfs(v, comp++);
-	}
-	return comp;
-}
-
 \end{lstlisting}
 
-\subsection{Kruskal's Algorithm}
-Algoritmo para hallar el arbol cobertor m\'inimo de un grafo  no dirigido y conexo. Utiliza la t\'ecnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.
-Para hallar los 2 arboles cobertores m\'inimos, se debe ejecutar el algoritmo v-1 veces, en cada una de ellas dscartar una de las aristas previamente elegidas en el arbol.
+\subsection{Init}
 \begin{lstlisting}
+Método para la limpieza de TODAS las estructuras de datos utilizadas en TODOS los algoritmos de grafos.
+Copiar solo las necesarias, de acuerdo al algoritmo que se este utilizando.
 
+#define INF 1000000000
 
-struct Edge{
+/*Debe llamarse al iniciar cada caso de prueba luego de haber leido la cantidad de nodos v
+Limpia todas las estructuras de datos.*/
+void init() {
+    long long max = LLONG_MAX;
+    rta = 0; //Prim
+    cont = dfsRoot = rootChildren = 0; //Puentes
+    bridges.clear(); //Puentes
+    topoSort.clear(); //Topological Sort
+    loops = false; //Loop Check
+    cantSCC = 0; //Tarjan
+    bipartite = true; //Bipartite Check
 
-  int source, dest, weight;
+    for( int j = 0; j <= v; j++ ) {
+        dist[j] = -1; //Distancia a cada nodo (BFS)
+        dist[j] = max; //Distancia a cada nodo (Dijkstra)
+        ady[j].clear(); //Lista de Adyacencia
+        marked[j] = 0; //Estructura auxiliar para marcar los nodos ya visitados
+        previous[j] = -1;  //Estructura auxiliar para almacenar las rutas
+        parent[j] = j; //Estructura auxiliar para DS
+        dfs_num[j] = -1;
+        dfs_low[j] = 0;
+        itsmos[j] = 0;
+        color[j] = -1; //Bipartite Check
 
-  bool operator != (const Edge& rhs) const{
-    if(rhs.source != source || rhs.dest != dest || rhs.weight != weight){
-      return true;
+        for(j = 0; j < v; j++)  ady[i][j] = INF; //Warshall
     }
-    return false;
-  }
+}
+\end{lstlisting}
 
-};
+\subsection{Kruskal}
+\begin{lstlisting}
+Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. Utiliza la técnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.
+Requiere de la struct Edge.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 int v, e; //v = nodos, e = arcos
-const int MAX = 10001; //Cantidad maxima de nodos
+const int MAX = 10001; //Cantidad máxima de NODOS
+const int MAXE = 10001; //Cantidad máxima de ARCOS
 int parent[MAX]; //estructura de DS
-int r[MAX]; //estructura de la implementacion de DS (rank)
-Edge edges[MAX]; //Lista de arcos del grafo
-Edge answer[MAX]; //Lista de arcos del arbol cobertor minimo
+Edge edges[MAXE]; //Lista de arcos del grafo
+Edge answer[MAX]; //Lista de arcos del arbol cobertor mínimo
 
-/*Debe llamarse al iniciar cada caso de prueba para limpiar las estructuras. 
-Debe haberse leido v antes de hacer el llamado. */
-void init(){
-  for(int i = 0; i < v; i++){
-    parent[i] = i;
-    r[i] = 0;
-  }
-}
-
-int cmp(const void* a, const void* b){   
-  struct Edge* a1 = (struct Edge*)a;
-  struct Edge* b1 = (struct Edge*)b;
-  return a1->weight > b1->weight;
-}
-
-/*        Metodos Disjoint Set          */
+/*        Métodos Disjoint Set          */
 int find(int i){
-  if( parent[i] != i ){
-    parent[i] = find(parent[i]);
-  }
+  parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
   return parent[i];
 }
 
 void unionFind(int x, int y){
-  int xroot = find(x);
-  int yroot = find(y);
- 
-  // Attach smaller r tree under root of high r tree
-  if (r[xroot] < r[yroot])
-    parent[xroot] = yroot;
-  else if (r[xroot] > r[yroot])
-    parent[yroot] = xroot;
-  else{
-    parent[yroot] = xroot;
-    r[xroot]++;
-  }
-
+  parent[ find(x) ] = find(y);
 }
 
-/*       FIN: Metodos Disjoint Set         */
-
-/*El arbol cobertor minimo del grafo queda almacenado en el 
+/*El arbol cobertor mínimo del grafo queda almacenado en el 
 vector de arcos answer*/
 void kruskall(){
   Edge actual;
   int aux = 0;
   int i = 0;
   int x, y;
-  qsort(edges, e, sizeof(edges[0]), cmp);
+  qsort( edges, e, sizeof(edges[0]), cmp);
 
-  while(aux < v-1){
+  while(aux < v-1 && i < edges.size() ){
     actual = edges[i];
-    x = find(actual.source);
-    y = find(actual.dest);
+    x = find( actual.source );
+    y = find( actual.dest );
 
     if(x != y){
       answer[aux] = actual;
@@ -759,82 +787,128 @@ void kruskall(){
 
 int main(){
   int s, d, w;
-  //Los arcos se inicializan asi
+  //Los arcos se inicializan así
   edges[i].source = s;
   edges[i].dest = d;
   edges[i].weight = w;
 
   kruskall();
+}\end{lstlisting}
 
+\subsection{LoopCheck}
+\begin{lstlisting}
+Determina si un Grafo DIRIGIDO tiene o no ciclos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+
+const int MAX = 10010; //Cantidad maxima de nodos
+int v; //Cantidad de Nodos del grafo
+vector<int> ady[MAX]; //Estructura para almacenar el grafo
+int dfs_num[MAX]; 
+bool loops; //Bandera de ciclos en el grafo
+
+/* DFS_NUM STATES
+	2 - Explored
+	3 - Visited
+ 	-1 - Unvisited
+*/
+
+/*
+Este metodo debe ser llamado desde un nodo inicial u.
+Cortara su ejecucion en el momento que encuentre algun ciclo en el grafo.
+*/
+void graphCheck( int u ){
+	int j, next;
+	
+	if( loops ) return;
+	
+	dfs_num[u] = 2;
+	
+	for(j = 0; j < ady[u].size(); j++ ){
+		next = ady[u][j];
+		
+		if( dfs_num[next] == -1 )	graphCheck( next );
+		else if( dfs_num[next] == 2 ){
+			loops = true;
+			break;
+		}
+	}
+	
+	dfs_num[u] = 3;
+}
+
+
+int main(){
+	for( int s = 1; s <= v && !loops; s++ ){ //Por si el grafo es NO conexo
+		if( dfs_num[s] == -1 ) graphCheck(s);
+	}
 }\end{lstlisting}
 
 \subsection{Maxflow}
-Dado un grafo, halla el m\'aximo flujo entre una fuente s y un sumidero t.
 \begin{lstlisting}
+Dado un grafo, halla el máximo flujo entre una fuente s y un sumidero t.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-
-vector<int> adyNetwork [105]; 
+vector<int> ady [105]; 
 int capacity [105] [105]; //Capacidad de aristas de la red
 int flow [105] [105]; //Flujo de cada arista
-int anterior [105];
+int previous [105];
 
 void connect(int i, int j, int cap){
-    adyNetwork[i].push_back(j);
-    adyNetwork[j].push_back(i);
-    capacity[i][j]+=cap;
+    ady[i].push_back(j);
+    ady[j].push_back(i);
+    capacity[i][j] += cap;
     //Si el grafo es dirigido no hacer esta linea
     //capacity[j][i]+=cap;
 }
 
 int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
     int i, j, maxFlow, u, v, extra, start, end;
-    for(i=0; i<=n; i++){
-        for(j=0; j<=n; j++){
+    for( i = 0; i <= n; i++ ){
+        for( j = 0; j <= n; j++ ){
             flow[i][j]=0;
         }
     }
 
-    maxFlow=0;
+    maxFlow = 0;
 
-    while(true){
-        for(i=0; i<=n; i++) anterior[i]=-1;
+    while( true ){
+        for( i = 0; i <= n; i++ ) previous[i] = -1;
 
         queue<int> q;
         q.push(s);
-        anterior[s]=-2;
+        previous[s] = -2;
 
-        while(q.size()>0){
-            u=q.front();
+        while( q.size() > 0 ){
+            u = q.front();
             q.pop();
-            if(u==t) break;
-            for(j=0; j<adyNetwork[u].size(); j++){
-                
-                v=adyNetwork[u][j];
-                if(anterior[v]==-1  && capacity[u][v] - flow[u][v]>0){
+            if( u == t ) break;
+            for( j = 0; j < ady[u].size(); j++){
+                v = ady[u][j];
+                if( previous[v] == -1  && capacity[u][v] - flow[u][v] > 0 ){
                     q.push(v);
-                    anterior[v]=u;
+                    previous[v] = u;
                 }
             }
         }
-        if(anterior[t]==-1)break;
+        if( previous[t] == -1 ) break;
 
-        extra=1<<30;
-        end=t;
-        while(end!=s){
-            start=anterior[end];
-            extra=min(extra, capacity[start][end]-flow[start][end]);
-            end=start;
+        extra = 1 << 30;
+        end = t;
+        while( end != s){
+            start = previous[end];
+            extra = min( extra, capacity[start][end]-flow[start][end] );
+            end = start;
         }
 
-        end=t;
-        while(end!=s){
-            start=anterior[end];
-            flow[start][end]+=extra;
-            flow[end][start]= -flow[start][end];
-            end=start;
+        end = t;
+        while( end != s){
+            start = previous[end];
+            flow[start][end] += extra;
+            flow[end][start] = -flow[start][end];
+            end = start;
         }
 
-        maxFlow+=extra;
+        maxFlow += extra;
     }
 
     return maxFlow;
@@ -842,112 +916,197 @@ int maxflow(int s, int t, int n){ //s=fuente, t=sumidero, n=numero de nodos
 
 int main(){
     //Para cada arista
-    connect(s,d,f);  //origen, destino, flujo
+    connect( s, d, f);  //origen, destino, flujo
 }
 
 \end{lstlisting}
 
-\subsection{Tarjan's Algorithm}
-Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
+\subsection{Prim}
 \begin{lstlisting}
+Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. 
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
+#define Node pair < int, long long > //(Vertice adyacente, peso)
+
+int v, e; //vertices, arcos
+const int MAX = 100005; 
+vector < Node > ady[MAX]; 
+bool marked[MAX]; 
+int rta; 
+
+class cmp {
+  public:
+    bool operator()(Node n1, Node n2) {
+      return (n1.second > n2.second); 
+}; 
+
+static void prim() {
+  priority_queue < Node, vector < Node > , cmp > pq; 
+  int u, w, i, v; 
+
+  marked[0] = true; 
+  for (i = 0; i < ady[0].size(); i++) {
+    v = ady[0][i].first; 
+    if ( ! marked[v]) pq.add(Node(v, ady[u][i].second)); 
+	}
+
+	while ( ! pq.empty()) {
+		u = pq.top().first; 
+		w = pq.top().second; 
+
+		pq.pop(); 
+
+		if ( !marked[u]) {
+			rta += w; 
+			marked[u] = true; 
+      for (i = 0; i < ady[u].size(); i++) {
+        v = ady[u][i].first; 
+        if ( ! marked[v]) pq.add(Node(v, ady[u][i].second)); 
+      }
+		}
+	}
+}\end{lstlisting}
+
+\subsection{Puentes itmos}
+\begin{lstlisting}
+Algoritmo para hallar los puentes e itsmos en un grafo no dirigido.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 vector<int> ady[1010];
 int marked[1010];
 int previous[1010];
 int dfs_low[1010];
 int dfs_num[1010];
-int itsmos[1010];
+bool itsmos[1010];
 int n, e;
 int dfsRoot,rootChildren,cont;
-vector<pair<int,int>> bridges;
-
-void init(){
-    bridges.clear();
-    cont=0;
-    int i;
-    for(i=0; i<n; i++){
-        ady[i].clear();
-        marked[i]=0;
-        previous[i]=-1;
-        itsmos[i]=0;
-    }
-}
+vector< pair<int,int> > bridges;
 
 void dfs(int u){
-    dfs_low[u]=dfs_num[u]=cont;
+    dfs_low[u] = dfs_num[u] = cont;
     cont++;
-    marked[u]=1; 
+    marked[u] = 1; 
     int j, v;
 
-    for(j=0; j<ady[u].size(); j++){
-        v=ady[u][j];
-        if(marked[v]==0){
-            previous[v]=u;
+    for(j = 0; j < ady[u].size(); j++){
+        v = ady[u][j];
+        if( marked[v] == 0 ){
+            previous[v] = u;
             //para el caso especial 
-            if(u==dfsRoot){
-                rootChildren++;
-            }
+            if( u == dfsRoot )  rootChildren++;
             dfs(v);
+
             //Itsmos
-            if(dfs_low[v]>=dfs_num[u]){
-                itsmos[u]=1;
-            }
+            if( dfs_low[v] >= dfs_num[u] )  itsmos[u] = 1;
+            
             //Bridges
-            if(dfs_low[v]>dfs_num[u]){
-                bridges.push_back(make_pair(min(u,v),max(u,v)));
-            }
-            dfs_low[u]=min(dfs_low[u], dfs_low[v]);
-        }else if(v!=previous[u]){ //Arco que no sea backtrack
-            dfs_low[u]=min(dfs_low[u], dfs_num[v]);
-        }
+            if( dfs_low[v] > dfs_num[u] ) bridges.push_back(make_pair(min(u,v),max(u,v)));
+            
+            dfs_low[u] = min(dfs_low[u], dfs_low[v]);
+        }else if( v != previous[u] )  dfs_low[u] = min(dfs_low[u], dfs_num[v]);
     }
 }
 
 int main(){
     //Antes de ejecutar el Algoritmo
-    cont=0;
-    dfsRoot=0;
-    rootChildren=0;
-    dfs(0);
+    cont = dfsRoot = rootChildren = 0;
+    bridges.clear();
+    dfs( dfsRoot );
+    /* Caso especial */
+    itmos[dfsRoot] = ( itmos[ dfsRoot ] == 1 && rootChildren > 1 ) ? 1 : 0;
 }\end{lstlisting}
 
-\subsection{Topological Sort}
-Dado un grafo ac\'iclico y dirigido, ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.
-Este ordenamiento es una manera de poner todos los nodos en una l\'inea recta de tal manera que las aristas vayan de izquierda a derecha.
+\subsection{Tarjan}
 \begin{lstlisting}
+Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-
-int v;
-vector<int> topoSort;
-vector<int> ady[tam];
-int marked[tam];
-
-void init(){
-	for (int j = 0; j <= v; j++) {
-       marked[j] = 0;
-       ady[j].clear();
-    }
-    topoSort.clear();
+int v, e; 
+const int MAX = 5000; // Máxima cantidad de nodos
+int dfs_low[MAX];
+int dfs_num[MAX];
+bool marked[MAX];
+vector<int> s;
+int dfsCont, cantSCC;
+vector<int> ady[];
+	
+void tarjanSCC( int u ){
+	dfs_low[u] = dfs_num[u] = dfsCont;
+	dfsCont++;
+	s.push_back(u);
+	marked[u] = true;
+		
+	int j, v;
+		
+	for( j = 0; j < ady[u].size(); j++ ){
+		v = ady[u][j] );
+			
+		if( dfs_num[v] == -1 ){
+			tarjanSCC( v );
+		}
+			
+		if( marked[v] ){
+			dfs_low[u] = min( dfs_low[u], dfs_low[v] );
+		}
+	}
+		
+	if( dfs_low[u] == dfs_num[u] ){
+		cantSCC++;
+        /* ********************************************************* */
+        /* Esta seccion se usa para imprimir las componentes conexas */
+		cout << "COMPONENTE CONEXA #" << cantSCC << "\n";
+		while( true ){
+			v = s.back();
+			s.pop_back();
+			marked[v] = false;
+			cout << v << "\n";
+			if( u == v ) break;
+		}
+        /* ********************************************************** */
+	}	
 }
 
-void dfs(int u){
+int main (){
+    for( int i = 0; i < v; i++ ){ //Por si el grafo no es conexo
+        if( dfs_num[i] == -1 ){
+            dfsCont = 0;
+            s.clear();
+            tarjanSCC(i);
+        }
+    }
+}
+	
+
+
+
+\end{lstlisting}
+
+\subsection{Topological Sort}
+\begin{lstlisting}
+Dado un grafo acíclico y dirigido, ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.
+Este ordenamiento es una manera de poner todos los nodos en una línea recta de tal manera que las aristas vayan de izquierda a derecha.
+SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+
+int v; //Cantidad de nodos del grafo
+const int MAX=100005; //Cantidad máxima de nodos del grafo
+vector<int> topoSort; //Ordenamiento topologico del grafo
+vector<int> ady[MAX]; //Lista de adyacencia
+bool marked[MAX]; //Estructura auxiliar para marcar los grafos visitados
+
+//Recibe un nodo inicial u
+void dfs( int u ){
 	int i, v;
-	marked[u]==1;
-	for(i=0; i<ady[u].size(); i++){
-		v=ady[u][i];
-		if(marked[v]==0)
-			dfs(v);
+	marked[u] = 1;
+	for( i = 0; i < ady[u].size(); i++){
+		v = ady[u][i];
+		if( !marked[v] ) dfs(v);
 	}
 	topoSort.push_back(u);
 }
 
 int main(){
-	init();
-	int i;
 	for(i=0; i<v; i++){
-		if(marked[i]==0)
-			dfs(i)
+		if( !marked[i] )	dfs(i);
 	}
 	//imprimir topoSort en reversa :3
 }
@@ -957,47 +1116,39 @@ int main(){
 \section{Math}
 
 \subsection{Binary Exponentiation}
-Realiza $a^{b}$ y retorna el resultado m\'odulo c. Si se elimina el m\'odulo c, debe tenerse precauci\'on para no exceder el l\'imite
 \begin{lstlisting}
+Realiza a^b y retorna el resultado módulo c
 
 
-
-int binaryExponentiation(int a, int b, int c){
-    if (b == 0){
-    	return 1;
-    } 
-    if (b % 2 == 0){
-        int temp = binaryExponentiation(a,b/2, c);
-        return ((long long)(temp) * temp) % c;
-    }else{
-        int temp = binaryExponentiation(a, b-1, c);
-        return ((long long)(temp) * a) % c;
-    }
+long long binaryExponentiation(long long a, long long b, long long c){
+  if (b == 0) return 1;
+  if (b % 2 == 0) {
+    long long temp = binaryExponentiation(a, b/2, c);
+    return (temp * temp) % c;
+  } else {
+    long long temp = binaryExponentiation(a, b-1, c);
+    return (temp * a) % c;
+  }
 }
 \end{lstlisting}
 
 \subsection{Binomial Coefficient}
-Calcula el coeficiente binomial nCr, entendido como el n\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos.
 \begin{lstlisting}
-
+Calcula el coeficiente binomial nCr, entendido como el número de subconjuntos de k elementos escogidos de un conjunto con n elementos.
 
 long long binomialCoefficient(long long n, long long r) {
-  if (r < 0 || n < r) { 
-  	return 0; 
-  }
+  if (r < 0 || n < r) return 0;
   r = min(r, n - r);
   long long ans = 1;
   for (int i = 1; i <= r; i++) {
     ans = ans * (n - i + 1) / i;
   }
   return ans;
-}
-\end{lstlisting}
+}\end{lstlisting}
 
 \subsection{Catalan Number}
-Guarda en el array Catalan Numbers los numeros de Catalan hasta MAX.
 \begin{lstlisting}
-
+Guarda en el array Catalan Numbers los numeros de Catalan hasta MAX.
 
 const int MAX = 30;
 long long catalanNumbers[MAX+1];
@@ -1011,9 +1162,8 @@ void catalan(){
 \end{lstlisting}
 
 \subsection{Euler Totient}
-Función totient o indicatriz ($\phi$) de Euler. Para cada posici\'on n del array result retorna el n\'umero de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD = 1)
 \begin{lstlisting}
-
+Función totient o indicatriz de Euler. Para cada posición n del array result retorna el número de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
 
 #include <string.h>
 
@@ -1024,25 +1174,23 @@ void totient () {
 	bool temp[MAX];
 	int i,j;
 	memset(temp,1,sizeof(temp));
-	for(i = 0; i < MAX; i++) {
+	for (i = 0; i < MAX; i++) {
 		result[i] = i;
 	}
-	for(i = 2; i < MAX; i++){
-		if(temp[i]) {
-			for(j = i; j < MAX ; j += i){
+	for (i = 2; i < MAX; i++){
+		if (temp[i]) {
+			for (j = i; j < MAX ; j += i){
 				temp[j] = false;
 				result[j] = result[j] - (result[j]/i) ;
 			}
 			temp[i] = true ;
 		}
 	}
-}
-\end{lstlisting}
+}\end{lstlisting}
 
 \subsection{Gaussian Elimination}
-Resuelve sistemas de ecuaciones lineales por eliminaci\'on Gaussiana.  matrix contiene los valores de la matriz cuadrada y result los resultados de las ecuaciones. Retorna un vector con el valor de las n incongnitas. Los resultados pueden necesitar redondeo.
 \begin{lstlisting}
-
+Resuelve sistemas de ecuaciones lineales por eliminación Gaussiana.  matrix contiene los valores de la matriz cuadrada y result los resultados de las ecuaciones. Retorna un vector con el valor de las n incongnitas. Los resultados pueden necesitar redondeo.
 
 #include <vector>
 #include <algorithm>
@@ -1055,135 +1203,121 @@ double matrix[MAX][MAX];
 double result[MAX];
 
 vector<double> gauss() {
-	
-  	vector<double> ans(n, 0);
-  	double temp;
+	vector<double> ans(n, 0);
+  double temp;
 	for (int i = 0; i < n; i++) {
-    	int pivot = i;
-	    for (int j = i + 1; j < n; j++) {
-	    	temp = fabs(matrix[j][i]) - fabs(matrix[pivot][i]);
-	      	if (temp > numeric_limits<double>::epsilon()) {
-	        	pivot = j;
-	      	}
+    int pivot = i;
+	  for (int j = i + 1; j < n; j++) {
+	   	temp = fabs(matrix[j][i]) - fabs(matrix[pivot][i]);
+	    if (temp > numeric_limits<double>::epsilon()) {
+	     	pivot = j;
 	    }
-	    
-	    swap(matrix[i], matrix[pivot]);
-	    swap(result[i], result[pivot]);
-	    
-	    if (!(fabs(matrix[i][i]) < numeric_limits<double>::epsilon())) {
-	    	
-	    	for (int k = i + 1; k < n; k++) {
-		      	temp = -matrix[k][i] /  matrix[i][i];
-		      	matrix[k][i] = 0;
-		      	for (int l = i + 1; l < n; l++) {
-		        	matrix[k][l] += matrix[i][l] * temp;
-		      	}
-		      	result[k] += result[i] * temp;
+	  }  
+	  swap(matrix[i], matrix[pivot]);
+	  swap(result[i], result[pivot]);
+	  if (!(fabs(matrix[i][i]) < numeric_limits<double>::epsilon())) {
+	    for (int k = i + 1; k < n; k++) {
+		    temp = -matrix[k][i] /  matrix[i][i];
+		    matrix[k][i] = 0;
+		    for (int l = i + 1; l < n; l++) {
+		    	matrix[k][l] += matrix[i][l] * temp;
 		    }
-	    }
-  	}
-  	for (int m = n - 1; m >= 0; m--) {
-    	temp = result[m];
-    	for (int i = n - 1; i > m; i--) {
-    		temp -= ans[i] * matrix[m][i];
-    	}
-    	ans[m] = temp / matrix[m][m];
-  	}
-  	return ans;
+		  	result[k] += result[i] * temp;
+		  }
+	  }
+  }
+  for (int m = n - 1; m >= 0; m--) {
+   	temp = result[m];
+   	for (int i = n - 1; i > m; i--) {
+   		temp -= ans[i] * matrix[m][i];
+   	}
+   	ans[m] = temp / matrix[m][m];
+  }
+  return ans;
 }
 \end{lstlisting}
 
 \subsection{Greatest common divisor}
-Calcula el m\'aximo com\'un divisor entre a y b mediante el algoritmo de Euclides
 \begin{lstlisting}
+Calcula el máximo común divisor entre a y b mediante el algoritmo de Euclides
 
-int mcd(int a, int b) {
-	int aux;
-	while(b!=0){
+int mcd (int a, int b) {
+	while (b != 0){
 		a %= b;
-		aux = b;
-		b = a;
-		a = aux;
+		swap(a, b);
 	}
 	return a;
-}
-\end{lstlisting}
+}\end{lstlisting}
 
 \subsection{Lowest Common Multiple}
-Calculo del m\'inimo com\'un m\'ultiplo usando el m\'aximo com\'un divisor. REQUIERE mcd(a,b)
 \begin{lstlisting}
+Calculo del mínimo común múltiplo usando el máximo común divisor. REQUIERE mcd(a,b)
 
-
-int mcm(int a, int b) {
-	return a*b/mcd(a,b);
+int mcm (int a, int b) {
+	return a * b / mcd(a, b);
 }
 \end{lstlisting}
 
 \subsection{Miller-Rabin}
-La funci\'on de Miller-Rabin determina si un n\'umero dado es o no un n\'umero primo.
 \begin{lstlisting}
-
+La función de Miller-Rabin determina si un número dado es o no un número primo. IMPORTANTE: Debe utilizarse el método binaryExponentiation y Modular Multiplication.
 
 #include <cstdlib>
 
-long long mulmod(long long a, long long b, long long mod){
-    long long x = 0;
-    long long y = a % mod;
-    while (b > 0){
-        if (b % 2 == 1){    
-            x = (x + y) % mod;
-        }
-        y = (y * 2) % mod;
-        b /= 2;
+bool miller (long long  p) {
+  if (p < 2 || (p != 2 && p % 2 == 0)) return false;
+  long long s = p - 1;
+  while (s % 2 == 0) s /= 2;
+  for (int i = 0; i < 5; i++){
+    long long a = rand() % (p - 1) + 1;
+    long long temp = s;
+    long long mod = binaryExponentiation(a, temp, p);
+    while (temp != p - 1 && mod != 1 && mod != p - 1){
+      mod = mulmod(mod, mod, p);
+      temp *= 2;
     }
-    return x % mod;
-}
+    if (mod != p - 1 && temp % 2 == 0) return false;
+  }
+  return true;
+}\end{lstlisting}
 
-long long modulo(long long base, long long exponent, long long mod){
-    long long x = 1;
-    long long y = base;
-    while (exponent > 0){
-        if (exponent % 2 == 1)
-            x = (x * y) % mod;
-        y = (y * y) % mod;
-        exponent = exponent / 2;
-    }
-    return x % mod;
-}
- 
+\subsection{Modular Multiplication}
+\begin{lstlisting}
+Realiza la operación (a * b) % mod minimizando posibles desbordamientos.
 
-bool miller(long long  p){
-    if (p < 2){
-        return false;
+long long mulmod (long long a, long long b, long long mod) {
+  long long x = 0;
+  long long y = a % mod;
+  while (b > 0){
+    if (b % 2 == 1) x = (x + y) % mod;
+    y = (y * 2) % mod;
+    b /= 2;
+  }
+  return x % mod;
+}\end{lstlisting}
+
+\subsection{Pollard Rho}
+\begin{lstlisting}
+La función Rho de Pollard calcula un divisor no trivial de n. IMPORTANTE: Deben implementarse Modular Multiplication y Gratest Common Divisor (para long long).
+
+long long pollardRho (long long n) {
+  int i = 0, k = 2;
+  long long d, x = 3, y = 3;
+  while (true) {
+    i++;
+    x = (mulmod(x, x, n) + n - 1) % n;
+    d = mcd(abs(y - x), n);
+    if (d != 1 && d != n) return d;
+    if (i == k) {
+      y = x;
+      k *= 2;
     }
-    if (p != 2 && p % 2==0){
-        return false;
-    }
-    long long s = p - 1;
-    while (s % 2 == 0){
-        s /= 2;
-    }
-    for (int i = 0; i < 5; i++){
-        long long a = rand() % (p - 1) + 1;
-        long long temp = s;
-        long long mod = modulo(a, temp, p);
-        while (temp != p - 1 && mod != 1 && mod != p - 1){
-            mod = mulmod(mod, mod, p);
-            temp *= 2;
-        }
-        if (mod != p - 1 && temp % 2 == 0){
-            return false;
-        }
-    }
-    
-    return true;
-}
-\end{lstlisting}
+  }
+}\end{lstlisting}
 
 \subsection{Prime Factorization}
-Guarda en primeFactors la lista de factores primos del value de menor a mayor. IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value.
 \begin{lstlisting}
-
+Guarda en primeFactors la lista de factores primos del value de menor a mayor. IMPORTANTE: Debe ejecutarse primero la criba de Eratostenes.  La criba debe existir al menos hasta la raiz cuadrada de value (se  recomienda dejar un poco de excedente).
 
 #include <vector>
 
@@ -1200,16 +1334,13 @@ void calculatePrimeFactors(long long value){
 			temp /= factor;
 		}
 	}
-	if (temp != 1) {
-		primeFactors.push_back(temp);
-	}
+	if (temp != 1) primeFactors.push_back(temp);
 }
 \end{lstlisting}
 
 \subsection{Sieve of Eratosthenes}
-Guarda en primes los n\'umeros primos menores o iguales a MAX
 \begin{lstlisting}
-
+Guarda en primes los números primos menores o iguales a MAX
 
 #include <vector>
 
@@ -1223,8 +1354,7 @@ void calculatePrimes() {
   for (i = 2; i * i <= MAX; i++) {
     if (!sieve[i]) {
       primes.push_back(i);
-      for (int j = i * i; j <= MAX; j += i)
-        sieve[j] = true;
+      for (int j = i * i; j <= MAX; j += i) sieve[j] = true;
     }
   }
   for(;i <= MAX; i++){
@@ -1238,9 +1368,8 @@ void calculatePrimes() {
 \section{String}
 
 \subsection{KMP's Algorithm}
-Encuentra si el string pattern se encuentra en el string cadena.
 \begin{lstlisting}
-
+Encuentra si el string pattern se encuentra en el string cadena.
 
 #include <vector>
 
@@ -1284,7 +1413,7 @@ bool kmp(string cadena, string pattern){
 \section{Tips and formulas}
 
 \subsection{ASCII Table}
-Caracteres ASCII con sus respectivos valores num\'ericos.
+Caracteres ASCII con sus respectivos valores numéricos.
 
 
 \begin{tabbing}
@@ -1368,85 +1497,288 @@ Caracteres ASCII con sus respectivos valores num\'ericos.
 111 \> o \> 127 \>  \\  
 \end{tabbing}
 
-\subsection{Catalan Number}
+\subsection{Formulas}
+\begin{center}
+\tablefirsthead{}
+\tabletail{
+\midrule 
+\multicolumn{2}{r}{{Continúa en la siguiente columna}} \\}
+\tablelasttail{}
+{\renewcommand{\arraystretch}{1.4}
+\begin{supertabular}{|p{2.2cm}|p{8.2cm}|}
+\hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{PERMUTACIÓN Y COMBINACIÓN} \\
+\multicolumn{2}{|c|}{} \\ \hline
+Combinación (Coeficiente Binomial) & Número de subconjuntos de k elementos escogidos de un conjunto con n elementos.
 
-{\LARGE $C_{n} = \frac{1}{n+1}\binom{2n}{n} = \frac{(2n)!}{(n+1)!n!}$}
-\\ \\
-Primeros 30 n\'umeros de Catal\'an:
-\\ \\
-\begin{tabbing}
-\textbf{n}\hspace{3cm} \=  \textbf{$C_{n}$}\hspace{4cm}  \\ 
-0 \> 1 \\ 
-1 \> 1 \\ 
-2 \> 2 \\ 
-3 \> 5 \\ 
-4 \> 14 \\ 
-5 \> 42 \\ 
-6 \> 132 \\ 
-7 \> 429 \\ 
-8 \> 1.430\\ 
-9 \> 4.862\\ 
-10 \> 16.796\\ 
-11 \> 58.786\\
-12 \> 208.012\\
-13 \> 742.900\\ 
-14 \> 2.674.440\\ 
-15 \> 9.694.845\\ 
-16 \> 35.357.670\\
-17 \> 129.644.790\\
-18 \> 477.638. 700\\
-19 \> 1.767.263.190\\
-20 \> 6.564.120.420\\ 
-21 \> 24.466.267.020\\
-22 \> 91.482.563.640\\ 
-23 \> 343.059.613.650\\ 
-24 \> 1.289.904.147.324\\
-25 \> 4.861.946.401.452\\ 
-26 \> 18.367.353.072.152\\ 
-27 \> 69.533.550.916.004\\ 
-28 \> 263.747.951.750.360\\ 
-29 \> 1.002.242.216.651.368\\
-30 \> 3.814.986.502.092.304\\ 
-\end{tabbing}
+$ \binom{n}{k} = \binom{n}{n-k} = \displaystyle\frac{n!}{k!(n-k)!} $ 
+
+\\ \hline
+
+Combinación con repetición & Número de grupos formados por n elementos, partiendo de m tipos de elementos.
+
+$ CR_{m}^{n} = \binom{m+n-1}{n} = \displaystyle\frac{(m + n - 1)!}{n!(m-1)!} $
+
+\\ \hline
+Permutación & Número de formas de agrupar n elementos, donde importa el orden y sin repetir elementos
+
+$ P_{n} = n! $
+\\ \hline
+Permutación múltiple & 
+Elegir r elementos de n posibles con repetición 
 
 
-\subsection{Euclidean Distance}
+$ n^{r} $
+\\ \hline
+Permutación con repetición & Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...
 
-$ d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}} $
-\\ \\
+$ PR_{n}^{a,b,c...} = \displaystyle\frac{P_{n}}{a!b!c!...}$
+
+\\ \hline
+Permutaciones sin repetición & Núumero de formas de agrupar r elementos de n disponibles, sin repetir elementos
 
 
+$\displaystyle\frac{n!}{(n-r)!}$
 
-\subsection{Permutation and combination}
+\\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{DISTANCIAS} \\
+\multicolumn{2}{|c|}{} \\ \hline
+Distancia Euclideana & $d_{E}(P_{1},P_{2}) = \sqrt{(x_{2}-x_{1})^{2}+(y_{2}-y_{1})^{2}}$ \\ \hline
+Distancia Manhattan & $d_{M}(P_{1}, P_{2}) = |x_{2} - x_{1}| + |y_{2} - y_{1}|$ \\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{CIRCUNFERENCIA Y CÍRCULO} \\ 
+\multicolumn{2}{|c|}{} \\ \hline
+\multicolumn{2}{|p{12cm}|}{Considerando $r$ como el radio, $\alpha$ como el ángulo del arco o sector, y (R, r) como radio mayor y menor respectivamente.} \\ \hline
+Área                   & $A = \pi * r^{2} $\\ \hline
+Longitud               & $L = 2*\pi*r$  \\ \hline
+Longitud de un arco    & $L = \displaystyle\frac{2*\pi*r*\alpha}{360}$  \\ \hline
+Área sector circular   & $A = \displaystyle\frac{\pi * r^{2} * \alpha}{360}$ \\ \hline
+Área corona circular   & $A = \pi  (R^{2} - r^{2})$ \\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{TRIÁNGULO} \\ 
+\multicolumn{2}{|c|}{} \\ \hline
+\multicolumn{2}{|p{12cm}|}{Considerando $b$ como la longitud de la base, $h$ como la altura, letras minúsculas como la longitud de los lados, letras mayúsculas como los ángulos, y $r$ como el radio de círcunferencias asociadas.} \\ \hline
+Área conociendo base y altura & $A = \displaystyle\frac{1}{2}b * h$ \\ \hline
+Área conociendo 2 lados y el ángulo que forman & $A = \displaystyle\frac{1}{2}b*a*sin(C)$ \\ \hline
+Área conociendo los 3 lados & $ A = \sqrt{p(p - a)(p - b)(p - c)}$ con $p = \displaystyle\frac{a + b + c}{2}$ \\ \hline
+Área de un triángulo circunscrito a una circunferencia & $A = \displaystyle\frac{abc}{4r}$ \\ \hline
+Área de un triángulo inscrito a una circunferencia & $A = r(\displaystyle\frac{a+b+c}{2})$ \\ \hline
+Área de un triangulo equilátero & $A = \displaystyle\frac{\sqrt{3}}{4}a^{2}$ \\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{RAZONES TRIGONOMÉTRICAS} \\
+\multicolumn{2}{|c|}{} \\ \hline
+\multicolumn{2}{|p{12cm}|}{Considerando un triangulo rectángulo de lados $a, b$ y $c$, con vértices $A, B$ y $C$ (cada vértice opuesto al lado cuya letra minuscula coincide con el) y un ángulo $\alpha$ con centro en el vertice $A$. a y b son catetos, c es la hipotenusa:}
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$sin(\alpha) = \displaystyle\frac{cateto\ opuesto}{hipotenusa} = \displaystyle\frac{a}{c}$ 
 
-Combinaci\'on (Coeficiente Binomial): N\'umero de subconjuntos de k elementos escogidos de un conjunto con n elementos
-\\ \\
-{\LARGE $ \binom{n}{k} = \binom{n}{n-k} = \frac{n!}{k!(n-k)!} $}
-\\ \\
-Combinaci\'on con repetici\'on: N\'umero de grupos formados por n elementos, partiendo de m tipos de elementos.
-\\ \\
-{\LARGE $ CR_{m}^{n} = \binom{m+n-1}{n} = \frac{(m + n - 1)!}{n!(m-1)!} $}
-\\ \\
-Permutaci\'on: N\'umero de formas de agrupar n elementos, donde importa el orden y sin repetir elementos
-\\ \\
-{\LARGE $ P_{n} = n! $}
-\\ \\
-Elegir r elementos de n posibles con repetici\'on
-\\ \\
-{\LARGE $ n^{r} $}
-\\ \\
-Permutaciones con repetici\'on: Se tienen n elementos donde el primer elemento se repite a veces , el segundo b veces , el tercero c veces, ...
-\\ \\
-{\LARGE $ PR_{n}^{a,b,c...} = \frac{P_{n}}{a!b!c!...}$}
-\\ \\
-Permutaciones sin repetici\'on: N\'umero de formas de agrupar r elementos de n disponibles, sin repetir elementos 
-\\ \\
-{\LARGE $ \frac{n!}{(n-r)!}$}
-\\ \\
+} 
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$cos(\alpha) = \displaystyle\frac{cateto\ adyacente}{hipotenusa} = \frac{b}{c}$ 
 
+} 
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$tan(\alpha) = \displaystyle\frac{cateto\ opuesto}{cateto\ adyacente} = \frac{a}{b}$ 
+
+} 
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$sec(\alpha) = \displaystyle\frac{1}{cos(\alpha)} = \frac{c}{b}$ 
+
+}
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$csc(\alpha) = \displaystyle\frac{1}{sin(\alpha)} = \frac{c}{a}$ 
+
+} 
+\\ \hline
+\multicolumn{2}{|p{12cm}|}{
+$cot(\alpha) = \displaystyle\frac{1}{tan(\alpha)} = \frac{b}{a}$ 
+
+}
+\\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{PROPIEDADES DEL MÓDULO (RESIDUO)} \\
+\multicolumn{2}{|c|}{} \\ \hline
+Propiedad neutro & (a \% b) \% b = a \% b \\ \hline
+Propiedad asociativa en multiplicación &  (ab) \% c = ((a \% c)(b \% c)) \% c \\ \hline
+Propiedad asociativa en suma & (a + b) \% c = ((a \% c) + (b \% c)) \% c \\ \hline
+\multicolumn{2}{|c|}{} \\
+\multicolumn{2}{|c|}{CONSTANTES} \\
+\multicolumn{2}{|c|}{} \\ \hline
+Pi & $\pi = acos(-1) \approx 3.14159$ \\ \hline
+e & $e \approx 2.71828$ \\ \hline
+Número áureo & $\phi = \displaystyle\frac{1 + \sqrt{5}}{2} \approx 1.61803$ 
+
+\\ \hline
+
+
+\end{supertabular}
+}
+\end{center}
+\subsection{Sequences}
+Listado de secuencias mas comunes y como hallarlas.
+
+\begin{center}
+\tablefirsthead{}
+\tabletail{
+\midrule 
+\multicolumn{2}{r}{{Continúa en la siguiente columna}} \\}
+\tablelasttail{}
+{\renewcommand{\arraystretch}{1.4}
+\begin{supertabular}{|p{1.8cm}|p{8.6cm}|}
+
+\hline
+
+\multirow{2}{2cm}{Estrellas octangulares}
+& 	0, 1, 14, 51, 124, 245, 426, 679, 1016, 1449, 1990, 2651, ...
+\\ \cline{2-2}
+& $f(n) = n*(2*n^{2} - 1)$.
+\\ \hline
+
+
+\multirow{2}{2cm}
+{Euler totient}    
+& 1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6,...            
+\\ \cline{2-2} 
+& $f(n) = $ Cantidad de números naturales $\leq n$ coprimos con n. 
+\\ \hline
+
+\multirow{2}{2cm}{Números de Bell} 
+& 1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975, ...
+\\ \cline{2-2} 
+& Se inicia una matriz triangular con f[0][0] = f[1][0] = 1. La suma de estos dos se guarda en f[1][1] y se traslada a f[2][0]. Ahora se suman f[1][0] con f[2][0] y se guarda en f[2][1]. Luego se suman f[1][1] con f[2][1] y se guarda en f[2][2] trasladandose a f[3][0] y así sucesivamente. Los valores de la primera columna contienen la respuesta.
+\\ \hline
+
+
+\multirow{2}{2cm}
+{Números de Catalán} 
+& 1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, ...
+\\ \cline{2-2}
+& $f(n)=\displaystyle\frac{(2n)!}{(n + 1)! n!}$
+
+\\ \hline
+
+\multirow{2}{2cm}{Números de Fermat}
+& 3, 5, 17, 257, 65537, 4294967297, 18446744073709551617, ...
+\\ \cline{2-2}
+& $f(n) = 2^{(\displaystyle2^{\textstyle n})} + 1$
+\\ \hline
+
+
+\multirow{2}{2cm}
+{Números de Fibonacci} 
+& 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, ...    
+\\ \cline{2-2} 
+& $f(0) = 0$; $f(1) = 1$; $f(n) = f(n-1) + f(n-2)$ para $n>1$             \\ \hline
+
+\multirow{2}{2cm}
+{Números de Lucas} 
+& 2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, ...    
+\\ \cline{2-2} 
+& $f(0) = 2$; $f(1) = 1$; $f(n) = f(n-1) + f(n-2)$ para $n>1$            
+\\ \hline
+
+\multirow{2}{2cm}{Números de Pell} 
+& 0, 1, 2, 5, 12, 29, 70, 169, 408, 985, 2378, 5741, 13860, ...
+\\ \cline{2-2} 
+& $f(0) = 0; f(1) = 1; f(n) = 2f(n-1) + f(n-2)$ para $n>1$
+\\ \hline
+
+\multirow{2}{2cm}
+{Números de Tribonacci} 
+& 0, 0, 1, 1, 2, 4, 7, 13, 24, 44, 81, 149, 274, 504, ...    
+\\ \cline{2-2} 
+& $f(0)=f(1)=0; f(2)=1; f(n) = f(n-1) + f(n-2) + f(n-3)$ para $n>2$
+\\ \hline
+
+\multirow{2}{2cm}{Números factoriales}
+& 1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, ...
+\\ \cline{2-2}
+&$ f(0) = 1; f(n) = \displaystyle\prod_{\textstyle k=1}^{\textstyle n}k$ para $n>0$.
+
+\\ \hline
+
+\multirow{2}{2cm}{Números piramidales cuadrados}
+& 0, 1, 5, 14, 30, 55, 91, 140, 204, 285, 385, 506, 650, ...
+\\ \cline{2-2}
+& $f(n) = \displaystyle\frac{n*(n+1)*(2*n+1)}{6}$
+
+\\ \hline
+
+\multirow{2}{2cm}{Números primos de Mersenne}
+& 3, 7, 31, 127, 8191, 131071, 524287, 2147483647, ...
+\\ \cline{2-2}
+& $f(n) = 2^{p(n)} - 1$ donde $p$ representa valores primos iniciando en $p(0)=2$.
+\\ \hline
+
+
+\multirow{2}{2cm}{Números tetraedrales}
+& 0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, ...
+\\ \cline{2-2}
+& $f(n) = \displaystyle\frac{n*(n+1)*(n+2)}{6}$
+
+\\ \hline
+
+
+\multirow{2}{2cm}{Números triangulares}
+& 0, 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, 66, 78, 91, 105, ...
+\\ \cline{2-2}
+& $f(n) = \displaystyle\frac{n(n+1)}{2}$
+
+\\ \hline
+
+
+\multirow{2}{2cm}{OEIS A000127}
+& 1, 2, 4, 8, 16, 31, 57, 99, 163, 256, 386, 562, ...
+\\ \cline{2-2}
+& $f(n) = \displaystyle\frac{(n^{4}-6n^{3}+23n^{2}-18{n}+24)}{24}$.
+
+\\ \hline
+
+
+\multirow{2}{2cm}{Secuencia de Narayana}
+& 1, 1, 1, 2, 3, 4, 6, 9, 13, 19, 28, 41, 60, 88, 129, ...
+\\ \cline{2-2}
+& $f(0) = f(1) = f(2) = 1; f(n) = f(n-1) + f(n-3)$ para todo $n>2$.
+\\ \hline
+
+
+\multirow{2}{2cm}
+{Secuencia de Silvestre} 
+& 2, 3, 7, 43, 1807, 3263443, 10650056950807, ...    
+\\ \cline{2-2} 
+& $f(0) = 2; f(n+1) = f(n)^2 - f(n) + 1$               
+\\ \hline
+
+\multirow{2}{2cm}{Secuencia de vendedor perezoso} 
+& 1, 2, 4, 7, 11, 16, 22, 29, 37, 46, 56, 67, 79, 92, 106, ...
+\\ \cline{2-2} 
+& Equivale al triangular(n) + 1. Máxima número de piezas que se pueden formar al hacer n cortes a un disco. 
+
+$f(n) = \displaystyle\frac{n(n+1)}{2} + 1$
+
+\\ \hline
+
+\multirow{2}{2cm}{Suma de los divisores de un número}
+& 1, 3, 4, 7, 6, 12, 8, 15, 13, 18, 12, 28, 14, 24, ...
+\\ \cline{2-2}
+&Para todo $n>1$ cuya descomposición en factores primos es $n=\displaystyle p_{1}^{\textstyle a_{1}}\displaystyle p_{2}^{\textstyle a_{2}}...\displaystyle p_{k}^{\textstyle a_{k}}$ se tiene que:
+
+
+$f(n) = \displaystyle\frac{p_{1}^{a_{1} + 1} - 1}{p_{1} - 1} * \frac{p_{2}^{a_{2} + 1} - 1}{p_{2} - 1} * ... * \frac{p_{k}^{a_{k} + 1} - 1}{p_{k} - 1}$ 
+
+\\ \hline
+\end{supertabular}
+}
+\end{center}
 \subsection{Time Complexities}
 
-Aproximaci\'on del mayor n\'umero n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.
+Aproximación del mayor número n de datos que pueden procesarse para cada una de las complejidades algoritmicas. Tomar esta tabla solo como referencia.
 
 \begin{tabbing}
 \textbf{Complexity}\hspace{4cm} \=  \textbf{n}\hspace{3cm}   \\ 
@@ -1464,12 +1796,4 @@ $O(\sqrt{n})$ \> $10^{16}$\\
 $O(\log_{2}n)$ \> -\\ 
 $O(1)$ \> -\\ 
 \end{tabbing}
-
-\subsection{mod: properties}
-
-\begin{enumerate}
-\item (a \% b) \% b = a \% b (Propiedad neutro)
-\item (ab) \% c = ((a \% c)(b \% c)) \% c (Propiedad asociativa en multiplicaci\'on)
-\item (a + b) \% c = ((a \% c) + (b \% c)) \% c (Propiedad asociativa en suma)
-\end{enumerate}
 \end{document}

@@ -1,4 +1,4 @@
-Función totient o indicatriz (φ) de Euler. Para cada posición n del array result retorna el número de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
+Función totient o indicatriz de Euler. Para cada posición n del array result retorna el número de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
 
 static void totient (int n, int resultados[]) {
 	boolean aux[] = new boolean[n];
