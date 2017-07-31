@@ -1,9 +1,9 @@
 Halla la longitud de la subsecuencia creciente mas larga. MAX debe definirse en el tamaño  limite del array, n es el tamaño del array. Si se admiten valores repetidos, cambiar el < de I[mid] <= values[i] por <=
 
 const int inf = 2000000000;
-const int MAX = 100000; //Máximo número de valores en la secuencia
-int n; //Tamaño de la secuencia
-int values[MAX + 5]; //Secuencia de valores
+const int MAX = 100000;
+int n; 
+int values[MAX + 5];
 int L[MAX + 5]; 
 int I[MAX + 5]; 
 
