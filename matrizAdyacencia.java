@@ -20,7 +20,7 @@ public class Main{
       destino = sc.nextInt();
       
       ady[ origen ][ destino ] = 1;
-      ady[ origen ][ destino ] = 1;
+      ady[ destino ][ origen ] = 1;
       e--;
     }
   }
