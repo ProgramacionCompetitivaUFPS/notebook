@@ -7,12 +7,12 @@ public class Main{
   static ArrayList<Integer> ady[] = new ArrayList[MAX]; //Lista de Adyacencia del grafo
   
   public static void main( String [] args ){
-    int v, e, origen, destino;
+    int origen, destino;
     Scanner sc = new Scanner( System.in );
     
+    //Al iniciar cada caso de prueba
     v = sc.nextInt();
     e = sc.nextInt();
-    
     init();
     
     while( e > 0 ){

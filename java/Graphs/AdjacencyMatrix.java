@@ -7,12 +7,12 @@ public class Main{
   static int ady[][] = new int [MAX][MAX];
   
   public static void main( String [] args ){
-    int v, e, origen, destino;
+    int origen, destino;
     Scanner sc = new Scanner( System.in );
     
+    //Al iniciar cada caso de prueba
     v = sc.nextInt();
     e = sc.nextInt();
-    
     init();
     
     while( e > 0 ){
