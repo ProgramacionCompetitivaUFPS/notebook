@@ -3,7 +3,7 @@ Busca el string p en el string s (definido en init), y retorna un pair con el pr
 string p;
 int m; 
 
-pair<int, int> stringMatching2() {
+pair<int, int> stringMatching() {
   if(m - 1 > n) return make_pair(-1, -1);
   char * _s = new char [s.length() + 1]; strcpy (_s, s.c_str());
   char * _p = new char [p.length() + 1]; strcpy (_p, p.c_str());
