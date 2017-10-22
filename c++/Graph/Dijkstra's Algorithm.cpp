@@ -14,6 +14,7 @@ class cmp{
 public:
   bool operator()(Node n1, Node n2){
     return (n1.second>n2.second);
+  }   
 };
 
 //El método debe llamarse con el indice del nodo inicial.
