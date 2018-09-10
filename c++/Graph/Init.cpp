@@ -27,6 +27,6 @@ void init() {
         itsmos[j] = 0;
         color[j] = -1; //Bipartite Check
 
-        for(j = 0; j < v; j++)  ady[i][j] = INF; //Warshall
+        for(k = 0; k < v; k++)  ady[j][k] = INF; //Warshall
     }
 }
