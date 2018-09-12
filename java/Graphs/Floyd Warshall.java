@@ -12,7 +12,7 @@ static void floydWarshall(){
     for( k = 0; k < v; k++ ){
         for( i = 0; i < v; i++ ){
             for( j = 0; j < v; j++ ){
-                ady[i][j] = min( ady[i][j], ( ady[i][k] + ady[k][j] ) );
+                ady[i][j] = Math.min( ady[i][j], ( ady[i][k] + ady[k][j] ) );
             }
         }
     }
