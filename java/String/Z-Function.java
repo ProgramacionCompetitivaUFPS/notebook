@@ -1,5 +1,5 @@
 Este algoritmo encuentra todas las apariciones de un patrón en un texto en tiempo lineal.
-    Sea la longitud del texto n y del patrón m, entonces el tiempo total tomado es O (m + n) con complejidad de espacio lineal.
+Sea la longitud del texto n y del patrón m, entonces el tiempo total tomado es O (m + n) con complejidad de espacio lineal.
 
 static int[] zf(String ss) {
     StringBuilder s = new StringBuilder(ss);
