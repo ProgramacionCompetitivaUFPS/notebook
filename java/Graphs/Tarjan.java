@@ -43,7 +43,8 @@ SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
     }
 
     public static void main(String[] args) {
-
+	    
+	cantSCC=0;
         for (int i = 0; i < n; i++) { //inicializa las estructuras necesarias para la ejecucion del algoritmo.
             ady[i] = new ArrayList<Integer>();
             dfs_low[i] = 0;
