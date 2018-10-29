@@ -2,7 +2,7 @@ Algoritmo para grafos que halla la distancia mínima entre cualquier par de nodo
 Ajustar los tipos de datos segun el problema.
 SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-static int v;//vertices
+static int v, e; //vertices, arcos
 static int MAX = 505;     
 static int ady[][] = new int [MAX][MAX];
 
@@ -16,14 +16,4 @@ static void floydWarshall(){
             }
         }
     }
-}
-
-public static void main(String[] args) {
-
-      ady = new int[v][v]; // Inicializacion de la matriz de adyacencia
-        for (int i = 0; i < v; i++) {
-            for (int j = 0; j < v; j++) {
-                ady[i][j] = Integer.MAX_VALUE;
-            }
-        }
 }
