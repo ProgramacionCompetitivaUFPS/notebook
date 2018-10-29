@@ -17,3 +17,12 @@ static void floydWarshall(){
         }
     }
 }
+
+static void init(){
+	ady = new int[v][v]; // Inicializacion de la matriz de adyacencia
+        for (int i = 0; i < v; i++) {
+            for (int j = 0; j < v; j++) {
+                ady[i][j] = Integer.MAX_VALUE;
+            }
+        }
+}

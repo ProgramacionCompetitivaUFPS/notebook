@@ -57,4 +57,20 @@ public static void tarjanSCC( int u ){
 		
 }
 
+static void init(){
+		cantSCC=0;
+        for (int i = 0; i < n; i++) { //inicializa las estructuras necesarias para la ejecucion del algoritmo.
+            ady[i] = new ArrayList<Integer>();
+            dfs_low[i] = 0;
+            dfs_num[i] = -1;
+            marked[i] = false;
+        }
 
+        for (int i = 0; i < v; i++) { //Por si el grafo no es conexo
+            if (dfs_num[i] == -1) {
+                dfsCont = 0;
+                s = new Stack<Integer>();
+                tarjanSCC(i);
+            }
+        }
+}

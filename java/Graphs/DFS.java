@@ -18,3 +18,10 @@ static void dfs( int s ){
 		}
 	}
 }
+
+static void init(){
+	            for (int i = 0; i < MAX; i++) {	//inicializa la lista de adyacencia y el arreglo de marcados.
+                ady[i] = new ArrayList<Integer>();
+                marked[i] = false;
+            }
+}

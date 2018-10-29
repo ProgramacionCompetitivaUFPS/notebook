@@ -24,3 +24,10 @@ static void bfs(int s){
         }
     }
 }
+
+static void init(){
+	    for (int j = 0; j <= v; j++) { //Inicializacion de las estructuras
+             ady[j] = new ArrayList<Integer>(); //Lista de Adyacencia
+            distance[j] = -1; //Distancia a cada nodo
+    }
+}
