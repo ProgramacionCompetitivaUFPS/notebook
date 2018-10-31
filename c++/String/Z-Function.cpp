@@ -1,4 +1,4 @@
-Dado un string s retorna un vector z donde z[i] es igual al mayor numero de caracteres desde s[i] que coinciden con los caracteres desde s[0].
+Dado un string s retorna un vector z donde z[i] es igual al mayor numero de caracteres desde s[i] que coinciden con los caracteres desde s[0]
 
 vector<int> z_function(string s) {
 	int n = s.size();

@@ -1,4 +1,4 @@
-Dado un string s retorna un arreglo z donde z[i] es igual al mayor numero de caracteres desde s[i] que coinciden con los caracteres desde s[0].
+Dado un string s retorna un arreglo z donde z[i] es igual al mayor numero de caracteres desde s[i] que coinciden con los caracteres desde s[0]
 
 static int[] z_function(String ss) {
     StringBuilder s = new StringBuilder(ss);
