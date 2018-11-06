@@ -3,7 +3,6 @@ Calcula el array Longest Common Prefix para todo el suffix array. IMPORTANTE: De
 int lcp[N_MAX];
 
 void calculateLCP() {
-  for (int i = 0; i < n; i++) rk[sa[i]] = i;
   for (int i = 0, l = 0; i < n; i++) {
     if (rk[i] > 0) {
       int j = sa[rk[i] - 1];
