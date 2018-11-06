@@ -8,12 +8,19 @@ bool marked[MAX]; //Estructura auxiliar para marcar los nodos ya visitados
 
 /*Este método se llama con el indice del nodo desde el que se desea comenzar
 el recorrido.*/
-static void dfs(int s){
-	marked[s] = 1;
-	int i, next;
+static void dfs(int s) {
+    marked[s] = 1;
+    int i, next;
 
-	for( i = 0; i < ady[s].size(); i++ ){
-		next = ady[s][i];
-		if( !marked[next] )	dfs(next);
-	}
+    for( i = 0; i < ady[s].size(); i++ ) {
+        next = ady[s][i];
+        if( !marked[next] )	dfs(next);
+    }
+}
+
+void init() {
+    for (int i=0; i<v; i++) {
+        ady[i].clear();
+        marked[i]=false;
+    }
 }
