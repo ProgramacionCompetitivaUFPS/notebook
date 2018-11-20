@@ -1,6 +1,6 @@
 Busca el substring común mas largo entre dos strings. Retorna un int[2], con el size del substring y uno de los indices del suffix array. Debe ejecutarse previamente suffixArray() y calculateLCP()
 
-// Los substrings deben estar concatenados de la forma "string1#string2$", antes de ejecutar suffixArray() y calculateLCS()
+// Los substrings deben estar concatenados de la forma "string1#string2$", antes de ejecutar suffixArray() y calculateLCP()
 // m debe almacenar el size del string2.
 
 static int[] longestCommonSubstring() {
