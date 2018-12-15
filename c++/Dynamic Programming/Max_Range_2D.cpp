@@ -14,7 +14,7 @@ int max_range_sum2D(){
 			if(i>0 && j>0) values[i][j] -= values[i-1][j-1];
 		}
 	}
-	int max_mat = -INF;
+	int max_mat = INF;
 	for(int i=0; i<n;i++){
 		for(int j=0; j<m; j++){
 			for(int h = i; h<n; h++){
