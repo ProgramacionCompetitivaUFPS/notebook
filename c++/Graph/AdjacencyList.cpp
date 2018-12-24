@@ -2,7 +2,7 @@
 using namespace std;
 
 int v, e; //v = cantidad de nodos, e = cantidad de aristas
-const int MAX = 5000; // Máxima cantidad de nodos
+const int MAX = 5000; // Maxima cantidad de nodos
 vector<int> ady[MAX]; //Lista de Adyacencia del grafo
 
 int main() {
