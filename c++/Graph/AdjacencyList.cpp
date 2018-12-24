@@ -6,7 +6,7 @@ const int MAX = 5000; // Máxima cantidad de nodos
 vector<int> ady[MAX]; //Lista de Adyacencia del grafo
 
 int main() {
-	int origen, destino,i;
+    int origen, destino,i;
     
     //Al iniciar cada caso de prueba
     cin >> v >> e;
@@ -17,16 +17,15 @@ int main() {
       ady[origen].push_back(destino);
       ady[destino].push_back(origen);
       e--;
-	}
+    }
 	
-	//Imprime la lista de adyacencia
-	for(int i=1;i<=v;i++){
-		cout<<i<<"\n";
-		for(int j=0;j<ady[i].size();j++){
-			cout<<ady[i][j]<<" ";
-		}
-		cout<<"\n";
+    //Imprime la lista de adyacencia
+    for(int i=1;i<=v;i++){
+	cout<<i<<"\n";
+	for(int j=0;j<ady[i].size();j++){
+		cout<<ady[i][j]<<" ";
 	}
-	
-	return 0;
+	cout<<"\n";
+     }
+     return 0;
 }
