@@ -28,7 +28,7 @@ struct SegmentTree {
             st[p] = min(st[l], st[r]);
         }
     }
-	/*
+    /*
     void propagate(int p, int L, int R, int val) {
         if (val == neutro) return;
         st[p] = val;
@@ -38,10 +38,10 @@ struct SegmentTree {
             lazy[right(p)] = val;
         }
     }
-	*/
+    */
     int query(int p, int L, int R, int i, int j) {
-        if (i > R || j < L) return neutro;
         //propagate(p, L, R, lazy[p]);
+        if (i > R || j < L) return neutro;
         if (i <= L && j >= R) return st[p];
         int m = (L+R)/2, l = left(p), r = right(p);
         l = query(l, L, m, i, j);
@@ -50,8 +50,8 @@ struct SegmentTree {
     }
 
     void update(int p, int L, int R, int i, int j, int val) {
-        if (i > R || j < L) return;
         //propagate(p, L, R, lazy[p]);
+        if (i > R || j < L) return;
         if (i <= L && j >= R) st[p] = val;//propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = left(p), r = right(p);
