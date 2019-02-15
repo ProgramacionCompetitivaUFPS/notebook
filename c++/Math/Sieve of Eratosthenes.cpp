@@ -10,8 +10,10 @@ void sieve() {
 	marked[1] = 1;
 	primes.push_back(2);
 	for (int i = 4; i <= MAX; i += 2) marked[i] = 1;
-	for (int i = 3; i <= SQRT; i += 2) if (!marked[i]) {
+	int i = 3;
+	for (; i <= SQRT; i += 2) if (!marked[i]) {
 		primes.push_back(i);
 		for (int j = i*i; j <= MAX; j += i*2) marked[j] = 1;
 	}
+	for (; i <= MAX; i += 2) if (!marked[i]) primes.push_back(i);
 }
