@@ -1,5 +1,5 @@
-Calculo del mínimo común múltiplo usando el máximo común divisor. REQUIERE mcd(a,b)
+Calculo del mínimo común múltiplo usando el máximo común divisor. Agregar Greatest Common Divisor.
 
-int mcm (int a, int b) {
-	return a * b / mcd(a, b);
+int lcm (int a, int b) {
+    return a * b / gcd(a, b);
 }
