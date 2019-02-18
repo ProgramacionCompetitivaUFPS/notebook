@@ -7,9 +7,9 @@ bool isPrime(long long p) {
     for (int i = 0; i < 5; i++) {
         long long a = rand(1, p - 1);
         long long temp = s;
-        long long mod = powmod(a, temp, p);
+        long long mod = modpow(a, temp, p);
         while (temp != p - 1 && mod != 1 && mod != p - 1) {
-            mod = mulmod(mod, mod, p);
+            mod = modmul(mod, mod, p);
             temp *= 2;
         }
         if (mod != p - 1 && temp % 2 == 0) return 0;
