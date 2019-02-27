@@ -17,9 +17,15 @@ void init(){
 
 /*Este método se llama con el indice del nodo desde el que se desea comenzar
 el recorrido.*/
+<<<<<<< HEAD
 static void dfs(int s) {
     marked[s] = 1;
     int i, next;
+=======
+void dfs(int s){
+	marked[s] = 1;
+	int i, next;
+>>>>>>> 7fe35779d0de6b631b9e5c34e9bf77a7a973435e
 
     for( i = 0; i < ady[s].size(); i++ ) {
         next = ady[s][i];

@@ -1,24 +1,33 @@
-Función totient o indicatriz de Euler. Para cada posición n del array result retorna el número de enteros positivos menores o iguales a n que son coprimos con n (Coprimos: MCD=1)
+La función totient de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
 
-#include <string.h>
+* Dado un valor n calcula el Euler totient de n. Debe ejecutarse primero Sieve of Eratosthenes (al menos hasta un numero mayor a la raiz cuadrada de n).
+
+long long totient(long long n) {
+    long long tot = n;
+    for (int i = 0, p = primes[i]; p*p <= n; p = primes[++i]) {
+        if (n % p == 0) {
+            while (n % p == 0) n /= p;
+            tot -= tot / p;
+        }
+    }
+    if (n > 1) tot -= tot / n;
+    return tot;
+}
+
+* Calcular el Euler totient para todos los numeros menores o iguales a MAX.
 
 const int MAX = 100;
-int result[MAX]; 
+int totient[MAX+1]; 
+bitset<MAX+1> marked;
 
-void totient () {
-	bool temp[MAX];
-	int i,j;
-	memset(temp,1,sizeof(temp));
-	for (i = 0; i < MAX; i++) {
-		result[i] = i;
-	}
-	for (i = 2; i < MAX; i++){
-		if (temp[i]) {
-			for (j = i; j < MAX ; j += i){
-				temp[j] = false;
-				result[j] = result[j] - (result[j]/i) ;
-			}
-			temp[i] = true ;
-		}
-	}
+void totient() {
+    marked[1] = 1;
+    for (int i = 0; i <= MAX; i++) totient[i] = i;
+    for (int i = 2; i <= MAX; i++) if (!marked[i]) {
+        for (int j = i; j <= MAX ; j += i){
+            totient[j] -= totient[j] / i;
+            marked[j] = 1;
+        }
+        marked[i] = 0;
+    }
 }

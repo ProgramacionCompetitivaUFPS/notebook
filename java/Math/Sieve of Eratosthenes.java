@@ -1,28 +1,19 @@
 Guarda en primes los números primos menores o iguales a MAX.
-isPrime() retorna si p es o no un número primo.
+Para saber si p es un número primo, hacer: if (!marked[p])
 
-static int MAX = 10000000;
+static int MAX = 1000000;
+static int SQRT = 1000;
 static ArrayList<Integer> primes = new ArrayList<Integer>();
-static boolean sieve[] = new boolean[MAX/2];
-	
-static void calculatePrimes() {
-	sieve[0] = true;
-	primes.add(2);
-	int i;
-	for (i = 3; i*i <= MAX; i += 2) {
-		if (!sieve[i/2]) {
-			primes.add(i);
-			for (int j = i*i; j <= MAX; j += i*2) {
-				sieve[j/2] = true;
-			}
-		}
-	}
-	for(; i <= MAX; i += 2) {
-		if (!sieve[i/2]) primes.add(i);
-	}
-}
+static boolean marked[] = new boolean[MAX+1];
 
-static boolean isPrime(int p) {
-	if (p%2 == 0) return p == 2;
-	return !sieve[p/2];
+static void sieve() {
+	marked[1] = true;
+	primes.add(2);
+	for (int i = 4; i <= MAX; i += 2) marked[i] = true;
+	int i = 3;
+	for (; i <= SQRT; i += 2) if (!marked[i]) {
+		primes.add(i);
+		for (int j = i*i; j <= MAX; j += i*2) marked[j] = true;
+	}
+	for (; i <= MAX; i += 2) if (!marked[i]) primes.add(i);
 }
