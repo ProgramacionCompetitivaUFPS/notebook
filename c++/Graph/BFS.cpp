@@ -8,30 +8,23 @@ long long dist[MAX]; //Estructura auxiliar para almacenar la distancia a cada no
 
 /*Este método se llama con el indice del nodo desde el que se desea comenzar
 el recorrido.*/
-void bfs(int s) {
-    queue<int> q;
-    q.push(s); //Inserto el nodo inicial
-    dist[s] = 0;
-    int actual, i, next;
+void bfs(int s){
+  queue<int> q;
+  q.push(s); //Inserto el nodo inicial
+  dist[s] = 0;
+  int actual, i, next;
+       
+  while( q.size() > 0 ){
+    actual = q.front();
+    q.pop();
 
-    while( q.size() > 0 ) {
-        actual = q.front();
-        q.pop();
-
-        for( i = 0; i < ady[actual].size(); i++) {
-            next = ady[actual][i];
-            if( dist[next] == -1 ) {
-                dist[next] = dist[actual] + 1;
-                q.push(next);
-            }
-        }
+    for( i = 0; i < ady[actual].size(); i++){
+      next = ady[actual][i];
+      if( dist[next] == -1 ){
+        dist[next] = dist[actual] + 1;
+        q.push(next);
+      }
     }
-}
+  }
 
-void init() {
-    int i;
-    for( i = 0; i < v; i++ ) {
-        ady[i].clear();
-        dist[i]=-1;
-    }
 }
