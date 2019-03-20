@@ -17,7 +17,8 @@ static void init(int n) {
 }
 
 static int find(int i) {
-	return (dsu[i] == i) ? i : (dsu[i] = find(dsu[i]));
+	while (dsu[i] != i) i = dsu[i];
+	return i;
 }
 
 static void union(int x, int y) {
