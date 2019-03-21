@@ -16,8 +16,7 @@ void init(int n) {
 }
 
 int find(int i) {
-	while (dsu[i] != i) i = dsu[i];
-	return i;
+	return (dsu[i] == i) ? i : (dsu[i] = find(dsu[i]));
 }
 
 void unite(int a, int b) {
