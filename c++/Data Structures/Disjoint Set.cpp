@@ -9,7 +9,7 @@ int numSets; //Cantidad de conjuntos disyuntos existentes
 
 /** Recibe la cantidad de conjuntos disyuntos iniciales **/
 void init(int n) {
-	contSets = n;
+	numSets = n;
 	for(int i = 0; i < n; i++) {
 		dsu[i] = i; size[i] = 1;
 	}
