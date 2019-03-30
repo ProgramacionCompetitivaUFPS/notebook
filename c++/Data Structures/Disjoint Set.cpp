@@ -21,7 +21,7 @@ int find(int u) {
 
 void unite(int u, int v) {
 	u = find(u); v = find(v);
-	if(u == v) return;
+	if (u == v) return;
 	if (size[u] > size[v]) swap(u, v);
 	dsu[u] = v;
 	size[v] += size[u];
