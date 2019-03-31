@@ -6,7 +6,7 @@ const int N = 2;
 struct matrix {
     int m[N][N], r, c;
 
-    matrix(int _r, int _c) {
+    matrix(int _r = N, int _c = N) {
         r = _r; c = _c;
         memset(m, 0, sizeof(m));
     }
@@ -23,7 +23,7 @@ struct matrix {
 
 matrix pow(matrix A, long long e) {
     if (e == 1) return A;
-    if (e % 2) return A * pow(A, e-1);
-    matrix X = pow(A, e/2);
+    if (e&1) return A * pow(A, e-1);
+    matrix X = pow(A, e>>1);
     return X * X;
 }

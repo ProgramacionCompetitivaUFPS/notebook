@@ -15,17 +15,17 @@ void init(int n) {
 	}
 }
 
-int find(int i) {
-	return (dsu[i] == i) ? i : (dsu[i] = find(dsu[i]));
+int find(int u) {
+	return (dsu[u] == u) ? u : (dsu[u] = find(dsu[u]));
 }
 
-void unite(int a, int b) {
-	a = find(a); b = find(b);
-	if(a == b) return;
-	if (size[a] > size[b]) swap(a, b);
-	dsu[a] = b;
-	size[b] += size[a];
+void unite(int u, int v) {
+	u = find(u); v = find(v);
+	if (u == v) return;
+	if (size[u] > size[v]) swap(u, v);
+	dsu[u] = v;
+	size[v] += size[u];
 	numSets--;
 }
 
-int sizeOf(int i) { return size[find(i)]; }
+int sizeOf(int u) { return size[find(u)]; }
