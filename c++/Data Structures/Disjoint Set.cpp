@@ -27,7 +27,7 @@ struct Dsu{
         if(a == b)return;
         if(size[a] > size[b])swap(a,b);
         dsu[a] = b;
-        size[b] += a;
+        size[b] += size[a];
         numsets--;
     }
 
