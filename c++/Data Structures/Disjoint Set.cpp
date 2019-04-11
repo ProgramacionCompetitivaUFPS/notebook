@@ -12,7 +12,7 @@ struct Dsu{
     Dsu(int n){
         for(int i = 0; i <= n; i++){
             dsu[i] = i;
-            size[i] = 0;
+            size[i] = 1;
         }
         numsets = n;
     }
