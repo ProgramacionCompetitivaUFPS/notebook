@@ -18,7 +18,7 @@ struct Dsu{
     }
 
     int find(int u){
-        return (dsu[u] == u) ? u : (dsu[u] == find(dsu[u]));
+        return (dsu[u] == u) ? u : (dsu[u] = find(dsu[u]));
     }
 
     void unite(int a, int b){
