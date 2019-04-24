@@ -11,7 +11,7 @@ int modInverse(int a, int mod) {
 
 * Si mod es un número primo, se puede calcular aplicando el pequeño teorema de Fermat. Agregar Modular Exponentiation.
 
-int modInverse(int a, int M) {
+int modInverse(int a, int mod) {
     return modpow(a, mod-2, mod);
 }
 
