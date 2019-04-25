@@ -1,12 +1,8 @@
 Calcula el máximo común divisor entre a y b mediante el algoritmo de Euclides
 
-static int mcd(int a, int b) {
-	int aux;
-	while (b != 0){
-		a %= b;
-		aux = b;
-		b = a;
-		a = aux;
-	}
-	return a;
+public static int gcd(int a, int b) {
+    if (b == 0) {
+        return a;
+    }
+    return gcd(b, a % b);
 }
