@@ -5,7 +5,7 @@ bool isPrime(long long p) {
     long long s = p - 1;
     while (s % 2 == 0) s /= 2;
     for (int i = 0; i < 5; i++) {
-        long long a = rand(1, p - 1);
+        long long a = rand() % (p-1)+1;
         long long temp = s;
         long long mod = modpow(a, temp, p);
         while (temp != p - 1 && mod != 1 && mod != p - 1) {
