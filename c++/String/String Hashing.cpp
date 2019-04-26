@@ -2,7 +2,7 @@ Estructura para realizar operaciones de hashing.
 
 long long p[] = {257, 359};
 long long mod[] = {1000000007, 1000000009};
-long long X = 1e9+10;
+long long X = 1000000010;
  
 struct hashing {
     vector<long long> h[2], pot[2];
