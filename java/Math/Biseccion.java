@@ -1,6 +1,6 @@
 Método de bisección para una función f(m)
 
-static int eps = 0.0000001;
+static double eps = 0.0000001;
 
 static double bis(double a, double b) {
 		double m = (a+b)/2;
