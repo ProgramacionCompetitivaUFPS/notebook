@@ -6,5 +6,5 @@ static int upper_bound(int arr[], int n, int x) {
 		if(arr[m] > x) r = m;
 		else l = m+1;
 	}
-	return 1;
+	return l;
 }
