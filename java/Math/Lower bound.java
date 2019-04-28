@@ -6,5 +6,5 @@ static int lower_bound(int arr[], int n, int x) {
 		if (arr[m] < x) l = m+1;
 		else r = m;
 	}
-	return -1;
+	return l;
 }
