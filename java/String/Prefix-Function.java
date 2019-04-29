@@ -3,7 +3,8 @@ Dado un string s retorna un ArrayList lps donde lps[i] es el largo del prefijo p
 
 static ArrayList<Integer> prefix_function(String s) {
     int n = s.length(), len = 0, i = 1;
-    ArrayList<Integer> lps = new ArrayList<>(n);
+    ArrayList<Integer> lps = new ArrayList<>();
+    Collections.fill(lps, n);
     lps.set(len, 0);
     while (i < n) {
         if (s.charAt(len) != s.charAt(i)) {
