@@ -1,4 +1,4 @@
-Calcula el coeficiente binomial nCr, entendido como el número de subconjuntos de k elementos escogidos de un conjunto con n elementos.
+Calcula el coeficiente binomial nCr, entendido como el número de subconjuntos de r elementos escogidos de un conjunto con n elementos.
 
 long long ncr(long long n, long long r) {
     if (r < 0 || n < r) return 0;

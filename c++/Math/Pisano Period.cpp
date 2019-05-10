@@ -17,11 +17,11 @@ long long pisanoPrime(long long p, long long e) {
 long long pisanoPeriod(long long m) {
     long long pp = 1;
     for (long long p = 2; p*p <= m; p++) {
-    	if (m % p == 0) {
-	    	long long e = 0;
-	        while (m % p == 0) e++, m /= p;
-	        pp = lcm(pp, pisanoPrime(p, e));
-    	}
+        if (m % p == 0) {
+            long long e = 0;
+            while (m % p == 0) e++, m /= p;
+            pp = lcm(pp, pisanoPrime(p, e));
+        }
     }
     if (m > 1) pp = lcm(pp, period(m));
     return pp;

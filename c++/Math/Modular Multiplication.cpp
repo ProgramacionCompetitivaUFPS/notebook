@@ -1,11 +1,8 @@
-Realiza la operación (a * b) % mod minimizando posibles desbordamientos.
+Realiza la operación (a*b) % mod minimizando posibles desbordamientos.
 
 long long modmul(long long a, long long b, long long mod) {
-    long long x = 0, y = a % mod;
-    while (b > 0) {
-        if (b % 2 == 1) x = (x + y) % mod;
-        y = (y<<1) % mod;
-        b >>= 1;
-    }
-    return x % mod;
+    if (b == 0) return 0;
+    if (b&1) return (a + modmul(a, b-1, mod)) % mod;
+    long long c = modmul(a, b/2, mod);
+    return (c+c) % mod;
 }
