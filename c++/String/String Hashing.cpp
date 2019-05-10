@@ -1,23 +1,30 @@
 Estructura para realizar operaciones de hashing. 
 
-int p = 265; //Número pseudo-aleatorio base del polinomio (mayor al tamaño del lenguaje)
-int MOD = 1000000009; //Número primo grande
+long long p[] = {257, 359};
+long long mod[] = {1000000007, 1000000009};
+long long X = 1000000010;
 
 struct hashing {
-	string s;
-	vector<int> h;
-	vector<int> pot;
-	hashing(string _s) {
-		h.resize(_s.size() + 1);
-		pot.resize(_s.size() + 1);
-		s = _s; h[0] = 0; pot[0] = 1;
-		for(int i = 1; i <= s.size(); i++) {
-			h[i] = ((long long)h[i - 1] * p + s[i - 1]) % MOD;
-			pot[i] = ((long long)pot[i - 1] * p) % MOD;
+	vector<long long> h[2], pot[2];
+	int n;
+
+	hashing(string s) {
+		n = s.size();
+		for (int i = 0; i < 2; ++i) {
+			h[i].resize(n + 1);
+			pot[i].resize(n + 1, 1);
+		}
+		for (int i = 1; i <= n; ++i) {
+			for (int j = 0; j < 2; ++j) {
+				h[j][i] = (h[j][i-1] * p[j] + s[i-1]) % mod[j];
+				pot[j][i] = (pot[j][i-1] * p[j]) % mod[j];
+			}
 		}
 	}
-	int hashValue(int i, int j) {
-		int ans = h[j] - (long long) h[i] * pot[j - i] % MOD;
-		return (ans >= 0) ? ans : ans + MOD;
+	//Hash del substring en el rango [i, j)
+	long long hashValue(int i, int j) {
+		long long a = (h[0][j] - (h[0][i] * pot[0][j-i] % mod[0]) + mod[0]) % mod[0];
+		long long b = (h[1][j] - (h[1][i] * pot[1][j-i] % mod[1]) + mod[1]) % mod[1];
+		return a*X + b;
 	}
 };

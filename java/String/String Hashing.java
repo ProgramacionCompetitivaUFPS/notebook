@@ -1,23 +1,33 @@
 Estructura para realizar operaciones de hashing. 
 
-static class Hash {
-	char[] s;
-	int[] h;
-	int[] pot;
-	int p = 265; //Número pseudo-aleatorio base del polinomio (mayor al tamaño del lenguaje)
-	long MOD = 1000000009; //Número primo grande
+static long p[] = {257, 359};
+static long mod[] = {1000000007, 1000000009};
+static long X = 1000000010;
+
+static class Hashing {
+	long[][] h, pot;
+	int n;
 	
-	public Hash(String _s) {
-		h = new int[_s.length() + 1];
-		pot = new int[_s.length() + 1];
-		s = _s.toCharArray(); pot[0] = 1;
-		for(int i = 1; i <= s.length; i++) {
-			h[i] = (int)(((long)h[i - 1] * p + s[i - 1]) % MOD);
-			pot[i] = (int)(((long)pot[i - 1] * p) % MOD);
+	public Hashing(String _s) {
+		char[] s = _s.toCharArray();
+		n = s.length;
+		h = new long[2][n + 1];
+		pot = new long[2][n + 1];
+		
+		for (int i = 0; i < 2; ++i) {
+			pot[i][0] = 1;
+		}
+		for (int i = 1; i <= n; ++i) {
+			for (int j = 0; j < 2; ++j) {
+				h[j][i] = (h[j][i-1] * p[j] + s[i-1]) % mod[j];
+				pot[j][i] = (pot[j][i-1] * p[j]) % mod[j];
+			}
 		}
 	}
-	int hashValue(int i, int j) {
-		int ans = (int)(h[j] - (long) h[i] * pot[j - i] % MOD);
-		return (ans >= 0) ? ans : (int)(ans + MOD);
+	//Hash del substring en el rango [i, j)
+	long hash(int i, int j) {
+		long a = (h[0][j] - (h[0][i] * pot[0][j-i] % mod[0]) + mod[0]) % mod[0];
+		long b = (h[1][j] - (h[1][i] * pot[1][j-i] % mod[1]) + mod[1]) % mod[1];
+		return a*X + b;
 	}
 }

@@ -1,16 +1,16 @@
-La función Rho de Pollard calcula un divisor no trivial de n. IMPORTANTE: Deben implementarse Modular Multiplication y Gratest Common Divisor (para long long).
+La función Rho de Pollard calcula un divisor no trivial de n. IMPORTANTE: Deben agregarse Modular Multiplication y Greatest common divisor para long.
 
-public static long pollardRho (long n) {
-  int i = 0, k = 2;
-  long d, x = 3, y = 3;
-  while (true) {
-    i++;
-    x = (mulmod(x, x, n) + n - 1) % n;             // generating function
-    d = mcd(Math.abs(y - x), n);                   // the key insight
-    if (d != 1 && d != n) return d;
-    if (i == k) { 
-      y = x; 
-      k *= 2;
+public static long pollardRho(long n) {
+    long i = 0, k = 2, x = 3, y = 3, d;
+    while (true) {
+        x = (modmul(x, x, n) + n - 1) % n;
+        d = gcd(Math.abs(y - x), n);
+        if (d != 1 && d != n) {
+            return d;
+        }
+        if (++i == k) {
+            y = x;
+            k <<= 1;
+        }
     }
-  }
 }
