@@ -4,7 +4,7 @@ const int KN = log2(MAX_N)+1;
 const int KM = log2(MAX_M)+1;
 int table[KN][MAX_N][KM][MAX_M];
 int _log2N[MAX_N+1];
-int _log2M[MAX_N+1];
+int _log2M[MAX_M+1];
 
 int MAT[MAX_N][MAX_M];
 int n, m, ic, ir, jc, jr;
