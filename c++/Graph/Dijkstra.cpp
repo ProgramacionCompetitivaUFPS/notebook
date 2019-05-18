@@ -1,34 +1,37 @@
-Algoritmo que dado un grafo con pesos no negativos halla la ruta mínima entre un nodo inicial s y todos los demás nodos.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo con pesos no negativos halla la ruta de costo mínimo entre un nodo inicial u y todos los demás nodos.
 
-#define Node pair<long long, int> //(PESO, NODO adyacente)
+struct Edge {
+	int v;
+	long long w;
+	
+	bool operator < (const Edge &b) const {
+		return w > b.w; //Orden invertido
+	}
+};
 
-int n, e; //n = cantidad de nodos, e = cantidad de aristas
-const int MAX = 100001; //Cantidad Maxima de Nodos
-vector<Node> ady[MAX]; //Lista de Adyacencia del grafo
-bool marked[MAX]; //Estructura auxiliar para marcar los nodos visitados
-int previous[MAX]; //Estructura auxiliar para almacenar las rutas
-long long dist[MAX]; //Estructura auxiliar para llevar las distancias a cada nodo
+const int MAX = 100005; //Cantidad maxima de nodos
+vector<Edge> g[MAX]; //Lista de adyacencia
+bitset<MAX> vis; //Marca los nodos ya visitados
+long long dist[MAX]; //Almacena la distancia a cada nodo
+int par[MAX]; //Almacena el nodo anterior para construir las rutas
+int n, m; //Cantidad de nodos y aristas
 
- //El metodo debe llamarse con el indice del nodo inicial
 void dijkstra(int u) {
-	priority_queue<Node, vector<Node>, greater<Node> > pq;
-	long long weight;
-	int act, next;
-	pq.push({0, u});
+	priority_queue<Edge> pq;
+	pq.push({u, 0});
 	dist[u] = 0;
-	while (!pq.empty()) {
-		act = pq.top().second;
+	
+	while (pq.size()) {
+		u = pq.top().v;
 		pq.pop();
-		if (!marked[act]) {
-			marked[act] = 1;
-			for(int j = 0; j < ady[act].size(); j++) {
-				weight = ady[act][j].first;
-				next = ady[act][j].second;
-				if(!marked[next] && dist[next] > dist[act] + weight) {
-					dist[next] = dist[act] + weight;
-					previous[next] = act;
-					pq.push({dist[next], next});
+		if (!vis[u]) {
+			vis[u] = true;
+			for (auto nx : g[u]) {
+				int v = nx.v;
+				if(!vis[v] && dist[v] > dist[u] + nx.w) {
+					dist[v] = dist[u] + nx.w;
+					par[v] = u;
+					pq.push({v, dist[v]});
 				}
 			}
 		}
@@ -37,8 +40,8 @@ void dijkstra(int u) {
 
 void init() {
     for(int i = 0; i <= n; i++) {
-        ady[i].clear();
-        dist[i] = LLONG_MAX;
-        marked[i] = 0;
+        g[i].clear();
+        dist[i] = 1ll << 62;
+        vis[i] = false;
     }
 }
