@@ -20,14 +20,14 @@ const int MAX = 100;
 int totient[MAX+1]; 
 bitset<MAX+1> marked;
 
-void totient() {
-    marked[1] = 1;
+void sieve_totient() {
+    marked[1] = true;
     for (int i = 0; i <= MAX; i++) totient[i] = i;
     for (int i = 2; i <= MAX; i++) if (!marked[i]) {
-        for (int j = i; j <= MAX ; j += i){
+        for (int j = i; j <= MAX ; j += i) {
             totient[j] -= totient[j] / i;
-            marked[j] = 1;
+            marked[j] = true;
         }
-        marked[i] = 0;
+        marked[i] = false;
     }
 }

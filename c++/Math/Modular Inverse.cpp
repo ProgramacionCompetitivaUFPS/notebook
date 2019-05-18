@@ -15,7 +15,7 @@ int modInverse(int a, int mod) {
     return modpow(a, mod-2, mod);
 }
 
-* Calcular el inverso modular para todos los numeros menores a mod.
+* Calcular el inverso modular para todos los numeros menores a un valor
 
 int inv[mod];
 

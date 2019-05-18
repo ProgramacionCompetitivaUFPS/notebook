@@ -1,4 +1,5 @@
-La función de Miller-Rabin determina si un número dado es o no un número primo. IMPORTANTE: Debe agregarse los métodos de Random Integers, Modular Exponentiation y Modular Multiplication.
+La función de Miller-Rabin determina si un número dado es o no un número primo.
+IMPORTANTE: Debe agregarse los métodos de Random Integers de Utilities, Modular Exponentiation y Modular Multiplication.
 
 bool isPrime(long long p) {
     if (p < 2 || (p != 2 && p % 2 == 0)) return 0;

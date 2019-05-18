@@ -5,8 +5,8 @@ int x, y;
 int extendedEuclid(int a, int b) {
     if(b == 0) { x = 1; y = 0; return a; }
     int d = extendedEuclid(b, a % b);
-    int temp = x;
+    int _x = x;
     x = y;
-    y = temp - (a/b)*y;
+    y = _x - (a/b)*y;
     return d;
 }
