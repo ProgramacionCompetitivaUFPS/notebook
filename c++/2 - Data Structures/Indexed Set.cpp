@@ -7,4 +7,4 @@ Estructura de datos basada en políticas. Funciona como un set<> pero es indexad
 using namespace __gnu_pbds;
 
 typedef tree<int, null_type, less<int>, rb_tree_tag,
-	tree_order_statistics_node_update> indexed_set;
+    tree_order_statistics_node_update> indexed_set;
