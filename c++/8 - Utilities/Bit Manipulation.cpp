@@ -1,6 +1,6 @@
 Operaciones a nivel de bits.
 
-n & (n<<k)	-> Verifica si el k-esimo bit esta encendido o no
+n & (1<<k)	-> Verifica si el k-esimo bit esta encendido o no
 n | (1<<k)	-> Enciende el k-esimo bit
 n & ~(1<<k)	-> Apaga el k-esimo bit
 n ^ (1<<k)	-> Invierte el k-esimo bit
