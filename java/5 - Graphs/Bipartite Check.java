@@ -1,30 +1,35 @@
-Algoritmo para la detección de grafos bipartitos. Modificación de BFS.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Modificación del BFS para detectar si un grafo es bipartito.
+    
+static final int MAX = 100005; //Cantidad maxima de nodos
+static ArrayList<Integer> g[] = new ArrayList[MAX]; //Lista de adyacencia
+static int color[] = new int[MAX]; //Almacena el color de cada nodo
+static boolean bipartite; //true si el grafo es bipartito
+static int N, M; //Cantidad de nodos y aristas
 
-static int v, e; //vertices, arcos
-static int MAX=100005; 
-static ArrayList<Integer> ady[] = new ArrayList[MAX]; //lista de Adyacencia
-static int color[] = new int[MAX];
-static boolean bipartite;
-
-//Recibe el nodo inicial s
-static void bfs(int s){
-    Queue<Integer> q = new LinkedList<Integer>();
-    q.add(s); 
-    color[s] = 0;
-    int actual, i, next;
-
-    while( !q.isEmpty() && bipartite ){
-        actual = q.poll();
-        for( i = 0; i < ady[actual].size(); i++){
-            next = ady[actual].get(i);
-            if( color[next] == -1 ){
-                color[next] = 1 - color[actual];
-                q.add(next);
-            }else if( color[next] == color[actual] ){
+void bfs(int u) {
+    Queue<Integer> q = new LinkedList<>();
+    q.add(u);
+    color[u] = 0;
+    
+    while (!q.isEmpty()) {
+        u = q.poll();
+        for (int v : g[u]) {
+            if (color[v] == -1) {
+                color[v] = color[u]^1;
+                q.add(v);
+            } else if (color[v] == color[u]) {
                 bipartite = false;
                 return;
             }
         }
     }
 }
+
+static void init() {
+    bipartite = true;
+    for(int i = 0; i <= N; i++) {
+        g[i] = new ArrayList<>();
+        color[i] = -1;
+    }
+}
+  
