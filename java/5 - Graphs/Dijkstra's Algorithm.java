@@ -1,5 +1,4 @@
-ALgoritmo que dado un grafo con pesos no negativos halla la ruta mínima entre un nodo inicial s y todos los demás nodos.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo con pesos no negativos halla la ruta de costo mínimo entre un nodo inicial u y todos los demás nodos.
 
 static long INF = (1l<<62);
 static final int MAX = 100005; //Cantidad maxima de nodos
