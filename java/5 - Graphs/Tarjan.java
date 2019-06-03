@@ -1,65 +1,42 @@
-Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo dirigido halla las componentes fuertemente conexas (SCC).
 
-   static int v;
-    static int n = 5000; // Máxima cantidad de nodos
-    static int dfs_low[] = new int[n];
-    static int dfs_num[] = new int[n];
-    static boolean marked[] = new boolean[n];
-    static Stack<Integer> s;
-    static int dfsCont, cantSCC;
-    static ArrayList<Integer> ady[] = new ArrayList[n];
+static final int MAX = 100005; //Cantidad maxima de nodos
+static ArrayList<Integer> g[] = new ArrayList[MAX]; //Lista de adyacencia
+static boolean[] vis = new boolean[MAX]; //Marca los nodos ya visitados
+static Stack<Integer> st = new Stack();   
+static int[] low = new int[MAX];
+static int[] num = new int[MAX];
+static int compOf[] = new int[MAX]; //Almacena la componente a la que pertenece cada nodo
+static int cantSCC; //Cantidad de componentes fuertemente conexas
+static int N, M, cont; //Cantidad de nodos y aristas
 
-    public static void tarjanSCC(int u) {
-        dfs_low[u] = dfs_num[u] = dfsCont;
-        dfsCont++;
-        s.push(u);
-        marked[u] = true;
-        int j, v;
-        for (j = 0; j < ady[u].size(); j++) {
-            v = ady[u].get(j);
-
-            if (dfs_num[v] == -1) {
-                tarjanSCC(v);
-            }
-
-            if (marked[v]) {
-                dfs_low[u] = Math.min(dfs_low[u], dfs_low[v]);
-            }
-        }
-
-        if (dfs_low[u] == dfs_num[u]) {
-            cantSCC++;
-            /* Esta seccion comentada se usa para imprimir las componentes conexas */
-		/* System.out.println("COMPONENTE CONEXA #" + cantSCC );
-		while( !s.empty() ){
-			v = s.peek();
-			s.pop();
-			marked[v] = false;
-			System.out.println(v);
-			if( u == v ) break;
-		} */
-        }
+static void tarjan(int u) {
+    low[u] = num[u] = cont++;
+    st.push(u);
+    vis[u] = true;
+    
+    for (int v : g[u]) {
+        if (num[v] == -1)
+            tarjan(v);
+        if (vis[v])
+            low[u] = Math.min(low[u], low[v]);
     }
-
-    public static void main(String[] args) {
-	    
-	cantSCC=0;
-        for (int i = 0; i < n; i++) { //inicializa las estructuras necesarias para la ejecucion del algoritmo.
-            ady[i] = new ArrayList<Integer>();
-            dfs_low[i] = 0;
-            dfs_num[i] = -1;
-            marked[i] = false;
+    
+    if (low[u] == num[u]) {
+        while (true) {
+            int v = st.pop();
+            vis[v] = false;
+            compOf[v] = cantSCC;
+            if (u == v) break;
         }
-
-        for (int i = 0; i < v; i++) { //Por si el grafo no es conexo
-            if (dfs_num[i] == -1) {
-                dfsCont = 0;
-                s = new Stack<Integer>();
-                tarjanSCC(i);
-            }
-        }
+        cantSCC++;
     }
+}
 
-
-
+static void init() {
+    cont = cantSCC = 0;
+    for (int i = 0; i <= N; i++) {
+        g[i].clear();
+        num[i] = -1;
+    }
+}
