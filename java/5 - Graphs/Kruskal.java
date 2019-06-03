@@ -1,39 +1,55 @@
-Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. Utiliza la técnica de Union-Find(Conjuntos disjuntos) para detectar que aristas generan ciclos.
-Requiere la clase Edge(con pesos).
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo con pesos halla su árbol cobertor mínimo.
+IMPORTANTE: Debe agregarse Disjoint Set.
 
-static int v, e; //vertices, arcos
-static int MAX=100005;     
-static int parent[]= new int [MAX];
-static ArrayList<Edge> edges;
-static ArrayList<Edge> answer;
+static class edge implements Comparable<edge> {    
+    int u, v, w;        
+    edge(int _u, int _v, int _w) {
+        u = _u;
+        v = _v;
+        w = _w;
+    }
 
-//UNION-FIND   
-static int find(int i){
-    parent[i] = ( parent[i] == i ) ? i : find(parent[i]);
-    return parent[i];
+    @Override
+    public int compareTo(edge o) {
+        if(w > o.w)return 1;
+        else return -1;
+    }
 }
 
-static void unionFind(int x, int y){
-    parent[ find(x) ] = find(y);
+static class par{
+    int F, S;
+
+    par(int f, int s){
+        F = f;
+        S = s;
+    }
+
 }
 
-static void kruskall(){
-    Edge actual;
-    int aux, i, x,y;
-    aux = i = 0;
-    Collections.sort(edges);
-        
-    while( aux < (v-1) && i < edges.size() ){
-        actual = edges.get(i);
-        x = find(actual.src);
-        y = find(actual.dest);
+static final int MAX = 100005; //Cantidad maxima de nodos
+static ArrayList<par> g[] = new ArrayList[MAX]; //Lista de adyacencia
+static ArrayList<edge> e = new ArrayList<>(); //Lista de aristas
+static int N, M; //Cantidad de nodos y aristas
 
-        if( x != y ){
-            answer.add(actual);
-            aux++;
-            unionFind(x, y);
+static void kruskall() {
+    Collections.sort(e);
+    dsu ds = new dsu(N);
+    int sz = 0;
+    for (edge ed: e) {
+    if (ds.find(ed.u) != ds.find(ed.v)) {
+            ds.unite(ed.u, ed.v);
+            g[ed.u].add(new par(ed.v, ed.w));
+            g[ed.v].add(new par(ed.u, ed.w));
+            if (++sz == N - 1) {
+                break;
+            }
         }
-        i++;
+    }
+}
+
+static void init() {
+    e.clear();
+    for (int i = 0; i <= N; i++) {
+        g[i] = new ArrayList<>();
     }
 }
