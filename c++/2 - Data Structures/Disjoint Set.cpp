@@ -1,34 +1,31 @@
 Estructura de datos para modelar una colección de conjuntos disyuntos.
 Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos en un uno.
 
-const int MAX = 100005;
+struct dsu {
+    vector<int> par, sz;
+    int size; //Cantidad de conjuntos
 
-struct Dsu {
-    int dsu[MAX], size[MAX];
-    int numSets;
-
-    Dsu(int n) {
-        for(int i = 0; i <= n; i++) {
-            dsu[i] = i; size[i] = 1;
+    dsu(int n) {
+        size = n;
+    	par = sz = vector<int>(n);
+        for (int i = 0; i < n; i++) {
+            par[i] = i; sz[i] = 1;
         }
-        numSets = n;
     }
-
+    //Busca el nodo representativo del conjunto de u
     int find(int u) {
-        return (dsu[u] == u) ? u : (dsu[u] = find(dsu[u]));
+        return par[u] == u ? u : (par[u] = find(par[u]));
     }
-
-    void unite(int a, int b) {
-        a = find(a);
-        b = find(b);
-        if(a == b) return;
-        if(size[a] > size[b]) swap(a,b);
-        dsu[a] = b;
-        size[b] += size[a];
-        numSets--;
+    //Une los conjuntos de u y v
+    void unite(int u, int v) {
+        if ((u = find(u)) == (v = find(v))) return;
+        if (sz[u] > sz[v]) swap(u,v);
+        par[u] = v;
+        sz[v] += sz[u];
+        size--;
     }
-
-    int sizeOf(int u) {
-        return size[find(u)];
+    //Retorna la cantidad de elementos del conjunto de u
+    int count(int u) {
+        return sz[find(u)];
     }
 };
