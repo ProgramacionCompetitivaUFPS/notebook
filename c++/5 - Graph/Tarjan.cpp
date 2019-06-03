@@ -1,61 +1,41 @@
-Algoritmo para hallar componentes fuertemente conexas(SCC) en grafos dirigidos.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo dirigido halla las componentes fuertemente conexas (SCC).
 
-int v, e; 
-const int MAX = 5000; // Máxima cantidad de nodos
-int dfs_low[MAX];
-int dfs_num[MAX];
-bool marked[MAX];
-vector<int> s;
-int dfsCont, cantSCC;
-vector<int> ady[];
-	
-void tarjanSCC( int u ){
-	dfs_low[u] = dfs_num[u] = dfsCont;
-	dfsCont++;
-	s.push_back(u);
-	marked[u] = true;
-		
-	int j, v;
-		
-	for( j = 0; j < ady[u].size(); j++ ){
-		v = ady[u][j] );
-			
-		if( dfs_num[v] == -1 ){
-			tarjanSCC( v );
-		}
-			
-		if( marked[v] ){
-			dfs_low[u] = min( dfs_low[u], dfs_low[v] );
-		}
-	}
-		
-	if( dfs_low[u] == dfs_num[u] ){
-		cantSCC++;
-        /* ********************************************************* */
-        /* Esta seccion se usa para imprimir las componentes conexas */
-		cout << "COMPONENTE CONEXA #" << cantSCC << "\n";
-		while( true ){
-			v = s.back();
-			s.pop_back();
-			marked[v] = false;
-			cout << v << "\n";
-			if( u == v ) break;
-		}
-        /* ********************************************************** */
-	}	
-}
+const int MAX = 100005; //Cantidad maxima de nodos
+vector<int> g[MAX]; //Lista de adyacencia
+bitset<MAX> vis; //Marca los nodos ya visitados
+stack<int> st;
+int low[MAX], num[MAX], cont;
+int compOf[MAX]; //Almacena la componente a la que pertenece cada nodo
+int cantSCC; //Cantidad de componentes fuertemente conexas
+int N, M; //Cantidad de nodos y aristas
 
-int main (){
-    for( int i = 0; i < v; i++ ){ //Por si el grafo no es conexo
-        if( dfs_num[i] == -1 ){
-            dfsCont = 0;
-            s.clear();
-            tarjanSCC(i);
+void tarjan(int u) {
+    low[u] = num[u] = cont++;
+    st.push(u);
+    vis[u] = true;
+    
+    for (int v : g[u]) {
+        if (num[v] == -1)
+            tarjan(v);
+        if (vis[v])
+            low[u] = min(low[u], low[v]);
+    }
+    
+    if (low[u] == num[u]) {
+        while (true) {
+            int v = st.top(); st.pop();
+            vis[v] = false;
+            compOf[v] = cantSCC;
+            if (u == v) break;
         }
+        cantSCC++;
     }
 }
-	
 
-
-
+void init() {
+    cont = cantSCC = 0;
+    for (int i = 0; i <= N; i++) {
+        g[i].clear();
+        num[i] = -1;
+    }
+}
