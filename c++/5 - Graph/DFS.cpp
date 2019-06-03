@@ -4,7 +4,7 @@ DFS puede ser usado para contar la cantidad de componentes conexas en un grafo y
 const int MAX = 100005; //Cantidad maxima de nodos
 vector<int> g[MAX]; //Lista de adyacencia
 bitset<MAX> vis; //Marca los nodos ya visitados
-int n, m; //Cantidad de nodos y aristas
+int N, M; //Cantidad de nodos y aristas
 
 void dfs(int u) {
     vis[u] = true;
@@ -14,7 +14,7 @@ void dfs(int u) {
 }
 
 void init() {
-    for(int i = 0; i <= n; i++) {
+    for(int i = 0; i <= N; i++) {
         g[i].clear();
         vis[i] = false;
     }

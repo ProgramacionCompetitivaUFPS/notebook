@@ -1,18 +1,20 @@
-Algoritmo para grafos que halla la distancia mínima entre cualquier par de nodos. ady[i][j] guardará la distancia mínima entre el nodo i y el j.
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo halla la distancia mínima entre cualquier par de nodos. g[i][j] guardará la distancia mínima entre el nodo i y el j.
 
-int v, e; //vertices, arcos
-const int MAX = 505; //Cantidad máxima de nodos del grafo
-int ady[505][505]; //Matriz de adyacencia del grafo
+const int MAX = 505; //Cantidad maxima de nodos
+int g[MAX][MAX]; //Matriz de adyacencia
+int N, M; //Cantidad de nodos y aristas
 
-void floydWarshall(){
-   int k, i ,j;
-    
-    for( k = 0; k < v; k++ ){
-        for( i = 0; i < v; i++ ){
-            for( j = 0; j < v; j++ ){
-                ady[i][j] = min( ady[i][j], ( ady[i][k] + ady[k][j] ) );
-            }
+void floydWarshall() {
+    for (int k = 0; k < N; k++)
+        for (int i = 0; i < N; i++)
+            for (int j = 0; j < N; j++)
+                g[i][j] = min(g[i][j], g[i][k] + g[k][j]);
+}
+
+void init() {
+    for(int i = 0; i <= N; i++) {
+        for(int j = 0; j <= N; j++) {
+            g[i][j] = INF;
         }
     }
 }
