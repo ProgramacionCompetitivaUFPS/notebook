@@ -4,7 +4,7 @@ BFS tambien halla la distancia mas corta entre el nodo inicial u y los demas nod
 const int MAX = 100005; //Cantidad maxima de nodos
 vector<int> g[MAX]; //Lista de adyacencia
 long long dist[MAX]; //Almacena la distancia a cada nodo
-int n, m; //Cantidad de nodos y aristas
+int N, M; //Cantidad de nodos y aristas
 
 void bfs(int u) {
     queue<int> q;
@@ -24,7 +24,7 @@ void bfs(int u) {
 }
 
 void init() {
-    for(int i = 0; i <= n; i++) {
+    for(int i = 0; i <= N; i++) {
         g[i].clear();
         dist[i] = -1;
     }
