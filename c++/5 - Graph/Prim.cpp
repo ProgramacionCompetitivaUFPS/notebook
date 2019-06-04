@@ -1,43 +1,46 @@
-Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. 
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo halla el costo total de su arbol cobertor mínimo.
 
-#define Node pair < int, long long > //(Vertice adyacente, peso)
+struct edge {
+    int v;
+    long long w;
+    
+    bool operator < (const edge &b) const {
+        return w > b.w; //Orden invertido
+    }
+};
 
-int v, e; //vertices, arcos
-const int MAX = 100005; 
-vector < Node > ady[MAX]; 
-bool marked[MAX]; 
-int rta; 
+const int MAX = 100005; //Cantidad maxima de nodos
+vector<edge> g[MAX]; //Lista de adyacencia
+bitset<MAX> vis; //Marca los nodos ya visitados
+long long ans; //Costo total del arbol cobertor minimo
+int N, M; //Cantidad de nodos y aristas
 
-class cmp {
-  public:
-    bool operator()(Node n1, Node n2) {
-      return (n1.second > n2.second); 
-}; 
+void prim() {
+    priority_queue<edge> pq;
+    vis[0] = true;
+    for (auto &ed : g[0]) {
+        int v = ed.v;
+        if (!vis[v]) pq.push({v, ed.w});
+    }
+    
+    while (pq.size()) {
+        edge ed = pq.top(); pq.pop(); 
+        int u = ed.v;
+        if (!vis[u]) {
+            ans += ed.w;
+            vis[u] = true;
+            for (auto &ed : g[u]) {
+                int v = ed.v;
+                if (!vis[v]) pq.push({v, ed.w});
+            }
+        }
+    }
+}
 
-static void prim() {
-  priority_queue < Node, vector < Node > , cmp > pq; 
-  int u, w, i, v; 
-
-  marked[0] = true; 
-  for (i = 0; i < ady[0].size(); i++) {
-    v = ady[0][i].first; 
-    if ( ! marked[v]) pq.add(Node(v, ady[u][i].second)); 
-	}
-
-	while ( ! pq.empty()) {
-		u = pq.top().first; 
-		w = pq.top().second; 
-
-		pq.pop(); 
-
-		if ( !marked[u]) {
-			rta += w; 
-			marked[u] = true; 
-      for (i = 0; i < ady[u].size(); i++) {
-        v = ady[u][i].first; 
-        if ( ! marked[v]) pq.add(Node(v, ady[u][i].second)); 
-      }
-		}
-	}
+void init() {
+    ans = 0;
+    for(int i = 0; i <= N; i++) {
+        g[i].clear();
+        vis[i] = false;
+    }
 }
