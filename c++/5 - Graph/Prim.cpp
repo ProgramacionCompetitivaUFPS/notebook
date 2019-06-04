@@ -29,9 +29,9 @@ void prim() {
         if (!vis[u]) {
             ans += ed.w;
             vis[u] = true;
-            for (auto &ed : g[u]) {
-                int v = ed.v;
-                if (!vis[v]) pq.push({v, ed.w});
+            for (auto &e : g[u]) {
+                int v = e.v;
+                if (!vis[v]) pq.push({v, e.w});
             }
         }
     }
