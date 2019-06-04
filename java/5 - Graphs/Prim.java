@@ -1,39 +1,53 @@
-Algoritmo para hallar el arbol cobertor mínimo de un grafo  no dirigido y conexo. 
-Requiere de la clase Node
-SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
+Dado un grafo halla el costo total de su arbol cobertor mínimo.
 
-static int v, e; //vertices, arcos
-static int MAX=100005; 
-static ArrayList<Node> ady[] = new ArrayList[MAX];
-static boolean marked[] = new boolean[MAX];
-static int rta;
-static PriorityQueue<Node> pq;
+static final int MAX = 100005; //Cantidad maxima de nodos
+static ArrayList<edge> g[] = new ArrayList[MAX]; //Lista de adyacencia
+static boolean[] vis = new boolean[MAX]; //Marca los nodos ya visitados
+static long ans; //Costo total del arbol cobertor minimo
+static int N, M; //Cantidad de nodos y aristas
 
-static void prim(){
-	process(0); //Nodo inicial;
-	int u, w;
- 
-	while( pq.size() > 0 ){
-		u = pq.peek().adjacent;
-		w = pq.peek().cost;
- 
-		pq.poll();
- 
-		if( !marked[u] ){
-			rta += w;
-			process(u);
-		}
-	}
+static class edge implements Comparable<edge>{
+    int v;
+    long w;
+    
+    edge(int _v, long _w){
+        v = _v;
+        w = _w;
+    }
+
+    @Override
+    public int compareTo(edge o) {
+        if(w > o.w)return 1;
+        return -1;
+    }   
 }
- 
-static void process( int u ){
-	marked[u] = true;
-	int i, v;
- 
-	for( i = 0; i < ady[u].size(); i++ ){
-		v = ady[u].get(i).adjacent;
-        if( !marked[v] ){
-			pq.add( new Node( v, ady[u].get(i).cost ) );	
-		}
-	}
+
+static void prim() {
+    PriorityQueue<edge> pq = new PriorityQueue<>();
+    vis[0] = true;
+    for (edge ed : g[0]) {
+        int v = ed.v;
+        if (!vis[v]) pq.add(new edge(v, ed.w));
+    }
+    
+    while (!pq.isEmpty()) {
+        edge ed = pq.poll(); 
+        int u = ed.v;
+        if (!vis[u]) {
+            ans += ed.w;
+            vis[u] = true;
+            for (edge e : g[u]) {
+                int v = e.v;
+                if (!vis[v]) pq.add(new edge(v, e.w));
+            }
+        }
+    }
 }
+
+static void init() {
+    ans = 0;
+    for(int i = 0; i <= N; i++) {
+        g[i] = new ArrayList();
+        vis[i] = false;
+    }
+}  
