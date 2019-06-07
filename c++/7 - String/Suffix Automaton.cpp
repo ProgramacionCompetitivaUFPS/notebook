@@ -1,4 +1,4 @@
-//
+Utilizar el metodo suffixAutomaton() luego de leer el string s para construir el automata de sufijos.
 
 struct state {
     int len, link;
