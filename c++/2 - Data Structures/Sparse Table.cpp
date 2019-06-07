@@ -1,3 +1,5 @@
+Estructura de datos que permite procesar consultas por rangos.
+
 const int MAX_N = 1000;
 const int K = log2(MAX_N)+1;
 int st[MAX_N][K];
