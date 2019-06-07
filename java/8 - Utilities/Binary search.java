@@ -1,4 +1,4 @@
-Dado un arreglo de tamaño n, busca el elemento x y devuelve su posición, si no lo encuentra devuelve -1.
+Dado un arreglo ordenado ascendentemente de tamaño n, busca el elemento x y devuelve su posición, si no lo encuentra devuelve -1.
 
 static int binary_search(int array[], int n, int x){
 	int l = 0; r = n-1;
