@@ -1,4 +1,4 @@
-Dado un arreglo ordenado ascendentemente de tamaño n, busca el elemento x y devuelve la posición más a la izquierda, si no lo encuentra devuelve la siguiente posición. Si la posición se sale del arreglo devuelve -1.
+Dado un arreglo ordenado ascendentemente de tamaño n, busca el elemento x y devuelve la posición de la primera aparición de x, si no lo encuentra devuelve la siguiente posición. Si la posición se sale del arreglo devuelve -1.
 
 static int lower_bound(int arr[], int n, int x) {
 	int l = 0, r = n-1;
