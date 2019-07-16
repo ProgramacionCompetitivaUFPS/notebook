@@ -1,3 +1,5 @@
+Estructura de datos que permite procesar consultas por rangos y actualizaciones individuales sobre un arreglo.
+
 const int N = 100000;
 int bit[N+1];
 

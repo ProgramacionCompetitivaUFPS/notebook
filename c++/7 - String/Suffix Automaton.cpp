@@ -1,4 +1,4 @@
-//
+Utilizar el metodo suffixAutomaton() luego de leer el string s para construir el automata de sufijos.
 
 struct state {
     int len, link;
@@ -47,7 +47,7 @@ void suffixAutomaton() {
 void sa_run(string p) {
     int n = p.size();
     for (int cur = 0, i = 0; i < n; ++i) {
-        if (sa[i].next.count(p[i])) cur = sa[cur].next[p[i]];
+        if (sa[cur].next.count(p[i])) cur = sa[cur].next[p[i]];
         else cur = max(sa[cur].link, 0);
     }
 }
@@ -75,7 +75,7 @@ int sa_count_ocurrences(int cur) {
 int sa_string_matching(string p) {
     int m = p.size(), cur = 0;
     for (int i = 0; i < m; ++i) {
-        if (!sa[i].next.count(p[i])) return 0;
+        if (!sa[cur].next.count(p[i])) return 0;
         else cur = sa[cur].next[p[i]];
     }
     return sa_count_ocurrences(cur);
