@@ -12,7 +12,7 @@ stack<int> st;
 int low[MAX], num[MAX], cont;
 bitset<MAX> art; //Si el nodo es un punto de articulacion
 //vector<set<int>> comps; //Componentes biconexas
-//<vector<int>> tree; //Block cut tree
+//vector<vector<int>> tree; //Block cut tree
 //vector<int> id; //Id del nodo en el block cut tree
 int cantBCC; //Cantidad de componentes biconexas
 int N, M; //Cantidad de nodos y aristas
