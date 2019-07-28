@@ -36,6 +36,6 @@ void init() {
     cont = cantSCC = 0;
     for (int i = 0; i <= N; i++) {
         g[i].clear();
-        num[i] = -1;
+        num[i] = -1; //no visit
     }
 }
