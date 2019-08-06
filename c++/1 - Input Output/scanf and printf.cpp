@@ -1,4 +1,4 @@
-* Lectura según el tipo de dato (Se usan las mismas para imprimir)
+* Lectura según el tipo de dato (Se usan las mismas para imprimir):
 
 scanf("%d", &value); //int
 scanf("%ld", &value); //long y long int
@@ -10,6 +10,6 @@ scanf("%lld", &value); //long long int
 scanf("%x", &value); //int hexadecimal
 scanf("%o", &value); //int octal
 
-* Impresión de punto flotante con d decimales (ej: d = 6)
+* Impresión de punto flotante con d decimales, ejemplo 6 decimales:
 
 printf("%.6lf", value);
