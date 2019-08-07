@@ -3,7 +3,7 @@ El inverso modular de a se utiliza para calcular (n/a) % m como (n*b) % m.
 
 * Se puede calcular usando el algoritmo de Euclides extendido. Agregar Extended Euclides.
 
-/// O(log(max(a, b)))
+/// O(log(max(a, m)))
 int invmod(int a, int m) {
     int d = euclid(a, m);
     if (d > 1) return -1;
