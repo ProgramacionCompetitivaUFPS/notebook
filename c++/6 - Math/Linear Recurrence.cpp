@@ -1,15 +1,21 @@
-Calcula el fibonacci de n como la suma de los k terminos anteriores de la secuencia (En la secuencia común k = 2).
+Calcula el n-ésimo termino de una recurrencia lineal que depende de los k terminos anteriores.
+* Si no es necesario inicializar las matrices multiples veces llamar init(k) en el main una única vez.
+Este ejemplo calcula el fibonacci de n como la suma de los k terminos anteriores de la secuencia (En la secuencia común k = 2).
 IMPORTANTE: Debe agregarse Matrix Multiplication.
 
-int fib(long long n, int k = 2) {
-    matrix F(k, 1);
-    F.m[0][0] = F.m[1][0] = 1;
-    for (int i = 2; i < k; i++)
-        F.m[i][0] = F.m[i-1][0] * 2;
-    matrix T(k, k);
+matrix F, T;
+
+void init(int k) {
+    F = {k, 1}; // primeros k terminos
     for (int i = 0; i < k; i++)
-        for (int j = 0; j < k; j++)
-            if (i == k-1 || i == j-1) T.m[i][j] = 1;
-    F = pow(T, n) * F;
-    return F.m[0][0];
+        F.m[i][0] = i < 2 ? 1 : (F.m[i-1][0]<<1);
+    T = {k, k}; // fila k-1 = coeficientes: [c_k, c_k-1, ..., c_1]
+    for (int i = 0; i < k-1; i++) T.m[i][i+1] = 1;
+    for (int i = 0; i < k; i++) T.m[k-1][i] = 1;
+}
+/// O(k^3 log(n))
+int fib(ll n, int k = 2) {
+    init(k);
+    matrix ANS = pow(T, n) * F;
+    return ANS.m[0][0];
 }

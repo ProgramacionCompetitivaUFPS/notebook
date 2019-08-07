@@ -1,31 +1,28 @@
-La función totient de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
+La función phi de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
 
-* Dado un valor n calcula el Euler totient de n. Debe ejecutarse primero Sieve of Eratosthenes (al menos hasta un numero mayor a la raiz cuadrada de n).
-
-long long totient(long long n) {
-    long long tot = n;
-    for (int i = 0, p = primes[i]; p*p <= n; p = primes[++i]) {
-        if (n % p == 0) {
-            while (n % p == 0) n /= p;
-            tot -= tot / p;
-        }
+/// O(sqrt(n))
+ll phi(ll n) {
+    ll ans = n;
+    for (ll p = 2; p*p <= n; p++) {
+        if (n % p == 0) ans -= tot / p;
+        while (n % p == 0) n /= p;
     }
-    if (n > 1) tot -= tot / n;
-    return tot;
+    if (n > 1) ans -= ans / n;
+    return ans;
 }
 
-* Calcular el Euler totient para todos los numeros menores o iguales a MAX.
+* Calcular el Euler totient para todos los numeros menores o iguales a MAX con Sieve of Eratosthenes.
 
-const int MAX = 100;
-int totient[MAX+1]; 
+const int MAX = 10000000;
+int phi[MAX+1];
 bitset<MAX+1> marked;
-
-void sieve_totient() {
-    marked[1] = true;
-    for (int i = 0; i <= MAX; i++) totient[i] = i;
+///  O(MAX log(log(MAX)))
+void sieve() {
+    iota(phi, phi+MAX+1, 0);
+    marked[0] = marked[1] = true;
     for (int i = 2; i <= MAX; i++) if (!marked[i]) {
         for (int j = i; j <= MAX ; j += i) {
-            totient[j] -= totient[j] / i;
+            phi[j] -= phi[j] / i;
             marked[j] = true;
         }
         marked[i] = false;

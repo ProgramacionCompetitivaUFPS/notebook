@@ -1,26 +1,29 @@
-El inverso multiplicativo modular de a % mod es un entero b tal que (a*b) % mod = 1. Éste existe siempre y cuando a y mod sean coprimos (gcd(a, mod) = 1).
-El inverso modular de a se utiliza para calcular (n/a) % mod como (n*b) % mod.
+El inverso multiplicativo modular de a % m es un entero b tal que (a*b) % m = 1. Éste existe siempre y cuando a y m sean coprimos (gcd(a, m) = 1).
+El inverso modular de a se utiliza para calcular (n/a) % m como (n*b) % m.
 
 * Se puede calcular usando el algoritmo de Euclides extendido. Agregar Extended Euclides.
 
-int modInverse(int a, int mod) {
-    int d = extendedEuclid(a, mod);
+/// O(log(max(a, b)))
+int invmod(int a, int m) {
+    int d = euclid(a, m);
     if (d > 1) return -1;
-    return (x % mod + mod) % mod;
+    return (x % m + m) % m;
 }
 
-* Si mod es un número primo, se puede calcular aplicando el pequeño teorema de Fermat. Agregar Modular Exponentiation.
+* Si m es un número primo, se puede calcular aplicando el pequeño teorema de Fermat. Agregar Modular Exponentiation.
 
-int modInverse(int a, int mod) {
-    return modpow(a, mod-2, mod);
+/// O(log(m))
+int invmod(int a, int m) {
+    return expmod(a, m-2, m);
 }
 
-* Calcular el inverso modular para todos los numeros menores a un valor
+* Calcular el inverso modulo m para todos los numeros menores o iguales a MAX
 
-int inv[mod];
-
-void modInverse() {
+const int MAX = 1000000;
+ll inv[MAX+1];
+/// O(MAX)
+void invmod(ll m) {
     inv[1] = 1;
-    for(int i = 2; i < mod; i++)
-        inv[i] = (mod - (mod/i) * inv[mod%i] % mod) % mod;
+    for(int i = 2; i <= MAX; i++)
+        inv[i] = ((m - m/i) * inv[m%i]) % m;
 }

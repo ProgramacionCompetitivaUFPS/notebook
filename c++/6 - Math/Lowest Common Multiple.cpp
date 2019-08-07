@@ -1,5 +1,6 @@
-Calculo del mínimo común múltiplo usando el máximo común divisor. Agregar Greatest Common Divisor.
+Calculo del mínimo común múltiplo usando el máximo común divisor.
 
-int lcm (int a, int b) {
-    return a*b / gcd(a, b);
+/// O(log(max(a, b)))
+int lcm(int a, int b) {
+    return a*b / __gcd(a, b);
 }
