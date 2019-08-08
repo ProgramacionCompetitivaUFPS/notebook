@@ -1,7 +1,7 @@
 Estructura para realizar operaciones de multiplicación y exponenciación modular sobre matrices.
 
-#define mod 1000000007
-const int N = 2; //tamanio maximo de la matriz
+const int MOD = 1000000009;
+const int N = 2; //Maximo size de la matriz
 
 struct matrix {
     int m[N][N], r, c;
@@ -17,14 +17,14 @@ struct matrix {
         for(int i = 0; i < r; i++)
             for(int j = 0; j < B.c; j++)
                 for(int k = 0; k < c; k++)
-                    C.m[i][j] = (1ll*C.m[i][j] + 1ll*m[i][k]*B.m[k][j]) % mod;
+                    C.m[i][j] = (1ll*C.m[i][j] + 1ll*m[i][k]*B.m[k][j]) % MOD;
         return C;
     }
 };
 
-matrix pow(matrix &A, long long e) {
+matrix pow(matrix &A, ll e) {
     if (e == 0) return {A.r, A.c, true};
     if (e&1) return A * pow(A, e-1);
-    matrix X = pow(A, e/2);
+    matrix X = pow(A, e>>1);
     return X * X;
 }
