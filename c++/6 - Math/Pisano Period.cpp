@@ -1,5 +1,5 @@
 Calcula el Periodo de Pisano de m, que es el periodo con el cual se repite la Sucesión de Fibonacci modulo m.
-IMPORTANTE: Si m es primo el algoritmo funciona (considerable) para m < 10^6. Debe agregarse Modular Exponentiation (sin el modulo) y Lowest Common Multiple (para long long).
+Si m es primo el algoritmo funciona (considerable) para m < 10^6. Aregar Modular Exponentiation (sin el modulo) y Lowest Common Multiple (para long long).
 
 ll period(ll m) {
     ll a = 0, b = 1, c, pp = 0;
