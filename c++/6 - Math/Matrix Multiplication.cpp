@@ -15,8 +15,8 @@ struct matrix {
     matrix operator * (const matrix &B) {
         matrix C(r, B.c);
         for(int i = 0; i < r; i++)
-            for(int j = 0; j < B.c; j++)
-                for(int k = 0; k < c; k++)
+            for(int k = 0; k < c; k++) if (m[i][k])
+                for(int j = 0; j < B.c; j++)
                     C.m[i][j] = (1ll*C.m[i][j] + 1ll*m[i][k]*B.m[k][j]) % MOD;
         return C;
     }
