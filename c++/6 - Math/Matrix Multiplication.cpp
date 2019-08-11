@@ -1,6 +1,6 @@
 Estructura para realizar operaciones de multiplicación y exponenciación modular sobre matrices.
 
-const int MOD = 1000000009;
+#define MOD 1000000009
 const int N = 2; //Maximo size de la matriz
 
 struct matrix {
@@ -12,19 +12,22 @@ struct matrix {
         if (iden) while (_c--) m[_c][_c] = 1;
     }
 
-    matrix operator * (matrix B) {
+    matrix operator * (const matrix &B) {
         matrix C(r, B.c);
         for(int i = 0; i < r; i++)
-            for(int j = 0; j < B.c; j++)
-                for(int k = 0; k < c; k++)
+            for(int k = 0; k < c; k++) if (m[i][k])
+                for(int j = 0; j < B.c; j++)
                     C.m[i][j] = (1ll*C.m[i][j] + 1ll*m[i][k]*B.m[k][j]) % MOD;
         return C;
     }
 };
 
-matrix pow(matrix &A, ll e) {
-    if (e == 0) return {A.r, A.c, true};
-    if (e&1) return A * pow(A, e-1);
-    matrix X = pow(A, e>>1);
-    return X * X;
+matrix pow(matrix A, ll e) {
+    matrix ANS(A.r, A.c, true);
+    while (e) {
+        if (e&1) ANS = ANS * A;
+        A = A * A;
+        e >>= 1;
+    }
+    return ANS;
 }

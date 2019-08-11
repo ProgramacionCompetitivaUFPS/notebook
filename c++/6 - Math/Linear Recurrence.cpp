@@ -1,7 +1,7 @@
-Calcula el n-ésimo termino de una recurrencia lineal que depende de los k terminos anteriores.
+Calcula el n-ésimo termino de una recurrencia lineal (que depende de los k terminos anteriores).
 * Si no es necesario inicializar las matrices multiples veces llamar init(k) en el main una única vez.
 Este ejemplo calcula el fibonacci de n como la suma de los k terminos anteriores de la secuencia (En la secuencia común k = 2).
-IMPORTANTE: Debe agregarse Matrix Multiplication.
+Agregar Matrix Multiplication.
 
 matrix F, T;
 

@@ -1,5 +1,4 @@
-La función de Miller-Rabin determina si un número dado es o no un número primo.
-IMPORTANTE: Debe agregarse Modular Exponentiation.
+La función de Miller-Rabin determina si un número dado es o no un número primo. Agregar Modular Exponentiation.
 
 bool test(ll n, int a) {
     if (n == a) return true;

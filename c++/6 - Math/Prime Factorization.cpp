@@ -7,7 +7,7 @@ void fact(ll n, map<ll, int>& f) {
     if (n > 1) f[n]++;
 }
 
-* Utilizando Pollard Rho y Miller Rabin.
+* Agregar Pollard Rho y Miller Rabin.
 
 /// O(log(n)^3)
 void fact(ll n, map<ll, int>& f) {
