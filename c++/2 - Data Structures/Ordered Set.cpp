@@ -1,4 +1,4 @@
-Estructura de datos basada en políticas. Funciona como un set<> pero es internament indexado, cuenta con dos métodos adicionales.
+Estructura de datos basada en políticas. Funciona como un set<> pero es internamente indexado, cuenta con dos métodos adicionales.
 .find_by_order(k) -> Retorna un iterador al k-ésimo elemento, si k >= size() retona .end()
 .order_of_key(x) -> Retorna cuantos elementos hay menores (<) que x
 
