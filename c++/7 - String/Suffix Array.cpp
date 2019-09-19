@@ -2,22 +2,22 @@ const int MAXL = 300;
 
 struct suffixArray {
     string s;
-    int n, mx;
+    int n, MX;
     vector<int> ra, tra, sa, tsa, lcp;
 
     suffixArray(string &_s) {
         s = _s+"$";
         n = s.size();
-        mx = max(MAXL, n)+2;
+        MX = max(MAXL, n)+2;
         ra = tra = sa = tsa = lcp = vector<int>(n);
         build();
     }
 
     void radix_sort(int k) {
-        vector<int> cnt(mx, 0);
+        vector<int> cnt(MX, 0);
         for(int i = 0; i < n; i++)
             cnt[(i+k < n) ? ra[i+k]+1 : 1]++;
-        for(int i = 1; i < mx; i++)
+        for(int i = 1; i < MX; i++)
             cnt[i] += cnt[i-1];
         for(int i = 0; i < n; i++)
             tsa[cnt[(sa[i]+k < n) ? ra[sa[i]+k] : 0]++] = sa[i];
@@ -40,6 +40,8 @@ struct suffixArray {
         }
     }
 
+    int& operator[] (int i) { return sa[i]; }
+
     void build_lcp() {
         lcp[0] = 0;
         for (int i = 0, k = 0; i < n; i++) {
@@ -49,6 +51,14 @@ struct suffixArray {
             if (k) k--;
         }
     }
-
-    int& operator[] (int i) { return sa[i]; }
+    //Longest Common Substring: construir el suffixArray s = s1 + "#" + s2 + "$" y m = s2.size()
+    pair<int, int> lcs() {
+        int mx = -1, ind = -1;
+        for (int i = 1; i < n; i++) {
+            if (((sa[i] < n-m-1) != (sa[i-1] < n-m-1)) && mx < lcp[i]) {
+                mx = lcp[i]; ind = i;
+            }
+        }
+        return {mx, ind};
+    }
 };
