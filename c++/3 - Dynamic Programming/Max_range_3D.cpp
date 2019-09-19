@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 //Cambir valores a, b, c por límites correspondientes
 long long a=20, b=20, c=20;
 long long acum[a][b][c];
