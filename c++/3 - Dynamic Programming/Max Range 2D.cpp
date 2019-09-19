@@ -1,5 +1,3 @@
-#include <bits/stdc++.h>
-
 //Cambiar infinito por el mínimo valor posible
 int INF = -100000007;
 int n, m; //filas y columnas
