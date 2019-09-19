@@ -1,6 +1,6 @@
 Problemas clasicos con DAG
 
-const int INF = (int) (1e9);
+const int INF = 1e9;
 const int MAX = 1000;
 int init, fin;
 int dp[MAX];
