@@ -1,5 +1,6 @@
 Dado un string s devuelve el indice donde comienza la rotación lexicográficamente menor de s.
 
+/// O(n)
 int minimum_expression(string s) {
     s = s+s;
     int len = s.size(), i = 0, j = 1, k = 0;
