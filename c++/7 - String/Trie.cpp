@@ -5,18 +5,16 @@ char L = 'a'; //primera letra del lenguaje
 
 struct node {
     int next[MAXL];
-    bool fin;
+    bool fin = false;
     node() {
         memset(next, -1, sizeof(next));
-        fin = 0;
     }
 };
 
 vector<node> trie;
 
 void init_trie() {
-    trie.clear();
-    trie.push_back(node());
+    trie.assign(1, node());
 }
 
 void add_str(string &s) {
