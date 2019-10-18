@@ -1,5 +1,6 @@
 La función Rho de Pollard calcula un divisor no trivial de n. Agregar mulmod() de Modular Exponentiation.
 
+/// O(n^(1/4))
 ll rho(ll n) {
     if (!(n&1)) return 2;
     ll i = 0, k = 2, x = 3, y = 3, d;
