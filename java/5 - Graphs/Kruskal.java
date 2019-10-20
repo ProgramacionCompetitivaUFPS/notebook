@@ -31,7 +31,7 @@ static ArrayList<par> g[] = new ArrayList[MAX]; //Lista de adyacencia
 static ArrayList<edge> e = new ArrayList<>(); //Lista de aristas
 static int N, M; //Cantidad de nodos y aristas
 
-static void kruskall() {
+static void kruskal() {
     Collections.sort(e);
     dsu ds = new dsu(N);
     int sz = 0;
