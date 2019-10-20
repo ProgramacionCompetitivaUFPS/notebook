@@ -3,7 +3,7 @@ static final int MAX_VALUE = 1005;
 static final int INF = (int) (2e9);
 static int coins[] = new int[MAX_COINS];
 static int dp[] = new int[MAX_VALUE];
-static ArrayList<Integer> rb = new ArrayList<>();
+static ArrayList<Integer> rb = new ArrayList<>(); 
 
 //Calcula el número de formas para valores entre 1 y value. SIN CONTAR PERMUTACIONES
 static void ways(int value){
