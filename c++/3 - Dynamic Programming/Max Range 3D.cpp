@@ -3,7 +3,7 @@ long long a=20, b=20, c=20;
 long long acum[a][b][c];
 long long INF = -100000000007;
 
-max_range_3D(){
+long long max_range_3D(){
 	for(int x=0; x<a; x++){
 		for(int y = 0; y<b; y++){
 			for(int z = 0; z<c; z++){
