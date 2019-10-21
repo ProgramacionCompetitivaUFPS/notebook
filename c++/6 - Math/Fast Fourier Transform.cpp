@@ -36,10 +36,10 @@ namespace fft {
         for (int i = 0; i < la; i++) x1[i] = pt(a[i], 0);
         for (int i = 0; i < lb; i++) x2[i] = pt(b[i], 0);
         fft(x1, 1); fft(x2, 1);
-        for(int i = 0; i < n; i++) x1[i] *= x2[i];
+        for (int i = 0; i < n; i++) x1[i] *= x2[i];
         fft(x1, -1);
-        vector<ll> sol(n);
-        for(int i = 0; i < n; i++) sol[i] = real(x1[i]) + 0.5;
-        return sol;
+        vector<ll> ans(n);
+        for (int i = 0; i < n; i++) ans[i] = real(x1[i]) + 0.5;
+        return ans;
     }
 }
