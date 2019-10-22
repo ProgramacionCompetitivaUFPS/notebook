@@ -9,7 +9,6 @@ void fact(ll n, map<ll, int>& f) {
 
 * Agregar Pollard Rho y Miller Rabin.
 
-/// O(log(n)^3)
 void fact(ll n, map<ll, int>& f) {
     if (n == 1) return;
     if (isPrime(n)) { f[n]++; return; }

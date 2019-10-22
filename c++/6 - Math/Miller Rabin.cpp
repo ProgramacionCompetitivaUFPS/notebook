@@ -14,6 +14,7 @@ bool test(ll n, int a) {
     return false;
 }
 
+/// O(k log^3(n))
 bool isPrime(ll n) {
     if (n == 1) return false;
     vector<int> ar = {2,3,5,7,11,13,17,19,23};
