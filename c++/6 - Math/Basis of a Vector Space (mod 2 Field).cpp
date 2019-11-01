@@ -6,14 +6,14 @@ int sz; //cantidad de mascaras en la base
 
 /// O(n*D)
 void insertVector(int mask) {
-	for (int i = 0; i < D; ++i) {
-		if (mask & 1 << i) {
-			if (!basis[i]) {
-				basis[i] = mask;
-				++sz;
-				break;
-			}
-			mask ^= basis[i];
-		}
-	}
+    for (int i = 0; i < D; ++i) {
+        if (mask & 1 << i) {
+            if (!basis[i]) {
+                basis[i] = mask;
+                ++sz;
+                break;
+            }
+            mask ^= basis[i];
+        }
+    }
 }
