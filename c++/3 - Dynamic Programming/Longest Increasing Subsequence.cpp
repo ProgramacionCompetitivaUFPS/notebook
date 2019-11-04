@@ -1,6 +1,6 @@
 //METODO PARA CALCULAR EL LIS en O(n^2) y O(nlog(n)). La ventaja de tener a mano O(n^2) es porque es mas facil de codear, entender y modificar
 
-const int MAX = 1000;
+const int MAX = 1e5+1;
 
 int A[MAX];
 int dp[MAX];
@@ -27,46 +27,29 @@ int lis_opt(){
 	LIS.clear();
 	for(int i = 0; i < N; i++){
 		auto id = lower_bound(LIS.begin(), LIS.end(), A[i]);
-		if(id == LIS.end()) LIS.push_back(A[i]);
+		if(id == LIS.end()){
+			dp[i] = LIS.size();
+			LIS.push_back(A[i]);
+		} 
 		else{
 			int idx = id - LIS.begin();
 			LIS[idx] = A[i];
+			dp[i] = idx + 1;
 		}
 	}
 	return LIS.size();
 }
 
-//Metodo para calcular y además reconstruir el LIS O(nlogn)
-int build_lis(){
-	LIS.clear();
-	int parent[N], last;
-	vector<int> rb;
-	for(int i = 0; i < N; i++){
-		auto id = lower_bound(LIS.begin(), LIS.end(), A[i]);
-		if(id == LIS.end()){ 
-			LIS.push_back(A[i]);
-			rb.push_back(i);
-			if(i) parent[i] = rb[rb.size() - 2];
-			else parent[i] = -1;
-			last = i;
-		}
-		else{
-			int idx = id - LIS.begin();
-			LIS[idx] = A[i];
-			rb[idx] = i;
-			parent[i] = rb[idx - 1]; 
+//METODO PARA RECONSTRUIR LIS. Para non-decreasing cambiar < por <=
+stack<int> rb;
+void build(){
+	int k = LIS.size();
+	int cur = oo;
+	for(int i = N - 1; i >= 0, k; i--){
+		if(A[i] < cur && k == dp[i]){
+			cur = A[i];
+			rb.push(A[i]);
+			k--;
 		}
 	}
-	//Reconstruye el LIS
-	vector<int> aux;
-	while(last!=-1){
-		aux.push_back(A[last]);
-		last = parent[last];
-	}
-	
-	for(int i = aux.size() - 1; i >= 0; i--){
-		cout << aux[i] <<" ";
-	}
-	cout << '\n';
-	return LIS.size();	
 }
