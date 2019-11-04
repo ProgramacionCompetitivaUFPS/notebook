@@ -1,4 +1,4 @@
-Devuelve un entero x tal que a^x = b (mod m) or -1 si no existe tal x
+Devuelve un entero x tal que a^x = b (mod m) or -1 si no existe tal x. Agregar Modular Exponentiation.
 
 ll discrete_log(ll a, ll b, ll m) {
     a %= m, b %= m;
