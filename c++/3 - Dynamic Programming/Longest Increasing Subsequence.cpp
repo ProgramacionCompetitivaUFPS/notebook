@@ -28,8 +28,8 @@ int lis_opt(){
 	for(int i = 0; i < N; i++){
 		auto id = lower_bound(LIS.begin(), LIS.end(), A[i]);
 		if(id == LIS.end()){
-			dp[i] = LIS.size();
 			LIS.push_back(A[i]);
+			dp[i] = LIS.size();
 		} 
 		else{
 			int idx = id - LIS.begin();
