@@ -7,13 +7,12 @@ struct state {
     bool terminal;
 };
 
-const int MAX_N = 100001;
-state sa[MAX_N<<1];
+const int N = 100005;
+state sa[N*2];
 int sz, last;
 long long paths;
-string s;
 
-void sa_add(char c) {
+void add_char(char c) {
     int cur = sz++, p;
     sa[cur] = {sa[last].len + 1, 0, 0, 0, map<char, int>(), 0};
     for (p = last; p != -1 && !sa[p].next.count(c); p = sa[p].link) {
@@ -37,18 +36,18 @@ void sa_add(char c) {
     last = cur;
 }
 
-void suffixAutomaton() {
+void suffixAutomaton(string &s) {
     sz = 1; last = paths = 0;
     sa[0] = {0, -1, 1, 0, map<char, int>(), 1};
-    for (char c : s) sa_add(c);
+    for (char c : s) add_char(c);
     for(int p = last; p != 0; p = sa[p].link) sa[p].terminal = 1;
 }
 
-void sa_run(string p) {
-    int n = p.size();
-    for (int cur = 0, i = 0; i < n; ++i) {
-        if (sa[cur].next.count(p[i])) cur = sa[cur].next[p[i]];
-        else cur = max(sa[cur].link, 0);
+void run_sa(string &s) {
+    int u = 0;
+    for (int i = 0; i < p.size(); ++i) {
+        while (u && !sa[u].next.count(s[i])) u = sa[u].link;
+        if (sa[u].next.count(s[i])) cur = sa[cur].next[p[i]];
     }
 }
 
