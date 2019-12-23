@@ -45,9 +45,9 @@ void suffixAutomaton(string &s) {
 
 void run_sa(string &s) {
     int u = 0;
-    for (int i = 0; i < p.size(); ++i) {
+    for (int i = 0; i < s.size(); ++i) {
         while (u && !sa[u].next.count(s[i])) u = sa[u].link;
-        if (sa[u].next.count(s[i])) cur = sa[cur].next[p[i]];
+        if (sa[u].next.count(s[i])) cur = sa[u].next[s[i]];
     }
 }
 
