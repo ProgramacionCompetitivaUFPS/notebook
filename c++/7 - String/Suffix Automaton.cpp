@@ -2,7 +2,7 @@ struct suffixAutomaton {
     struct node {
         int len, link; bool end;
         map<char, int> next;
-        ll cnt, in, out;
+        int cnt; ll in, out;
     };
 
     vector<node> sa;
