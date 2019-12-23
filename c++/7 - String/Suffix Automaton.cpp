@@ -47,7 +47,7 @@ void run_sa(string &s) {
     int u = 0;
     for (int i = 0; i < s.size(); ++i) {
         while (u && !sa[u].next.count(s[i])) u = sa[u].link;
-        if (sa[u].next.count(s[i])) cur = sa[u].next[s[i]];
+        if (sa[u].next.count(s[i])) u = sa[u].next[s[i]];
     }
 }
 
