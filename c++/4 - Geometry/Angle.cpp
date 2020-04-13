@@ -1,10 +1,15 @@
-Dados 3 puntos A, B, y C, determina el valor del angulo ABC (origen en B) en radianes. IMPORTANTE: Definir la estructura point y vec (Geometric Vector). Si se desea convertir a grados sexagesimales, revisar Sexagesimal degrees and radians.
+Calcula el angulo de una linea con respecto a otra.
 
-#include <vector>
-#include <cmath>
+lf get_ang(pt a, pt b) {
+    lf ang = acos(max(lf(-1.0), min(lf(1.0), lf(dot(a,b))/abs(a)/abs(b))));
+    ang = ang * 180.0 / acos(-1.0);
+    if (b.y < 0) ang = lf(360) - ang;
+    return ang;
+}
 
-double angle(point a, point b, point c) { 
-  vec ba = toVector(b, a);
-  vec bc = toVector(b, c);
-  return acos((ba.x * bc.x + ba.y * bc.y) / sqrt((ba.x * ba.x + ba.y * ba.y) * (bc.x * bc.x + bc.y * bc.y))); 
+lf angle(pt a, pt b) {
+    pt xo = {1, 0};
+    lf ang = get_ang(xo, b) - get_ang(xo, a);
+    if (ang < 0) ang += 360;
+    return ang;
 }

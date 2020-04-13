@@ -1,89 +1,84 @@
-Utilizar el metodo suffixAutomaton() luego de leer el string s para construir el automata de sufijos.
+struct suffixAutomaton {
+    struct node {
+        int len, link; bool end;
+        map<char, int> next;
+        int cnt; ll in, out;
+    };
 
-struct state {
-    int len, link;
-    long long paths_in, paths_out;
-    map<char, int> next;
-    bool terminal;
+    vector<node> sa;
+    int last; ll substrs = 0;
+
+    suffixAutomaton() {}
+    suffixAutomaton(string &s) {
+        sa.reserve(s.size()*2);
+        last = add_node();
+        sa[0].link = -1;
+        sa[0].in = 1;
+        for (char &c : s) add_char(c);
+        for (int p = last; p; p = sa[p].link) sa[p].end = 1;
+    }
+
+    int add_node() { sa.pb({}); return sa.size()-1; }
+
+    void add_char(char c) {
+        int u = add_node(), p = last;
+        sa[u].len = sa[last].len + 1;
+        while (p != -1 && !sa[p].next.count(c)) {
+            sa[p].next[c] = u;
+            sa[u].in += sa[p].in;
+            substrs += sa[p].in;
+            p = sa[p].link;
+        }
+        if (p != -1) {
+            int q = sa[p].next[c];
+            if (sa[p].len + 1 != sa[q].len) {
+                int clone = add_node();
+                sa[clone] = sa[q];
+                sa[clone].len = sa[p].len + 1;
+                sa[clone].in = 0;
+                sa[q].link = sa[u].link = clone;
+                while (p != -1 && sa[p].next[c] == q) {
+                    sa[p].next[c] = clone;
+                    sa[q].in -= sa[p].in;
+                    sa[clone].in += sa[p].in;
+                    p = sa[p].link;
+                }
+            } else sa[u].link = q;
+        }
+        last = u;
+    }
+
+    void run(string &s) {
+        int u = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            while (u && !sa[u].next.count(s[i])) u = sa[u].link;
+            if (sa[u].next.count(s[i])) u = sa[u].next[s[i]];
+        }
+    }
+
+    int match_str(string &s) {
+        int u = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (!sa[u].next.count(s[i])) return 0;
+            u = sa[u].next[s[i]];
+        }
+        return count_occ(u);
+    }
+
+    int count_occ(int u) {
+        if (sa[u].cnt != 0) return sa[u].cnt;
+        sa[u].cnt = sa[u].end;
+        for (auto v : sa[u].next)
+            sa[u].cnt += count_occ(v.S);
+        return sa[u].cnt;
+    }
+
+    ll count_paths(int u) {
+        if (sa[u].out != 0) return sa[u].out;
+        for (auto v : sa[u].next)
+            sa[u].out += count_paths(v.S) + 1;
+        return sa[u].out;
+    }
+    
+    node& operator[](int i) { return sa[i]; }
 };
-
-const int MAX_N = 100001;
-state sa[MAX_N<<1];
-int sz, last;
-long long paths;
-string s;
-
-void sa_add(char c) {
-    int cur = sz++, p;
-    sa[cur] = {sa[last].len + 1, 0, 0, 0, map<char, int>(), 0};
-    for (p = last; p != -1 && !sa[p].next.count(c); p = sa[p].link) {
-        sa[p].next[c] = cur;
-        sa[cur].paths_in += sa[p].paths_in;
-        paths += sa[p].paths_in;
-    }
-    if (p != -1) {
-        int q = sa[p].next[c];
-        if (sa[p].len + 1 != sa[q].len) {
-            int clone = sz++;
-            sa[clone] = {sa[p].len + 1, sa[q].link, 0, 0, sa[q].next, 0};
-            for (; p != -1 && sa[p].next[c] == q; p = sa[p].link) {
-                sa[p].next[c] = clone;
-                sa[q].paths_in -= sa[p].paths_in;
-                sa[clone].paths_in += sa[p].paths_in;
-            }
-            sa[q].link = sa[cur].link = clone;
-        } else sa[cur].link = q;
-    }
-    last = cur;
-}
-
-void suffixAutomaton() {
-    sz = 1; last = paths = 0;
-    sa[0] = {0, -1, 1, 0, map<char, int>(), 1};
-    for (char c : s) sa_add(c);
-    for(int p = last; p != 0; p = sa[p].link) sa[p].terminal = 1;
-}
-
-void sa_run(string p) {
-    int n = p.size();
-    for (int cur = 0, i = 0; i < n; ++i) {
-        if (sa[cur].next.count(p[i])) cur = sa[cur].next[p[i]];
-        else cur = max(sa[cur].link, 0);
-    }
-}
-
-long long sa_count_paths_out(int cur) {
-    if (!sa[cur].next.size()) return 0;
-    if (sa[cur].paths_out != 0) return sa[cur].paths_out;
-    for (auto i : sa[cur].next)
-        sa[cur].paths_out += 1 + sa_count_paths_out(i.second);
-    return sa[cur].paths_out;
-}
-
-int memo[MAX_N<<1];
-
-int sa_count_ocurrences(int cur) {
-    if (sa[cur].next.empty()) memo[cur] = 1;
-    if (memo[cur] != -1) return memo[cur];
-    memo[cur] = sa[cur].terminal;
-    for (auto i : sa[cur].next)
-        memo[cur] += sa_count_ocurrences(i.second);
-    return memo[cur];
-}
-
-//Para retornar booleano cambiar el primer return por false y el segundo por true
-int sa_string_matching(string p) {
-    int m = p.size(), cur = 0;
-    for (int i = 0; i < m; ++i) {
-        if (!sa[cur].next.count(p[i])) return 0;
-        else cur = sa[cur].next[p[i]];
-    }
-    return sa_count_ocurrences(cur);
-}
-
-//Requiere contruir el automata de (s+s)
-int sa_lexico_min() {
-    int n = s.size()>>1, cur = 0;
-    for (int i = 0; i < n; ++i) cur = (*(sa[cur].next.begin())).second;
-    return sa[cur].len-n;
-}
