@@ -1,4 +1,4 @@
-calcula la distancia minima entre un punto y una linea
+calcula la distancia minima entre el punto E y la linea AB
 
 double minDistance(Point A, Point B, Point E) {
   pair<double, double> AB;
