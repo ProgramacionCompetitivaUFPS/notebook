@@ -1,4 +1,4 @@
-En ambas funciones a y b deben enviarse ya con modulo m.
+En ambas funciones a y b deben estar ya con modulo m.
 
 * Calcular (a*b) % m sin overflow.
 /// O(1)
