@@ -1,4 +1,4 @@
-Genera un número entero aleatorio en el rango [a, b]. Para long long usar "mt19937_64".
+Genera un número entero aleatorio en el rango [a, b]. Para ll usar "mt19937_64" y cambiar todo a ll.
 
 mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 

@@ -1,14 +1,12 @@
-Realiza la operación (a^b) % mod.
-
-/// O(1), 0 <= a, b < m
-ll mulmod(ll a, ll b, ll m) {
-	ll r = a*b-(ll)((long double)a*b/m+.5)*m;
-	return r < 0 ? r+m : r;
-}
-/// O(log(e)), 0 <= b < m
-ll expmod(ll b, ll e, ll m) {
-    if (e == 0) return 1;
-    if (e&1) return mulmod(b, expmod(b, e-1, m), m);
-    b = expmod(b, e>>1, m);
-    return mulmod(b, b, m);
+* Calcula (b^e) % m (e puede ser ll). b debe estar ya con modulo m.
+Si m es ll se debe cambiar todo a ll, agregar Modular Multiplication.cpp y calcular las multiplicaciones con mulmod().
+/// O(log(e))
+int expmod(int b, int e, int m) {
+    int ans = 1;
+    while (e) {
+        if (e&1) ans = (1ll*ans*b) % m;
+        b = (1ll*b*b) % m;
+        e /= 2;
+    }
+    return ans;
 }
