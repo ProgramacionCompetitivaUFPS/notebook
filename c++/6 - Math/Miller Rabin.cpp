@@ -1,5 +1,6 @@
-La función de Miller-Rabin determina si un número dado es o no un número primo. Agregar Modular Exponentiation.
+El algoritmo de Miller-Rabin determina si un numero es primo o no. Agregar Modular Exponentiation (para m ll) y Modular Multiplication.
 
+/// O(log^3(n))
 bool test(ll n, int a) {
     if (n == a) return true;
     ll s = 0, d = n-1;
@@ -14,10 +15,9 @@ bool test(ll n, int a) {
     return false;
 }
 
-/// O(k log^3(n))
-bool isPrime(ll n) {
+bool is_prime(ll n) {
     if (n == 1) return false;
-    vector<int> ar = {2,3,5,7,11,13,17,19,23};
-    for (auto& a : ar) if (!test(n, a)) return false;
+    int ar[] = {2,3,5,7,11,13,17,19,23};
+    for (auto &p : ar) if (!test(n, p)) return false;
     return true;
 }
