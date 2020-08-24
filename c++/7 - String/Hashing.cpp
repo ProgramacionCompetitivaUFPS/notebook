@@ -1,4 +1,4 @@
-Convierte el string en un polinomio tal que podemos comparar substrings como valores numericos en O(1).
+Convierte el string en un polinomio, en O(n), tal que podemos comparar substrings como valores numericos en O(1).
 Primero llamar calc_xpow() (una unica vez) con el largo maximo de los strings dados.
 
 inline int add(int a, int b, const int &mod) { return a+b >= mod ? a+b-mod : a+b; }
@@ -30,7 +30,7 @@ struct hashing {
             }
         }
     }
-    
+    //Hash del substring en el rango [i, j)
     ll value(int l, int r) {
         int a = sbt(h[0][r], mul(h[0][l], xpow[0][r-l], MOD[0]), MOD[0]);
         int b = sbt(h[1][r], mul(h[1][l], xpow[1][r-l], MOD[1]), MOD[1]);
