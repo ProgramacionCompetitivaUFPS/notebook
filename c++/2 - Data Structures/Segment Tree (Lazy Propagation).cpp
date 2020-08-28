@@ -1,35 +1,30 @@
-Estructura de datos que permite procesar consultas por rangos y actualizaciones individuales sobre un arreglo.
-Recibe como parametro en el constructor un arreglo de valores.
-IMPORTANTE: Para para procesar actualizaciones por rangos se deben descomentar los lineas de Lazy Propagation.
+Dado un vector de valores permite hacer consultas sobre rangos y actualizaciones individuales en O(log n). Construcción en O(n).
+Para hacer actualizaciones sobre rangos se deben descomentar las lineas de Lazy Propagation.
+El valor neutro depende del tipo de consulta. Para sumas: 0, minimos: infinito, maximos: -infinito, etc.
 
-struct SegmentTree {
-    vector<int> st;//, lazy;
-    int n, neutro = 1 << 30;
+typedef int T; //tipo de dato del segtree
+struct segtree {
+    vector<T> st;//, lazy;
+    int n; T neutro = 1e9; // "infinito"
 
-    SegmentTree(vector<int> &arr) {
-        n = arr.size();
-        st.assign(n << 2, 0);
-        //lazy.assign(n << 2, neutro);
-        build(1, 0, n - 1, arr);
+    segtree(const vector<int> &v) {
+        n = v.size();
+        st.assign(n*4, 0);
+        //lazy.assign(n*4, neutro);
+        build(1, 0, n-1, v);
     }
 
-    int query(int i, int j) { return query(1, 0, n - 1, i, j); }
-    void update(int i, int j, int val) { update(1, 0, n - 1, i, j, val); }
-
-    int left (int p) { return p << 1; }
-    int right (int p) { return (p << 1) | 1; }
-
-    void build(int p, int L, int R, vector<int> &arr) {
-        if (L == R) st[p] = arr[L];
+    void build(int p, int L, int R, const vector<int> &v) {
+        if (L == R) st[p] = v[L];
         else {
-            int m = (L+R)/2, l = left(p), r = right(p);
-            build(l, L, m, arr);
-            build(r, m+1, R, arr);
+            int m = (L+R)/2, l = p*2, r = l+1;
+            build(l, L, m, v);
+            build(r, m+1, R, v);
             st[p] = min(st[l], st[r]);
         }
     }
     /*
-    void propagate(int p, int L, int R, int val) {
+    void propagate(int p, int L, int R, T val) {
         if (val == neutro) return;
         st[p] = val;
         lazy[p] = neutro;
@@ -39,24 +34,27 @@ struct SegmentTree {
         }
     }
     */
-    int query(int p, int L, int R, int i, int j) {
-        //propagate(p, L, R, lazy[p]);
+    T query(int i, int j) { return query(1, 0, n-1, i, j); }
+    void upd(int i, int j, T val) { upd(1, 0, n-1, i, j, val); }
+    
+    T query(int p, int L, int R, int i, int j) {
         if (i > R || j < L) return neutro;
+        //propagate(p, L, R, lazy[p]);
         if (i <= L && j >= R) return st[p];
-        int m = (L+R)/2, l = left(p), r = right(p);
-        l = query(l, L, m, i, j);
-        r = query(r, m+1, R, i, j);
-        return min(l, r);
+        int m = (L+R)/2, l = p*2, r = l+1;
+        T lf = query(l, L, m, i, j);
+        T rg = query(r, m+1, R, i, j);
+        return min(lf, rg);
     }
 
-    void update(int p, int L, int R, int i, int j, int val) {
-        //propagate(p, L, R, lazy[p]);
+    void upd(int p, int L, int R, int i, int j, T val) {
         if (i > R || j < L) return;
+        //propagate(p, L, R, lazy[p]);
         if (i <= L && j >= R) st[p] = val;//propagate(p, L, R, val);
         else {
-            int m = (L+R)/2, l = left(p), r = right(p);
-            update(l, L, m, i, j, val);
-            update(r, m+1, R, i, j, val);
+            int m = (L+R)/2, l = p*2, r = l+1;
+            upd(l, L, m, i, j, val);
+            upd(r, m+1, R, i, j, val);
             st[p] = min(st[l], st[r]);
         }
     }
