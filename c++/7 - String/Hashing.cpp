@@ -9,7 +9,7 @@ const int X[] = {257, 359};
 const int MOD[] = {(ll)1e9+7, (ll)1e9+9};
 vector<int> xpow[2];
 
-inline void calc_xpow(int mxlen) {
+void calc_xpow(int mxlen) {
     for (int j = 0; j < 2; ++j) {
         xpow[j].resize(mxlen+1, 1);
         for (int i = 1; i <= mxlen; ++i) {
