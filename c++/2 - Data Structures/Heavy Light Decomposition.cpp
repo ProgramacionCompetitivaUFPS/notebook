@@ -1,5 +1,5 @@
 Para inicializar llamar build(). Agregar Segment Tree con un constructor vacio, actualizaciones puntuales y declarar el valor neutro de forma global.
-Para consultas sobre aristas guardar el valor de cada arista en su nodo hijo y cambiar pos[u] por pos[u]+1 en la linea 53.
+Para consultas sobre aristas guardar el valor de cada arista en su nodo hijo y cambiar pos[u] por pos[u]+1 en la linea 54.
 
 typedef T int; //tipo de dato del segtree
 const int MX = 1e5+5;
