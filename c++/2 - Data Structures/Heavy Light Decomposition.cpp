@@ -22,7 +22,7 @@ int pre(int u, int p, int d) {
 }
 
 void hld(int u, int p, int t) {
-    arr[idx] = value[u];
+    arr[idx] = value[u]; //vector para inicializar el segtree
     pos[u] = idx++;
     top[u] = t < 0 ? t = u : t;
     for (auto &v : g[u]) {
