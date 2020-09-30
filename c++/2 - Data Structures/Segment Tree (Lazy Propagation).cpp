@@ -28,10 +28,9 @@ struct segtree {
         if (val == neutro) return;
         st[p] = val;
         lazy[p] = neutro;
-        if (L != R) {
-            lazy[left(p)] = val;
-            lazy[right(p)] = val;
-        }
+        if (L == R) return;
+        int l = p*2, r = l+1;
+        lazy[l] = lazy[r] = val;
     }
     */
     T query(int i, int j) { return query(1, 0, n-1, i, j); }
