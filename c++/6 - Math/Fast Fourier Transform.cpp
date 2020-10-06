@@ -20,7 +20,7 @@ namespace fft {
             double ang = -on * 2 * PI / m;
             pt wm(cos(ang), sin(ang));
             for (int k = 0; k < n; k += m) {
-                pt w(1);
+                pt w(1, 0);
                 for (int j = 0; j < m / 2; j++) {
                     pt u = y[k + j];
                     pt t = w * y[k + j + m / 2];
@@ -45,7 +45,7 @@ namespace fft {
         for (int i = 0; i < n; i++) x1[i] = x1[i] * x2[i];
         fft(x1, -1);
         vector<ll> ans(n);
-        for (int i = 0; i < n; i++) ans[i] = round(x1[i].r);
+        for (int i = 0; i < n; i++) ans[i] = x1[i].r + 0.5;
         return ans;
     }
 }
