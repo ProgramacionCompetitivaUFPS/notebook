@@ -1,5 +1,5 @@
-Calcula el n-ésimo termino de una recurrencia lineal (que depende de los k terminos anteriores).
-* Si no es necesario inicializar las matrices multiples veces llamar init(k) en el main una unica vez.
+Calcula el n-esimo termino de una recurrencia lineal (que depende de los k terminos anteriores).
+* Llamar init(k) en el main una unica vez si no es necesario inicializar las matrices multiples veces.
 Este ejemplo calcula el fibonacci de n como la suma de los k terminos anteriores de la secuencia (En la secuencia comun k es 2).
 Agregar Matrix Multiplication con un construcctor vacio.
 

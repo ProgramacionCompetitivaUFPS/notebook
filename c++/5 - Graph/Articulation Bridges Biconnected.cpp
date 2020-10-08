@@ -5,7 +5,7 @@ struct edge {
     bool bridge; //Si la arista es un puente
 };
 
-const int MX = 100005; //Cantidad maxima de nodos
+const int MX = 1e5+5; //Cantidad maxima de nodos
 vector<int> g[MX]; //Lista de adyacencia
 vector<edge> e; //Lista de aristas
 stack<int> st;
@@ -15,7 +15,7 @@ bool art[MX]; //Si el nodo es un punto de articulacion
 //vector<vector<int>> tree; //Block cut tree
 //vector<int> id; //Id del nodo en el block cut tree
 int BCC; //Cantidad de componentes biconexas
-int N, M; //Cantidad de nodos y aristas
+int n, m; //Cantidad de nodos y aristas
 
 void add_edge(int u, int v){
     g[u].push_back(e.size());
@@ -54,8 +54,8 @@ void dfs(int u, int p = -1) {
 }
 
 void build_tree() {
-    tree.clear(); id.resize(N);
-    for (int u = 0; u < N; u++) {
+    tree.clear(); id.resize(n);
+    for (int u = 0; u < n; u++) {
         if (art[u]) {
             id[u] = tree.size();
             tree.push_back({});
@@ -76,9 +76,10 @@ void build_tree() {
 void init() {
     cont = BCC = 0;
     //comps.clear();
-    for (int i = 0; i <= N; i++) {
+    e.clear();
+    for (int i = 0; i <= n; i++) {
         g[i].clear();
-        num[i] = -1; //no visited
+        num[i] = -1; //no visitado
         art[i] = false;
     }
 }

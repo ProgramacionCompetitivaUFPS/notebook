@@ -26,7 +26,7 @@ int lg2(const int &x) { return 31-__builtin_clz(x); }
 /// O(#bits_encendidos)
 for (int x = mask; x; x &= x-1) {
     int i = __builtin_ctz(x);
-
+    
 }
 
 * Itera todas las submascaras de una mascara. (Iterar todas las submascaras de todas las mascaras es O(3^n)).

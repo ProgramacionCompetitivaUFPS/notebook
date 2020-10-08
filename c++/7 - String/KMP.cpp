@@ -1,4 +1,4 @@
-Cuenta las apariciones del string p en el string s. Agregar Prefix Function.
+Cuenta las ocurrencias del string p en el string s. Agregar Prefix Function.
 
 /// O(n+m)
 int kmp(string &s, string &p) {

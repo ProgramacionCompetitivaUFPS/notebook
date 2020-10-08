@@ -1,4 +1,4 @@
-Multiplicación de polinomios en O(n log n)
+Multiplicacion de polinomios en O(n log n)
 
 const double PI = acos(-1.0);
  
