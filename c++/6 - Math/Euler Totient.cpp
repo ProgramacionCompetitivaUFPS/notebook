@@ -1,9 +1,9 @@
-La función phi de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
+La funcion phi de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
 
 /// O(sqrt(n))
 ll phi(ll n) {
     ll ans = n;
-    for (ll p = 2; p*p <= n; p++) {
+    for (int p = 2; p <= n/p; ++p) {
         if (n % p == 0) ans -= ans / p;
         while (n % p == 0) n /= p;
     }
@@ -11,17 +11,18 @@ ll phi(ll n) {
     return ans;
 }
 
-* Calcular el Euler totient para todos los numeros menores o iguales a MAX con Sieve of Eratosthenes.
+* Calcular el Euler totient para todos los numeros menores o iguales a MX con Sieve of Eratosthenes.
 
-const int MAX = 10000000;
-int phi[MAX+1];
-bitset<MAX+1> marked;
-///  O(MAX log(log(MAX)))
+const int MX = 1e6;
+bool marked[MX+1];
+int phi[MX+1];
+/// O(MX log(log(MX)))
 void sieve() {
-    iota(phi, phi+MAX+1, 0);
+    iota(phi, phi+MX+1, 0);
     marked[0] = marked[1] = true;
-    for (int i = 2; i <= MAX; i++) if (!marked[i]) {
-        for (int j = i; j <= MAX ; j += i) {
+    for (int i = 2; i <= MX; i++) {
+        if (marked[i]) continue;
+        for (int j = i; j <= MX ; j += i) {
             phi[j] -= phi[j] / i;
             marked[j] = true;
         }

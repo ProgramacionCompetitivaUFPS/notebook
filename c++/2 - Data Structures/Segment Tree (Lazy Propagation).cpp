@@ -1,4 +1,4 @@
-Dado un vector de valores permite hacer consultas sobre rangos y actualizaciones individuales en O(log n). Construcción en O(n).
+Dado un vector de valores permite hacer consultas sobre rangos y actualizaciones individuales en O(log n). Construccion en O(n).
 Para hacer actualizaciones sobre rangos se deben descomentar las lineas de Lazy Propagation.
 El valor neutro depende del tipo de consulta. Para sumas: 0, minimos: infinito, maximos: -infinito, etc.
 

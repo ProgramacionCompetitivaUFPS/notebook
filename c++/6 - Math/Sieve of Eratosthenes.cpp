@@ -1,13 +1,14 @@
-Guarda en primes los números primos menores o iguales a MAX. Para saber si p es un número primo, hacer: if (!marked[p]).
+Guarda en primes los numeros primos menores o iguales a MX. Para saber si p es un número primo, hacer: if (!marked[p]).
 
-const int MAX = 10000000;
-bitset<MAX+1> marked;
+const int MX = 1e6;
+bool marked[MX+1];
 vector<int> primes;
-/// O(MAX log(log(MAX)))
+/// O(MX log(log(MX)))
 void sieve() {
     marked[0] = marked[1] = true;
-    for (int i = 2; i <= MAX; i++) if (!marked[i]) {
+    for (int i = 2; i <= MX; i++) {
+        if (marked[i]) continue;
         primes.push_back(i);
-        for (ll j = 1ll*i*i; j <= MAX; j += i) marked[j] = true;
+        for (ll j = 1ll*i*i; j <= MX; j += i) marked[j] = true;
     }
 }

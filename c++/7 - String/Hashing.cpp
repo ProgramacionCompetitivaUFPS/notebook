@@ -6,17 +6,8 @@ inline int sbt(int a, int b, const int &mod) { return a-b < 0 ? a-b+mod : a-b; }
 inline int mul(int a, int b, const int &mod) { return 1ll*a*b % mod; }
 
 const int X[] = {257, 359};
-const int MOD[] = {(ll)1e9+7, (ll)1e9+9};
+const int MOD[] = {(int)1e9+7, (int)1e9+9};
 vector<int> xpow[2];
-
-void calc_xpow(int mxlen) {
-    for (int j = 0; j < 2; ++j) {
-        xpow[j].resize(mxlen+1, 1);
-        for (int i = 1; i <= mxlen; ++i) {
-            xpow[j][i] = mul(xpow[j][i-1], X[j], MOD[j]);
-        }
-    }
-}
 
 struct hashing {
     vector<int> h[2];
@@ -37,3 +28,12 @@ struct hashing {
         return (ll(a)<<32) + b;
     }
 };
+
+void calc_xpow(int mxlen) {
+    for (int j = 0; j < 2; ++j) {
+        xpow[j].resize(mxlen+1, 1);
+        for (int i = 1; i <= mxlen; ++i) {
+            xpow[j][i] = mul(xpow[j][i-1], X[j], MOD[j]);
+        }
+    }
+}

@@ -1,19 +1,18 @@
-Dado un grafo halla el costo total de su arbol cobertor mínimo.
+Dado un grafo halla el costo total de su arbol cobertor minimo.
 
 struct edge {
-    int v;
-    long long w;
+    int v; ll w;
     
-    bool operator < (const edge &b) const {
-        return w > b.w; //Orden invertido
+    bool operator < (const edge &o) const {
+        return o.w < w; //invertidos para que la pq ordene de < a >
     }
 };
 
-const int MAX = 100005; //Cantidad maxima de nodos
-vector<edge> g[MAX]; //Lista de adyacencia
-bitset<MAX> vis; //Marca los nodos ya visitados
-long long ans; //Costo total del arbol cobertor minimo
-int N, M; //Cantidad de nodos y aristas
+const int MX = 1e5+5; //Cantidad maxima de nodos
+vector<edge> g[MX]; //Lista de adyacencia
+vector<bool> vis; //Marca los nodos ya visitados
+ll ans; //Costo total del arbol cobertor minimo
+int n, m; //Cantidad de nodos y aristas
 
 void prim() {
     priority_queue<edge> pq;
@@ -24,14 +23,15 @@ void prim() {
     }
     
     while (pq.size()) {
-        edge ed = pq.top(); pq.pop(); 
-        int u = ed.v;
+        int u = pq.top().v;
+        ll w = pq.top().w;
+        pq.pop();
         if (!vis[u]) {
-            ans += ed.w;
+            ans += w;
             vis[u] = true;
-            for (auto &e : g[u]) {
-                int v = e.v;
-                if (!vis[v]) pq.push({v, e.w});
+            for (auto &ed : g[u]) {
+                int v = ed.v;
+                if (!vis[v]) pq.push({v, ed.w});
             }
         }
     }
@@ -39,8 +39,8 @@ void prim() {
 
 void init() {
     ans = 0;
-    for(int i = 0; i <= N; i++) {
+    vis.assign(n, false);
+    for (int i = 0; i <= n; i++) {
         g[i].clear();
-        vis[i] = false;
     }
 }

@@ -24,20 +24,21 @@ void fact(ll n, map<ll, int> &f) {
 
 void fact(ll n, map<ll, int> &f) {
     for (auto &p : f) while (n%p.F == 0) { p.S++; n /= p.F; }
-    if (n <= MAX) while (n > 1) { f[prime[n]]++; n /= prime[n]; }
+    if (n <= MX) while (n > 1) { f[prime[n]]++; n /= prime[n]; }
     else if (is_prime(n)) f[n]++;
     else { ll q = rho(n); fact(q, f); fact(n/q, f); }
 }
 
 3) Precalculando los factores con Sieve of Eratosthenes (solo para n <= 1e6 aprox).
 
-const int MAX = 1e6;
-int prime[MAX+1];
-/// O(MAX log(log(MAX)))
+const int MX = 1e6;
+int prime[MX+1];
+/// O(MX log(log(MX)))
 void sieve() {
-    for (int i = 2; i <= MAX; i++) if (!prime[i]) {
+    for (int i = 2; i <= MX; i++) {
+        if (prime[i]) continue;
         prime[i] = i;
-        for (ll j = 1ll*i*i; j <= MAX; j += i) {
+        for (ll j = 1ll*i*i; j <= MX; j += i) {
             if (!prime[j]) prime[j] = i;
         }
     }

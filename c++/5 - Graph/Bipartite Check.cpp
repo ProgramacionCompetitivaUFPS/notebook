@@ -1,10 +1,10 @@
-Modificación del BFS para detectar si un grafo es bipartito.
+Modificacion del BFS para detectar si un grafo es bipartito.
 
-const int MAX = 100005; //Cantidad maxima de nodos
-vector<int> g[MAX]; //Lista de adyacencia
-int color[MAX]; //Almacena el color de cada nodo
+const int MX = 1e5+5; //Cantidad maxima de nodos
+vector<int> g[MX]; //Lista de adyacencia
+vector<int> color; //Almacena el color de cada nodo
 bool bipartite; //true si el grafo es bipartito
-int N, M; //Cantidad de nodos y aristas
+int n, m; //Cantidad de nodos y aristas
 
 void bfs(int u) {
     queue<int> q;
@@ -14,9 +14,9 @@ void bfs(int u) {
     while (q.size()) {
         u = q.front();
         q.pop();
-        for (auto v : g[u]) {
+        for (auto &v : g[u]) {
             if (color[v] == -1) {
-                color[v] = color[u]^1;
+                color[v] = 1-color[u];
                 q.push(v);
             } else if (color[v] == color[u]) {
                 bipartite = false;
@@ -28,8 +28,8 @@ void bfs(int u) {
 
 void init() {
     bipartite = true;
-    for(int i = 0; i <= N; i++) {
+    color.assign(n, -1);
+    for (int i = 0; i <= n; i++) {
         g[i].clear();
-        color[i] = -1;
     }
 }

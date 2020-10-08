@@ -1,4 +1,4 @@
-Estructura para realizar operaciones de multiplicación y exponenciación modular sobre matrices.
+Estructura para realizar operaciones de multiplicacion y exponenciacion modular sobre matrices.
 
 const int mod = 1e9+7;
 
