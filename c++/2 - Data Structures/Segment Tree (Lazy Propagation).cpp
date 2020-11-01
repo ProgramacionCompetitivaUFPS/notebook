@@ -37,8 +37,8 @@ struct segtree {
     void upd(int i, int j, T val) { upd(1, 0, n-1, i, j, val); }
     
     T query(int p, int L, int R, int i, int j) {
-        if (i > R || j < L) return neutro;
         //propagate(p, L, R, lazy[p]);
+        if (i > R || j < L) return neutro;
         if (i <= L && j >= R) return st[p];
         int m = (L+R)/2, l = p*2, r = l+1;
         T lf = query(l, L, m, i, j);
@@ -47,9 +47,9 @@ struct segtree {
     }
 
     void upd(int p, int L, int R, int i, int j, T val) {
-        if (i > R || j < L) return;
         //propagate(p, L, R, lazy[p]);
-        if (i <= L && j >= R) st[p] = val;//propagate(p, L, R, val);
+        if (i > R || j < L) return;
+        if (i <= L && j >= R) st[p] = val;//cambiar por propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = p*2, r = l+1;
             upd(l, L, m, i, j, val);

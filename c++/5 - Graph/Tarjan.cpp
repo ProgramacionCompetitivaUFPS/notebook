@@ -1,8 +1,8 @@
 Dado un grafo dirigido halla las componentes fuertemente conexas (SCC).
 
-const int MX = 1e5+5, inf = 1e9; //Cantidad maxima de nodos
+const int inf = 1e9;
+const int MX = 1e5+5; //Cantidad maxima de nodos
 vector<int> g[MX]; //Lista de adyacencia
-bool vis[MX]; //Marca nodos visitados para construir la scc
 stack<int> st;
 int low[MX], pre[MX], cnt;
 int comp[MX]; //Almacena la componente a la que pertenece cada nodo
