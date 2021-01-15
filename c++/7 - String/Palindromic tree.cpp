@@ -16,7 +16,7 @@ struct palindromic_tree {
   int n;
   int last;
   palindromic_tree(string t = ""){
-    n = 0;
+    n = last = 0;
     tree.pb(node(-1));
     tree.pb(node(0));
     for(auto &c: t)add_char(c);
