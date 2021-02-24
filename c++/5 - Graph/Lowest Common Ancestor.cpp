@@ -1,71 +1,51 @@
 Dados los nodos u y v de un arbol determina cual es el ancestro comun mas bajo entre u y v.
 *Tambien puede determinar la arista de peso maximo/minimo entre los nodos u y v (Para esto quitar los "//")
-Se debe ejecutar la funcion build() primero.
+Se debe ejecutar la funcion dfs() primero, el padre de la raiz es sí mismo, w es el valor a almacenar del padre.
 
-//struct edge { int v, w; };
+const int N = 4e5+2, inf = 1e9, LOG2 = 20;
+int dep[N]; // Profundidad de cada nodo
+int par[LOG2][N]; // Sparse table de los padres
+//int rmq[LOG2][N]; // Sparse table de pesos
 
-const int MX = 1e5+5; //Cantidad maxima de nodos
-const int LG = log2(MX)+1;
-//vector<edge> g[MX]; //Lista de adyacencia
-vector<int> g[MX]; //Lista de adyacencia
-vector<int> dep; //Almacena la profundidad de cada nodo
-int par[LG][MX]; //Almacena los padres para responder las consultas
-//int rmq[LG][MX]; //Almacena los pesos para responder las consultas
-int n, m; //Cantidad de nodos y aristas 
+struct edge { int v, w; };
+vector<edge> g[N];
 
-void pre(int u, int p, int d) {
-    dep[u] = d;
-    par[0][u] = p;
-    for (auto &v /*ed*/ : g[u]) {
-        //int v = ed.v;
-        if (v != p) {
-            //rmq[0][v] = ed.w;
-            pre(v, u, d + 1);
-        }
-    }
+void dfs(int u, int p, int d, int w){
+	dep[u] = d;
+	par[0][u] = p;
+	// rmq[0][u] = w;
+	for(int j = 1; j < LOG2; j++){
+		par[j][u] = par[j-1][par[j-1][u]];
+		// rmq[j][u] = max(rmq[j-1][u], rmq[j-1][par[j-1][u]]);
+	}
+	for(auto &ed: g[u]){
+		int v = ed.v;
+		int val = ed.w;
+		if(v == p)continue;
+		dfs(v, u, d+1, val);
+	}
 }
 
-void build() {
-    dep.assign(n, -1);
-    for (int i = 0; i < n; i++) {
-        if (dep[i] == -1) {
-            //rmq[0][i] = -1;
-            pre(i, i, 0);
-        }
-    }
-    for (int j = 0; j < LG-1; j++) {
-        for (int i = 0; i < n; i++) {
-            par[j+1][i] = par[j][ par[j][i] ];
-            //rmq[j+1][i] = max(rmq[j][ par[j][i] ], rmq[j][i]);
-        }
-    }
-}
-
-int lca(int u, int v) {
-    //int ans = -1;
-    if (dep[u] < dep[v]) swap(u, v);
-    int dif = dep[u] - dep[v];
-    for (int i = LG-1; i >= 0; i--) {
-        if (dif & (1<<i)) {
-            //ans = max(ans, rmq[i][u]);
-            u = par[i][u];
-        }
-    }
-    //if (u == v) return ans;
-    if (u == v) return u;
-    for (int i = LG-1; i >= 0; i--) {
-        if (par[i][u] != par[i][v]) {
-            //ans = max(ans, max(rmq[i][u], rmq[i][v]));
-            u = par[i][u];
-            v = par[i][v];
-        }
-    }
-    //return max(ans, max(rmq[0][u], rmq[0][v]));
-    return par[0][u];
-}
-
-void init() {
-    for (int i = 0; i <= n; i++) {
-        g[i].clear();
-    }
+int lca(int u, int v){
+	// int ans = -1;
+	if(dep[v] < dep[u])swap(u, v);
+	int d = dep[v]-dep[u];
+	for(int j = LOG2-1; j >= 0; j--){
+		if(d >> j & 1){
+			// ans = max(ans, rmq[j][v]);
+			v = par[j][v];
+		}
+	}
+	// if(u == v)return ans;
+	if(u == v)return u;
+	for(int j = LOG2-1; j >= 0; j--){
+		if(par[j][u] != par[j][v]){
+			// ans = max({ans, rmq[j][u], rmq[j][v]});
+			u = par[j][u];
+			v = par[j][v];
+		}
+	}
+	// return max({ans, rmq[1][u], rmq[0][v]}); // si la info es de los nodos
+	// return max({ans, rmq[0][u], rmq[0][v]}); // si la info es de las aristas
+	return par[0][u];
 }
