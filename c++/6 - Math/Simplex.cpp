@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> Adding Simplex algorithm and short description
 Maximizar la ecuación x1 + x2 + x3 ...
 sujeta a restricciones x1 + x2 <= 2, x2 + x3 <= 5 ...
 A: matriz de ecuaciones, contiene los coeficientes de cada variable
