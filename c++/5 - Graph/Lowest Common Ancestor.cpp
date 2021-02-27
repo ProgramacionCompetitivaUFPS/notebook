@@ -11,41 +11,41 @@ struct edge { int v, w; };
 vector<edge> g[N];
 
 void dfs(int u, int p, int d, int w){
-	dep[u] = d;
-	par[0][u] = p;
-	// rmq[0][u] = w;
-	for(int j = 1; j < LOG2; j++){
-		par[j][u] = par[j-1][par[j-1][u]];
-		// rmq[j][u] = max(rmq[j-1][u], rmq[j-1][par[j-1][u]]);
-	}
-	for(auto &ed: g[u]){
-		int v = ed.v;
-		int val = ed.w;
-		if(v == p)continue;
-		dfs(v, u, d+1, val);
-	}
+    dep[u] = d;
+    par[0][u] = p;
+    // rmq[0][u] = w;
+    for(int j = 1; j < LOG2; j++){
+        par[j][u] = par[j-1][par[j-1][u]];
+        // rmq[j][u] = max(rmq[j-1][u], rmq[j-1][par[j-1][u]]);
+    }
+    for(auto &ed: g[u]){
+        int v = ed.v;
+        int val = ed.w;
+        if(v == p)continue;
+        dfs(v, u, d+1, val);
+    }
 }
 
 int lca(int u, int v){
-	// int ans = -1;
-	if(dep[v] < dep[u])swap(u, v);
-	int d = dep[v]-dep[u];
-	for(int j = LOG2-1; j >= 0; j--){
-		if(d >> j & 1){
-			// ans = max(ans, rmq[j][v]);
-			v = par[j][v];
-		}
-	}
-	// if(u == v)return ans;
-	if(u == v)return u;
-	for(int j = LOG2-1; j >= 0; j--){
-		if(par[j][u] != par[j][v]){
-			// ans = max({ans, rmq[j][u], rmq[j][v]});
-			u = par[j][u];
-			v = par[j][v];
-		}
-	}
-	// return max({ans, rmq[1][u], rmq[0][v]}); // si la info es de los nodos
-	// return max({ans, rmq[0][u], rmq[0][v]}); // si la info es de las aristas
-	return par[0][u];
+    // int ans = -1;
+    if(dep[v] < dep[u])swap(u, v);
+    int d = dep[v]-dep[u];
+    for(int j = LOG2-1; j >= 0; j--){
+        if(d >> j & 1){
+            // ans = max(ans, rmq[j][v]);
+            v = par[j][v];
+        }
+    }
+    // if(u == v)return ans;
+    if(u == v)return u;
+    for(int j = LOG2-1; j >= 0; j--){
+        if(par[j][u] != par[j][v]){
+            // ans = max({ans, rmq[j][u], rmq[j][v]});
+            u = par[j][u];
+            v = par[j][v];
+        }
+    }
+    // return max({ans, rmq[1][u], rmq[0][v]}); // si la info es de los nodos
+    // return max({ans, rmq[0][u], rmq[0][v]}); // si la info es de las aristas
+    return par[0][u];
 }
