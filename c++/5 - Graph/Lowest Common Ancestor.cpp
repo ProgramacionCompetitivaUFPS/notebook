@@ -29,7 +29,7 @@ void dfs(int u, int p, int d, int w){
 int lca(int u, int v){
 	// int ans = -1;
 	if(dep[v] < dep[u])swap(u, v);
-	int d = dep[v]-dep[u];
+    int d = dep[v]-dep[u];
 	for(int j = LOG2-1; j >= 0; j--){
 		if(d >> j & 1){
 			// ans = max(ans, rmq[j][v]);
