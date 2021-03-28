@@ -2,18 +2,28 @@ struct circle {
     pt c; T r;
 };
 // (x-xo)^2 + (y-yo)^2 = r^2
-circle center(pt a, pt b, pt c) { // circle that passes through abc
+//circle that passes through abc
+circle center(pt a, pt b, pt c) {
     b = b-a, c = c-a;
     assert(cross(b,c) != 0); /// no circumcircle if A,B,C aligned
     pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b,c)/2;
     return {cen, abs(a-cen)};
 }
+//center of the circles that pass through ab and has radius r
+vector<pt> centers(pt a, pt b, lf r) {
+    if (abs(a - b) > 2 * r + eps) return {};
+    pt m = (a + b) / 2;
+    pt c = a - m;
+    lf f = sqrt(r * r / norm(c) - 1);
+    c = pt{c.y, -c.x} * f;
+    return {m + c, m - c};
+}
 int inter_cl(circle c, line l, pair<pt, pt> &out) {
     lf h2 = c.r*c.r - l.sq_dist(c.c);
     if(h2 >= 0) { // line touches circle
-      pt p = l.proj(c.c);
-      pt h = l.v*sqrt(h2)/abs(l.v); // vector of len h parallel to line
-      out = {p-h, p+h};
+        pt p = l.proj(c.c);
+        pt h = l.v*sqrt(h2)/abs(l.v); // vector of len h parallel to line
+        out = {p-h, p+h};
     }
     return 1 + sign(h2); // if 1 -> out.F == out.S
 }
