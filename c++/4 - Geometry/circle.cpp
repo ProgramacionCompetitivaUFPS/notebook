@@ -9,14 +9,13 @@ circle center(pt a, pt b, pt c) {
     pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b,c)/2;
     return {cen, abs(a-cen)};
 }
-//center of the circles that pass through ab and has radius r
-vector<pt> centers(pt a, pt b, lf r) {
-    if (abs(a - b) > 2 * r + eps) return {};
-    pt m = (a + b) / 2;
-    pt c = a - m;
-    lf f = sqrt(r * r / norm(c) - 1);
-    c = pt{c.y, -c.x} * f;
-    return {m + c, m - c};
+//centers of the circles that pass through ab and has radius r
+vector<pt> centers(pt a, pt b, T r) {
+    if (abs(a-b) > 2*r + eps) return {};
+    pt m = (a+b)/2;
+    double f = sqrt(r*r/norm(a-m) - 1);
+    pt c = rot90ccw(a-m)*f;
+    return {m-c, m+c};
 }
 int inter_cl(circle c, line l, pair<pt, pt> &out) {
     lf h2 = c.r*c.r - l.sq_dist(c.c);
