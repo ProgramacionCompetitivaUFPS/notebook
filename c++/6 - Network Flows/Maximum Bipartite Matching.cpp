@@ -1,4 +1,5 @@
-/// O(|E|*|V|)
+Halla el maximo match en un grafo bipartito O(|E|*|V|)
+
 struct mbm {
     int l, r;
     vector<vector<int>> g;
@@ -32,7 +33,7 @@ struct mbm {
     }
 };
 
-// Hopcroft Karp O(E * sqrt(V))
+Hopcroft Karp: O(E * sqrt(V))
 
 const int INF = INT_MAX;
 

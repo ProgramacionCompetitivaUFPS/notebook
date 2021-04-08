@@ -1,4 +1,4 @@
-Maximum matching in integral graph O(E * v ^2)
+Halla el máximo match en un grafo general O(E * v ^2)
 
 struct network {
     struct struct_edge { 

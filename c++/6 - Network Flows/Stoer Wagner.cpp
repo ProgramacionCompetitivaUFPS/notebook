@@ -1,4 +1,5 @@
-// Minimum cut in undirected weighted graph O(V ^ 3)
+Halla el corte mínumo en un grafo no dirigido y con pesos O(V ^ 3)
+
 struct stoer_wagner {
     int n;
     vector<vector<int>> g;

@@ -1,4 +1,5 @@
-// Maximum weighted matching O(V ^ 3)
+Halla el máximo match con pesos O(V ^ 3)
+
 typedef int type;
 struct matching_weighted {
     int l, r;

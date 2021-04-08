@@ -1,4 +1,4 @@
-Max flow O(E * V ^ 2)
+Halla el flujo máximo O(E * V ^ 2)
 
 struct edge { int v, cap, inv, flow; };
 
