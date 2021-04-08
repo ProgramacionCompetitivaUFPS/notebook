@@ -1,4 +1,4 @@
-Halla el corte mínumo en un grafo no dirigido y con pesos O(V ^ 3)
+Halla el corte mínimo en un grafo no dirigido y con pesos O(V ^ 3)
 
 struct stoer_wagner {
     int n;
