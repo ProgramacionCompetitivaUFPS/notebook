@@ -12,7 +12,7 @@ void fact(ll n, map<ll, int> &f) {
 /// O(sqrt(n)/log(sqrt(n)))
 
 2.1) Utilizando Pollard Rho y Miller Rabin. Agregar estas funciones.
-/// O(log(n)^3) aprox
+/// O(k * (n^(1/4) + log(n))) donde k es la cantidad de factores primos distintos
 void fact(ll n, map<ll, int> &f) {
     if (n == 1) return;
     if (is_prime(n)) { f[n]++; return; }
