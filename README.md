@@ -14,6 +14,6 @@ Se invita a los estudiantes del semillero a aportar sus propios códigos al note
   * Steven Halim: [Competitive Programming 3](http://cpbook.net/).
   * [CP-Algorithms](https://cp-algorithms.com/) (traducción de [MAXimal](http://e-maxx.ru/algo/) a ingles).
   * Blogs en [Codeforces](http://codeforces.com/).
-  * Notebook de la Universidad Nacional de Colombia - Bogotá: [notebook_unal](https://github.com/mavd09/notebook_unal).
-  * Notebook del equipo "UNC - Gracias Demetrio": [icpc-team-notebook-el-vasito](https://github.com/mhunicken/icpc-team-notebook-el-vasito).
+  * Notebook del equipo "DescomUNAL": [notebook_descomUNAL](https://github.com/mavd09/notebook_unal).
+  * Notebook del equipo "UNC - Gracias Demetrio": [icpc-team-notebook-el-vasito](https://github.com/ahoraSoyPeor/notebook_descomUNAL).
 * El notebook es generado gracias al [Notebook Generator](https://github.com/pin3da/notebook-generator) de [@pin3da](https://github.com/pin3da/).
