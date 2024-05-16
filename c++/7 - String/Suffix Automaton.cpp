@@ -68,17 +68,17 @@ struct suffixAutomaton {
     int count_occ(int u) {
         if (sa[u].cnt != 0) return sa[u].cnt;
         sa[u].cnt = sa[u].end;
-        for (auto &v : sa[u].next)
+        for (auto &v : sa[u].next) 
             sa[u].cnt += count_occ(v.S);
         return sa[u].cnt;
     }
 
     ll count_paths(int u) {
         if (sa[u].out != 0) return sa[u].out;
-        for (auto &v : sa[u].next)
+        for (auto &v : sa[u].next) 
             sa[u].out += count_paths(v.S) + 1;
         return sa[u].out;
     }
-    
+
     node& operator[](int i) { return sa[i]; }
 };

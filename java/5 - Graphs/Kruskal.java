@@ -1,8 +1,8 @@
 Dado un grafo con pesos halla su árbol cobertor mínimo.
 IMPORTANTE: Debe agregarse Disjoint Set.
 
-static class edge implements Comparable<edge> {    
-    int u, v, w;        
+static class edge implements Comparable<edge> {
+    int u, v, w;
     edge(int _u, int _v, int _w) {
         u = _u;
         v = _v;
@@ -23,13 +23,12 @@ static class par{
         F = f;
         S = s;
     }
-
 }
 
-static final int MAX = 100005; //Cantidad maxima de nodos
-static ArrayList<par> g[] = new ArrayList[MAX]; //Lista de adyacencia
-static ArrayList<edge> e = new ArrayList<>(); //Lista de aristas
-static int N, M; //Cantidad de nodos y aristas
+static final int MAX = 100005; // Cantidad maxima de nodos
+static ArrayList<par> g[] = new ArrayList[MAX]; // Lista de adyacencia
+static ArrayList<edge> e = new ArrayList<>(); // Lista de aristas
+static int N, M; // Cantidad de nodos y aristas
 
 static void kruskall() {
     Collections.sort(e);

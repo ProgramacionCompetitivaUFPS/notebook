@@ -3,7 +3,7 @@ Guarda en primes los numeros primos menores o iguales a MX. Para saber si p es u
 const int MX = 1e6;
 bool marked[MX+1];
 vector<int> primes;
-/// O(MX log(log(MX)))
+// O(MX log(log(MX)))
 void sieve() {
     marked[0] = marked[1] = true;
     for (int i = 2; i <= MX; i++) {

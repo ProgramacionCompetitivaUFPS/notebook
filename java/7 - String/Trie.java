@@ -3,9 +3,8 @@
 import java.util.*;
 
 class Main {
-
-    static int MAX_L = 26; //cantidad de letras del lenguaje
-    static char L = 'a'; //primera letra del lenguaje
+    static int MAX_L = 26; // cantidad de letras del lenguaje
+    static char L = 'a'; // primera letra del lenguaje
     static ArrayList<node> trie;
 
     static class node {
@@ -49,7 +48,7 @@ class Main {
     static void dfs(int cur) {
         for (int i = 0; i < MAX_L; ++i) {
             if (trie.get(cur).next[i] != null) {
-                //System.out.println((char)(i+L));
+                // System.out.println((char)(i+L));
                 dfs(trie.get(cur).next[i]);
             }
         }
@@ -61,3 +60,4 @@ class Main {
         for (String c : s) add_str(c);
     }
 }
+

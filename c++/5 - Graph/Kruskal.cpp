@@ -6,10 +6,10 @@ bool cmp(edge &a, edge &b) {
     return a.w < b.w;
 }
 
-const int MX = 1e5+5; //Cantidad maxima de nodos
-vector<pair<int, int>> g[MX]; //Lista de adyacencia
-vector<edge> e; //Lista de aristas
-int n, m; //Cantidad de nodos y aristas
+const int MX = 1e5+5; // Cantidad maxima de nodos
+vector<pair<int, int>> g[MX]; // Lista de adyacencia
+vector<edge> e; // Lista de aristas
+int n, m; // Cantidad de nodos y aristas
 
 void kruskall() {
     sort(e.begin(), e.end(), cmp);

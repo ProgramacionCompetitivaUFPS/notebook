@@ -4,11 +4,11 @@ const int INF = 1e9;
 const int MAX = 1000;
 int init, fin;
 int dp[MAX];
-vector<int> g[MAX]; //USADO PARA ARISTAS NO PONDERADAS
-vector<pair<int, int>> gw[MAX]; //PARA ARISTAS PONDERADAS First: Nodo vecino. Second = Peso de la arista
+vector<int> g[MAX]; // USADO PARA ARISTAS NO PONDERADAS
+vector<pair<int, int>> gw[MAX]; // PARA ARISTAS PONDERADAS First: Nodo vecino. Second = Peso de la arista
 
-//Funcion para calcular el numero de formas de ir del nodo u al nodo end
-//LLamar para nodo inicial (init)
+// Funcion para calcular el numero de formas de ir del nodo u al nodo end
+// LLamar para nodo inicial (init)
 int ways(int u){
     if(u == fin) return 1;
     int &ans = dp[u];
@@ -20,7 +20,7 @@ int ways(int u){
     return ans;
 }
 
-//MINIMO CAMINO DESDE U HASTA END. LLAMAR PARA INIT
+// MINIMO CAMINO DESDE U HASTA END. LLAMAR PARA INIT
 int min_way(int u){
     if(u == fin) return 0;
     int &ans = dp[u];

@@ -1,5 +1,5 @@
 Dado un string s retorna un ArrayList lps donde lps[i] es el largo del prefijo propio más largo que tambien es sufijo de s[0] hasta s[i].
-*Para retornar el vector de suffix_link quitar el comentario (//).
+*Para retornar el vector de suffix_link quitar el comentario (// ).
 
 static ArrayList<Integer> prefix_function(String s) {
     int n = s.length(), len = 0, i = 1;
@@ -12,6 +12,6 @@ static ArrayList<Integer> prefix_function(String s) {
             else lps.set(i++, len);
         } else lps.set(i++, ++len);
     }
-    //lps.add(0, -1); //Para SuffixLink
+    // lps.add(0, -1); // Para SuffixLink
     return lps;
 }

@@ -1,14 +1,13 @@
 Halla el máximo match en un grafo general O(E * v ^2)
 
 struct network {
-    struct struct_edge { 
-        int v; struct_edge * n; 
+    struct struct_edge {
+        int v; struct_edge * n;
     };
-
     typedef struct_edge* edge;
 
     int n;
-    struct_edge pool[MAXE]; ///2*n*n;
+    struct_edge pool[MAXE]; // 2*n*n;
     edge top;
     vector<edge> adj;
     queue<int> q;
@@ -16,7 +15,7 @@ struct network {
     vector<vector<int>> ed;
 
     network(int n) : n(n), match(n, -1), adj(n), top(pool), f(n), base(n),
-                    inq(n), inb(n), inp(n), ed(n, vector<int>(n)) {}
+        inq(n), inb(n), inp(n), ed(n, vector<int>(n)) {}
 
     void add_edge(int u, int v) {
         if(ed[u][v]) return;
@@ -101,10 +100,10 @@ struct network {
         return u != -1;
     }
 
-    /// (i < net.match[i]) => means match
+    // (i < net.match[i]) => means match
     int maximum_matching() {
         int ans = 0;
-        for(int u = 0; u < n; u++)
+        for(int u = 0; u < n; u++) 
             ans += (match[u] == -1) && doit(bfs(u));
         return ans;
     }

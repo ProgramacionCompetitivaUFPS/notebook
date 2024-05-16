@@ -13,7 +13,7 @@ struct network {
         g[u].push_back({v, c, (int)g[v].size(), 0});
         g[v].push_back({u, 0, (int)g[u].size()-1, c});
     }
-    
+
     bool bfs() {
         fill(lvl.begin(), lvl.end(), -1);
         queue<int> q;
@@ -46,7 +46,7 @@ struct network {
         if(!res) lvl[u] = -1;
         return res;
     }
-    
+
     int max_flow(int so, int si, int res = 0) {
         s = so; t = si;
         while(bfs()) res += dfs(s, INT_MAX);

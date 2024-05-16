@@ -15,11 +15,11 @@ int rsq(int k) {
 
 int rsq(int i, int j) { return rsq(j) - rsq(i-1); }
 
-int lower_find(int val) { /// last value < or <= to val
+int lower_find(int val) { // last value < or <= to val
     int id = 0;
     for (int i = 31-__builtin_clz(MX); i >= 0; --i) {
         int nid = id | (1<<i);
-        if (nid <= MX && bit[nid] <= val) { /// change <= to <
+        if (nid <= MX && bit[nid] <= val) { // change <= to <
             val -= bit[nid];
             id = nid;
         }

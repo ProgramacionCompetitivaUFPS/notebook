@@ -17,7 +17,7 @@ static long eulerTotient (long n) {
 * Calcular el Euler totient para todos los numeros menores o iguales a MAX.
 
 static int MAX = 100;
-static int[] totient = new int [MAX+1]; 
+static int[] totient = new int [MAX+1];
 static boolean marked = new boolean[MAX+1];
 
 static void eulerTotient() {

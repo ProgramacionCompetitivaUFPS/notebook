@@ -1,6 +1,6 @@
 La funcion phi de Euler devuelve la cantidad de enteros positivos menores o iguales a n que son coprimos con n (gcd(n, i) = 1)
 
-/// O(sqrt(n))
+// O(sqrt(n))
 ll phi(ll n) {
     ll ans = n;
     for (int p = 2; p <= n/p; ++p) {
@@ -16,7 +16,7 @@ ll phi(ll n) {
 const int MX = 1e6;
 bool marked[MX+1];
 int phi[MX+1];
-/// O(MX log(log(MX)))
+// O(MX log(log(MX)))
 void sieve() {
     iota(phi, phi+MX+1, 0);
     marked[0] = marked[1] = true;

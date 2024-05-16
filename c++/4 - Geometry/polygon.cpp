@@ -6,8 +6,8 @@ struct polygon {
     void delete_repetead() {
         vector<pt> aux;
         sort(p.begin(), p.end());
-        for(pt &i : p)
-            if(aux.empty() || aux.back() != i)
+        for(pt &i : p) 
+            if(aux.empty() || aux.back() != i) 
               aux.push_back(i);
         p.swap(aux);
     }
@@ -22,14 +22,14 @@ struct polygon {
     }
     lf area(bool s = false) { // better on clockwise order
         lf ans = 0;
-        for (int i = 0, n = p.size(); i < n; i++)
+        for (int i = 0, n = p.size(); i < n; i++) 
             ans += cross(p[i], p[(i+1)%n]);
         ans /= 2;
         return s ? ans : abs(ans);
     }
     lf perimeter() {
         lf per = 0;
-        for(int i = 0, n = p.size(); i < n; i++)
+        for(int i = 0, n = p.size(); i < n; i++) 
            per += abs(p[i] - p[(i+1)%n]);
         return per;
     }
@@ -45,7 +45,7 @@ struct polygon {
         }
         return (crosses&1 ? IN : OUT);
     }
-    void normalize() { /// polygon is CCW
+    void normalize() { // polygon is CCW
         bottom = min_element(p.begin(), p.end()) - p.begin();
         vector<pt> tmp(p.begin()+bottom, p.end());
         tmp.insert(tmp.end(), p.begin(), p.begin()+bottom);
@@ -91,8 +91,8 @@ struct polygon {
         for(int it = 0; it < 2; it++) {
             int start = ch.size();
             for(auto &a : p) {
-                /// if colineal are needed, use < and remove repeated points
-                while(ch.size() >= start+2 && orient(ch[ch.size()-2], ch.back(), a) <= 0)
+                // if colineal are needed, use < and remove repeated points
+                while(ch.size() >= start+2 && orient(ch[ch.size()-2], ch.back(), a) <= 0) 
                     ch.pop_back();
                 ch.push_back(a);
             }
@@ -100,7 +100,7 @@ struct polygon {
             reverse(p.begin(), p.end());
         }
         if(ch.size() == 2 && ch[0] == ch[1]) ch.pop_back();
-        /// be careful with CH of size < 3
+        // be careful with CH of size < 3
         p.swap(ch);
     }
     vector<pii> antipodal() {

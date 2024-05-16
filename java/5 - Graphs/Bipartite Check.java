@@ -1,16 +1,15 @@
 Modificación del BFS para detectar si un grafo es bipartito.
-    
-static final int MAX = 100005; //Cantidad maxima de nodos
-static ArrayList<Integer> g[] = new ArrayList[MAX]; //Lista de adyacencia
-static int color[] = new int[MAX]; //Almacena el color de cada nodo
-static boolean bipartite; //true si el grafo es bipartito
-static int N, M; //Cantidad de nodos y aristas
+
+static final int MAX = 100005; // Cantidad maxima de nodos
+static ArrayList<Integer> g[] = new ArrayList[MAX]; // Lista de adyacencia
+static int color[] = new int[MAX]; // Almacena el color de cada nodo
+static boolean bipartite; // true si el grafo es bipartito
+static int N, M; // Cantidad de nodos y aristas
 
 void bfs(int u) {
     Queue<Integer> q = new LinkedList<>();
     q.add(u);
     color[u] = 0;
-    
     while (!q.isEmpty()) {
         u = q.poll();
         for (int v : g[u]) {
@@ -32,4 +31,3 @@ static void init() {
         color[i] = -1;
     }
 }
-  

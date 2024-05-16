@@ -1,4 +1,4 @@
-//Cambir valores a, b, c por límites correspondientes
+// Cambir valores a, b, c por límites correspondientes
 long long a=20, b=20, c=20;
 long long acum[a][b][c];
 long long INF = -100000000007;

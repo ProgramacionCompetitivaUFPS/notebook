@@ -6,8 +6,8 @@ struct stoer_wagner {
 
     stoer_wagner(int n) : n(n), g(n, vector<int>(n)) {}
 
-    void add_edge(int a, int b, int w) { 
-        g[a][b] = g[b][a] = w; 
+    void add_edge(int a, int b, int w) {
+        g[a][b] = g[b][a] = w;
     }
 
     pair<int, vector<int>> min_cut() {
@@ -24,9 +24,9 @@ struct stoer_wagner {
                     if(!added[j] && (lst == -1 || w[j] > w[lst])) lst = j;
                 }
                 if(i == p-1) {
-                    for(int j = 0; j < n; j++)
+                    for(int j = 0; j < n; j++) 
                         g[prv][j] += g[lst][j];
-                    for(int j = 0; j < n; j++)
+                    for(int j = 0; j < n; j++) 
                         g[j][prv] = g[prv][j];
                     used[lst] = true;
                     cut.push_back(lst);
@@ -35,12 +35,12 @@ struct stoer_wagner {
                         best_weight = w[lst];
                     }
                 } else {
-                    for(int j = 0; j < n; j++)
+                    for(int j = 0; j < n; j++) 
                         w[j] += g[lst][j];
                     added[lst] = true;
                 }
             }
         }
-        return {best_weight, best_cut}; /// best_cut contains all nodes in the same set
+        return {best_weight, best_cut}; // best_cut contains all nodes in the same set
     }
 };

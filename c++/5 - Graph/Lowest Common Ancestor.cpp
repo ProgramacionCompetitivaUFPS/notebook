@@ -5,7 +5,7 @@ Se debe ejecutar la funcion dfs() primero, el padre de la raiz es sí mismo, w e
 const int N = 4e5+2, inf = 1e9, LOG2 = 20;
 int dep[N]; // Profundidad de cada nodo
 int par[LOG2][N]; // Sparse table para guardar los padres
-//int rmq[LOG2][N]; // Sparse table para guardar pesos
+// int rmq[LOG2][N]; // Sparse table para guardar pesos
 
 struct edge { int v, w; };
 vector<edge> g[N];

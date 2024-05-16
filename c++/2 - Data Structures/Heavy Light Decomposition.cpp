@@ -1,7 +1,7 @@
 Para inicializar llamar build(). Agregar Segment Tree con un constructor vacio, actualizaciones puntuales y declarar el valor neutro de forma global.
 Para consultas sobre aristas guardar el valor de cada arista en su nodo hijo y cambiar pos[u] por pos[u]+1 en la linea 54.
 
-typedef int T; //tipo de dato del segtree
+typedef int T; // tipo de dato del segtree
 const int MX = 1e5+5;
 vector<int> g[MX];
 int par[MX], dep[MX], sz[MX];
@@ -22,7 +22,7 @@ int pre(int u, int p, int d) {
 }
 
 void hld(int u, int p, int t) {
-    arr[idx] = value[u]; //vector para inicializar el segtree
+    arr[idx] = value[u]; // vector para inicializar el segtree
     pos[u] = idx++;
     top[u] = t < 0 ? t = u : t;
     for (auto &v : g[u]) {

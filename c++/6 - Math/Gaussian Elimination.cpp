@@ -3,17 +3,17 @@ Resuelve sistemas de ecuaciones lineales por eliminacion Gaussiana. mat[][] cont
 const int MX = 100;
 double mat[MX][MX+1];
 int n;
-/// O(n^3)
+// O(n^3)
 vector<double> gauss() {
     vector<double> vec(n-1);
     for (int i = 0; i < n-1; i++) {
         int pivot = i;
-        for (int j = i+1; j < n; j++)
+        for (int j = i+1; j < n; j++) 
             if (abs(mat[j][i]) > abs(mat[pivot][i])) pivot = j;
-        for (int j = i; j <= n; j++)
+        for (int j = i; j <= n; j++) 
             swap(mat[i][j], mat[pivot][j]);
-        for (int j = i+1; j < n; j++)
-            for (int k = n; k >= i; k--)
+        for (int j = i+1; j < n; j++) 
+            for (int k = n; k >= i; k--) 
                 mat[j][k] -= mat[i][k]*mat[j][i] / mat[i][i];
     }
     for (int i = n-1; i >= 0; i--) {

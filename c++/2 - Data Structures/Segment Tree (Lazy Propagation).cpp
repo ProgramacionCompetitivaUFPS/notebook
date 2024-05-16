@@ -2,15 +2,15 @@ Dado un vector de valores permite hacer consultas sobre rangos y actualizaciones
 Para hacer actualizaciones sobre rangos se deben descomentar las lineas de Lazy Propagation.
 El valor neutro depende del tipo de consulta. Para sumas: 0, minimos: infinito, maximos: -infinito, etc.
 
-typedef int T; //tipo de dato del segtree
+typedef int T; // tipo de dato del segtree
 struct segtree {
-    vector<T> st;//, lazy;
+    vector<T> st;// , lazy;
     int n; T neutro = 1e9; // "infinito"
 
     segtree(const vector<int> &v) {
         n = v.size();
         st.assign(n*4, 0);
-        //lazy.assign(n*4, neutro);
+        // lazy.assign(n*4, neutro);
         build(1, 0, n-1, v);
     }
 
@@ -35,9 +35,9 @@ struct segtree {
     */
     T query(int i, int j) { return query(1, 0, n-1, i, j); }
     void upd(int i, int j, T val) { upd(1, 0, n-1, i, j, val); }
-    
+
     T query(int p, int L, int R, int i, int j) {
-        //propagate(p, L, R, lazy[p]);
+        // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return neutro;
         if (i <= L && j >= R) return st[p];
         int m = (L+R)/2, l = p*2, r = l+1;
@@ -47,9 +47,9 @@ struct segtree {
     }
 
     void upd(int p, int L, int R, int i, int j, T val) {
-        //propagate(p, L, R, lazy[p]);
+        // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return;
-        if (i <= L && j >= R) st[p] = val;//cambiar por propagate(p, L, R, val);
+        if (i <= L && j >= R) st[p] = val;// cambiar por propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = p*2, r = l+1;
             upd(l, L, m, i, j, val);

@@ -8,7 +8,7 @@ vector<int> manacher(string s) {
     for (int i = 1; i < n-1; i++) {
         int j = c - (i-c) ;
         if (r > i) p[i] = min(r-i , p[j]);
-        while (s[i+1+p[i]] == s[i-1-p[i]])
+        while (s[i+1+p[i]] == s[i-1-p[i]]) 
             p[i]++;
         if (i+p[i] > r) {
             c = i;

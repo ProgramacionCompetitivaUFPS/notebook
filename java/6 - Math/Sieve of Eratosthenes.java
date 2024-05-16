@@ -6,11 +6,11 @@ static ArrayList<Integer> primes = new ArrayList<>();
 static boolean marked[] = new boolean[MAX+1];
 
 static void sieve() {
-	marked[1] = true;
-	int i = 2;
-	for (; i <= SQRT; ++i) if (!marked[i]) {
-		primes.add(i);
-		for (int j = i*i; j <= MAX; j += i) marked[j] = true;
-	}
-	for (; i <= MAX; ++i) if (!marked[i]) primes.add(i);
+    marked[1] = true;
+    int i = 2;
+    for (; i <= SQRT; ++i) if (!marked[i]) {
+        primes.add(i);
+        for (int j = i*i; j <= MAX; j += i) marked[j] = true;
+    }
+    for (; i <= MAX; ++i) if (!marked[i]) primes.add(i);
 }

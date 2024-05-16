@@ -1,7 +1,7 @@
 Dados dos Strings, encuentra el largo de la subsecuencia en común mas larga entre ellas.
 
 const int M_MAX = 20; // Máximo size del String 1
-const int N_MAX = 20; // Máximo size del String 2 
+const int N_MAX = 20; // Máximo size del String 2
 int m, n; // Size de Strings 1 y 2
 string X; // String 1
 string Y; // String 2

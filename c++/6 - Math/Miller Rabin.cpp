@@ -1,6 +1,6 @@
 El algoritmo de Miller-Rabin determina si un numero es primo o no. Agregar Modular Exponentiation (para m ll) y Modular Multiplication.
 
-/// O(log^3(n))
+// O(log^3(n))
 bool test(ll n, int a) {
     if (n == a) return true;
     ll s = 0, d = n-1;

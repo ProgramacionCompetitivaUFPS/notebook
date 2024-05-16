@@ -1,6 +1,6 @@
-//Cambiar infinito por el mínimo valor posible
+// Cambiar infinito por el mínimo valor posible
 int INF = -100000007;
-int n, m; //filas y columnas
+int n, m; // filas y columnas
 const int MAX_N = 105, MAX_M = 105;
 int values[MAX_N][MAX_M];
 
@@ -22,7 +22,7 @@ int max_range_sum2D(){
                     if(j>0) sub_mat -= values[h][j-1];
                     if(i>0 && j>0) sub_mat += values[i-1][j-1];
                     max_mat = max(sub_mat, max_mat);
-                }    
+                }
             }
         }
     }

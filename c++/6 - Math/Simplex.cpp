@@ -52,9 +52,9 @@ struct simplex {
             }
             if(x < 0) break;
             for(int i = 0; i < m; i++){
-                if(a[x][i] < -EPS) { 
-                    y = i; 
-                    break; 
+                if(a[x][i] < -EPS) {
+                    y = i;
+                    break;
                 }
             }
             assert(y >= 0); // no hay solucion para Ax <= b
@@ -69,7 +69,7 @@ struct simplex {
             if(y < 0) break;
             double mn = 1e200;
             for(int i = 0; i < n; i++){
-                if(a[i][y] > EPS && b[i] / a[i][y] < mn)
+                if(a[i][y] > EPS && b[i] / a[i][y] < mn) 
                 mn = b[i] / a[i][y], x = i;
             }
             assert(x >= 0); // unbounded

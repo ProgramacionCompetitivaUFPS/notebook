@@ -1,18 +1,18 @@
 Tres funciones diferentes que guardan en el map f los pares <primo, exponente> de la descomposicion en factores primos de n.
 
 1.1) Iterando hasta sqrt(n)
-/// O(sqrt(n))
+// O(sqrt(n))
 void fact(ll n, map<ll, int> &f) {
-    for (int p = 2; 1ll*p*p <= n; p++)
+    for (int p = 2; 1ll*p*p <= n; p++) 
         while (n%p == 0) f[p]++, n /= p;
     if (n > 1) f[n]++;
 }
 
 1.2) Version optimizada. Precalcular los primos <= sqrt(n) para iterarlos en el for.
-/// O(sqrt(n)/log(sqrt(n)))
+// O(sqrt(n)/log(sqrt(n)))
 
 2.1) Utilizando Pollard Rho y Miller Rabin (agregar funciones).
-/// O(log(n)^3) aprox
+// O(log(n)^3) aprox
 void fact(ll n, map<ll, int> &f) {
     if (n == 1) return;
     if (is_prime(n)) { f[n]++; return; }
@@ -42,7 +42,7 @@ void sieve() {
         }
     }
 }
-/// O(log(n))
+// O(log(n))
 void fact(int n, map<int, int> &f) {
     while (n > 1) {
         f[prime[n]]++;

@@ -1,6 +1,6 @@
 Cuenta las ocurrencias del string p en el string s. Agregar Prefix Function.
 
-/// O(n+m)
+// O(n+m)
 int kmp(string &s, string &p) {
     int n = s.size(), m = p.size(), cnt = 0;
     vector<int> pf = prefix_function(p);

@@ -20,10 +20,10 @@ bool inter_ll(line l1, line l2, pt &out) {
     out = (l2.v*l1.c - l1.v*l2.c) / d; // floating points
     return true;
 }
-//bisector divides the angle in 2 equal angles
-//interior line goes on the same direction as l1 and l2
+// bisector divides the angle in 2 equal angles
+// interior line goes on the same direction as l1 and l2
 line bisector(line l1, line l2, bool interior) {
-    assert(cross(l1.v, l2.v) != 0); /// l1 and l2 cannot be parallel!
+    assert(cross(l1.v, l2.v) != 0); // l1 and l2 cannot be parallel!
     lf sign = interior ? 1 : -1;
     return {l2.v/abs(l2.v) + l1.v/abs(l1.v) * sign,
             l2.c/abs(l2.v) + l1.c/abs(l1.v) * sign};

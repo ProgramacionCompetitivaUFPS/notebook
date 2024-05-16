@@ -1,7 +1,7 @@
 Dado un string s retorna un array pf donde pf[i] es el largo del prefijo propio más largo
 que tambien es sufijo de cad[0] hasta cad[i].
 El String debe pasarse como un array de chars cadena.toCharArray();
-/// O(n)
+// O(n)
 
 static int[] prefix_function(char[] cad) {
     int n = cad.length;

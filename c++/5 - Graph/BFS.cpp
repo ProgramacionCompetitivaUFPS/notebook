@@ -1,10 +1,10 @@
 Busqueda en anchura sobre grafos. Recibe un nodo inicial u y visita todos los nodos alcanzables desde u.
 BFS tambien halla la distancia mas corta entre el nodo inicial u y los demas nodos si todas las aristas tienen peso 1.
 
-const int MX = 1e5+5; //Cantidad maxima de nodos
-vector<int> g[MX]; //Lista de adyacencia
-vector<ll> dist; //Almacena la distancia a cada nodo
-int n, m; //Cantidad de nodos y aristas
+const int MX = 1e5+5; // Cantidad maxima de nodos
+vector<int> g[MX]; // Lista de adyacencia
+vector<ll> dist; // Almacena la distancia a cada nodo
+int n, m; // Cantidad de nodos y aristas
 
 void bfs(int u) {
     queue<int> q;

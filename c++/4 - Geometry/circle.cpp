@@ -2,14 +2,14 @@ struct circle {
     pt c; T r;
 };
 // (x-xo)^2 + (y-yo)^2 = r^2
-//circle that passes through abc
+// circle that passes through abc
 circle center(pt a, pt b, pt c) {
     b = b-a, c = c-a;
-    assert(cross(b,c) != 0); /// no circumcircle if A,B,C aligned
+    assert(cross(b,c) != 0); // no circumcircle if A,B,C aligned
     pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b,c)/2;
     return {cen, abs(a-cen)};
 }
-//centers of the circles that pass through ab and has radius r
+// centers of the circles that pass through ab and has radius r
 vector<pt> centers(pt a, pt b, T r) {
     if (abs(a-b) > 2*r + eps) return {};
     pt m = (a+b)/2;
@@ -38,9 +38,9 @@ int inter_cc(circle c1, circle c2, pair<pt, pt> &out) {
     }
     return 1 + sign(h2);
 }
-//circle-line inter = 1
+// circle-line inter = 1
 int tangents(circle c1, circle c2, bool inner, vector<pair<pt,pt>> &out) {
-    if(inner) c2.r = -c2.r; // inner tangent 
+    if(inner) c2.r = -c2.r; // inner tangent
     pt d = c2.c-c1.c;
     double dr = c1.r-c2.r, d2 = norm(d), h2 = d2-dr*dr;
     if(d2 == 0 || h2 < 0) { assert(h2 != 0); return 0; } // (identical)
@@ -50,7 +50,7 @@ int tangents(circle c1, circle c2, bool inner, vector<pair<pt,pt>> &out) {
     }
     return 1 + (h2 > 0); // if 1: circle are tangent
 }
-//circle targent passing through pt p
+// circle targent passing through pt p
 int tangent_through_pt(pt p, circle c, pair<pt, pt> &out) {
     double d = abs(p - c.c);
     if(d < c.r) return 0;

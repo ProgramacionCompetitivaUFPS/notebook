@@ -8,8 +8,8 @@ int n;
 
 void build() {
     for (int i = 0; i < n; i++) spt[0][i] = arr[i];
-    for (int j = 0; j < LG-1; j++)
-        for (int i = 0; i+(1<<(j+1)) <= n; i++)
+    for (int j = 0; j < LG-1; j++) 
+        for (int i = 0; i+(1<<(j+1)) <= n; i++) 
             spt[j+1][i] = min(spt[j][i], spt[j][i+(1<<j)]);
 }
 

@@ -17,14 +17,14 @@ static long pisanoPrime(long p, long e) {
 static long pisanoPeriod(long m) {
     long pp = 1;
     for (long p = 2; p*p <= m; p++) {
-    	if (m % p == 0) {
-	    	long e = 0;
-	        while (m % p == 0) {
-	        	e++;
-	        	m /= p;
-	        }
-	        pp = lcm(pp, pisanoPrime(p, e));
-    	}
+        if (m % p == 0) {
+            long e = 0;
+            while (m % p == 0) {
+                e++;
+                m /= p;
+            }
+            pp = lcm(pp, pisanoPrime(p, e));
+        }
     }
     if (m > 1) pp = lcm(pp, period(m));
     return pp;

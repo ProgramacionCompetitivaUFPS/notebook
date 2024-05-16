@@ -57,7 +57,7 @@ struct matching_weighted {
                 }
             }
             aug:
-            for (int k = 0; k < l; ++k)
+            for (int k = 0; k < l; ++k) 
                 v[ idx[k] ] += d[ idx[k] ] - w;
             int i;
             do {
@@ -66,7 +66,7 @@ struct matching_weighted {
             } while (i != f);
         }
         type opt = 0;
-        for (int i = 0; i < l; ++i)
+        for (int i = 0; i < l; ++i) 
             opt += c[i][ml[i]]; // (i, ml[i]) is a solution
         return opt;
     }

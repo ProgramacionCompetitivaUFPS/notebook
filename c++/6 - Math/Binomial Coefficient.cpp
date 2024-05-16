@@ -1,6 +1,6 @@
 Calcula el coeficiente binomial nCr, entendido como el numero de subconjuntos de r elementos escogidos de un conjunto con n elementos.
 
-/// O(min(r, n-r))
+// O(min(r, n-r))
 ll ncr(ll n, ll r) {
     if (r < 0 || n < r) return 0;
     r = min(r, n-r);

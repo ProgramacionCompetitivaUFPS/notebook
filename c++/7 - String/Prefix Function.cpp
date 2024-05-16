@@ -1,6 +1,6 @@
 Dado un string s retorna un vector pf donde pf[i] es el largo del prefijo propio mas largo que tambien es sufijo de s[0] hasta s[i].
 
-/// O(n)
+// O(n)
 vector<int> prefix_function(string &s) {
     int n = s.size();
     vector<int> pf(n);

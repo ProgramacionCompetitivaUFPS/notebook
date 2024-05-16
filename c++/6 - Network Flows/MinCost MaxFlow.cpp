@@ -6,13 +6,13 @@ struct edge {
 };
 
 const int inf = 1e9;
-const int MX = 405; //Cantidad maxima TOTAL de nodos
-vector<int> g[MX]; //Lista de adyacencia
-vector<edge> e; //Lista de aristas
-vector<bool> in_queue; //Marca los nodos que estan en cola
-vector<int> pre, dist, cap; //Almacena el nodo anterior, la distancia y el flujo de cada nodo
-int mxflow, mncost; //Flujo maximo y costo minimo
-int N; //Cantidad TOTAL de nodos
+const int MX = 405; // Cantidad maxima TOTAL de nodos
+vector<int> g[MX]; // Lista de adyacencia
+vector<edge> e; // Lista de aristas
+vector<bool> in_queue; // Marca los nodos que estan en cola
+vector<int> pre, dist, cap; // Almacena el nodo anterior, la distancia y el flujo de cada nodo
+int mxflow, mncost; // Flujo maximo y costo minimo
+int N; // Cantidad TOTAL de nodos
 
 void add_edge(int u, int v, int cap, int cost) {
     g[u].push_back(e.size());
@@ -30,7 +30,7 @@ void flow(int s, int t) {
         pre.assign(N, -1); pre[s] = 0;
         queue<int> q; q.push(s);
         in_queue[s] = true;
-        
+
         while (q.size()) {
             int u = q.front(); q.pop();
             in_queue[u] = false;
@@ -84,7 +84,7 @@ struct mcmf {
         g[v].push_back(ed.size());
         ed.push_back({v, u, 0, 0, -cost});
     }
-    
+
     bool dijkstra(int s, int t) {
         fill(d.begin(), d.end(), INF);
         fill(p.begin(), p.end(), -1);
@@ -105,13 +105,14 @@ struct mcmf {
         for(int i = 0; i < n; i++) phi[i] = min(INF, phi[i]+d[i]);
         return d[t] != INF;
     }
+
     pair<int, type> max_flow(int s, int t) {
         type mc = 0;
         int mf = 0;
         fill(phi.begin(), phi.end(), 0);
         while(dijkstra(s, t)) {
             int flow = INF;
-            for(int v = p[t]; v != -1; v = p[ ed[v].u ])
+            for(int v = p[t]; v != -1; v = p[ ed[v].u ]) 
                 flow = min(flow, ed[v].cap-ed[v].flow);
             for(int v = p[t]; v != -1; v = p[ ed[v].u ]) {
                 edge &e1 = ed[v];

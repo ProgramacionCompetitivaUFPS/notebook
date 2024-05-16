@@ -1,8 +1,8 @@
 Algoritmo para hallar los puentes e itsmos en un grafo no dirigido. Requiere de la clase Edge.
 SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
-static int n, e; //vertices, arcos
-static int MAX=1010;     
+static int n, e; // vertices, arcos
+static int MAX=1010;
 static ArrayList<Integer> ady[]=new ArrayList [MAX];
 static boolean marked[]=new boolean [MAX];
 static int prev[]=new int [MAX];
@@ -23,16 +23,16 @@ static void dfs(int u){
         v = ady[u].get(j);
         if( !marked[v] ){
             prev[v] = u;
-            //Caso especial 
+            // Caso especial
             if( u == dfsRoot )  rootChildren++;
             dfs(v);
 
-            //Itmos
+            // Itmos
             if( dfs_low[v] >= dfs_num[u] )  itsmos[u] = true;
-            
-            //Puentes
+
+            // Puentes
             if( dfs_low[v] > dfs_num[u] )   bridges.add(new Edge( Math.min(u,v),Math.max(u,v)) );
-            
+
             dfs_low[u] = Math.min(dfs_low[u], dfs_low[v]);
         }else if( v != prev[u] )    dfs_low[u] = Math.min(dfs_low[u], dfs_num[v]);
     }
@@ -43,4 +43,3 @@ public static void main(String args[]){
     /* Caso especial */
     itmos[dfsRoot] = ( itmos[ dfsRoot ] && rootChildren > 1 ) ? true : false;
 }
-

@@ -4,7 +4,7 @@ si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos disyunt
 
 static class dsu {
     int[] par, sz;
-    int size; //Cantidad de conjuntos
+    int size; // Cantidad de conjuntos
 
     dsu(int n) {
         size = n;
@@ -15,11 +15,11 @@ static class dsu {
             sz[i] = 1;
         }
     }
-    //Busca el nodo representativo del conjunto de u
+    // Busca el nodo representativo del conjunto de u
     int find(int u) {
         return par[u] == u ? u : (par[u] = find(par[u]));
     }
-    //Une los conjuntos de u y v
+    // Une los conjuntos de u y v
     void unite(int u, int v) {
         if ((u = find(u)) == (v = find(v))) return;
         if (sz[u] > sz[v]){
@@ -31,7 +31,7 @@ static class dsu {
         sz[v] += sz[u];
         size--;
     }
-    //Retorna la cantidad de elementos del conjunto de u
+    // Retorna la cantidad de elementos del conjunto de u
     int count(int u) {
         return sz[find(u)];
     }
