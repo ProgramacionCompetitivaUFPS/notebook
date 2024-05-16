@@ -8,10 +8,10 @@ void fact(ll n, map<ll, int> &f) {
     if (n > 1) f[n]++;
 }
 
-1.2) Funcion anterior optimizada. Precalcular los primos <= sqrt(n) (con Sieve of Eratosthenes) y en el for iterar sobre los numeros primos.
+1.2) Version optimizada. Precalcular los primos <= sqrt(n) para iterarlos en el for.
 /// O(sqrt(n)/log(sqrt(n)))
 
-2.1) Utilizando Pollard Rho y Miller Rabin. Agregar estas funciones.
+2.1) Utilizando Pollard Rho y Miller Rabin (agregar funciones).
 /// O(log(n)^3) aprox
 void fact(ll n, map<ll, int> &f) {
     if (n == 1) return;
@@ -20,7 +20,7 @@ void fact(ll n, map<ll, int> &f) {
     fact(q, f); fact(n/q, f);
 }
 
-2.2) Funcion anterior optimizada. Precalculando los factores con la Sieve of Eratosthenes del siguiente metodo.
+2.2) Version optimizada. Usar Pollard Rho optimizado y sieve() del metodo 3.
 
 void fact(ll n, map<ll, int> &f) {
     for (auto &p : f) while (n%p.F == 0) { p.S++; n /= p.F; }
@@ -29,17 +29,16 @@ void fact(ll n, map<ll, int> &f) {
     else { ll q = rho(n); fact(q, f); fact(n/q, f); }
 }
 
-3) Precalculando los factores con Sieve of Eratosthenes (solo para n <= 1e6 aprox).
+3) Precalculando un divisor primo para cada n (solo para n <= 1e6 aprox).
 
 const int MX = 1e6;
 int prime[MX+1];
-/// O(MX log(log(MX)))
+
 void sieve() {
     for (int i = 2; i <= MX; i++) {
         if (prime[i]) continue;
-        prime[i] = i;
-        for (ll j = 1ll*i*i; j <= MX; j += i) {
-            if (!prime[j]) prime[j] = i;
+        for (int j = i; j <= MX; j += i) {
+            prime[j] = i;
         }
     }
 }

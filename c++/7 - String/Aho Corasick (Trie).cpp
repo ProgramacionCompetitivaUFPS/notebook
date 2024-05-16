@@ -32,17 +32,13 @@ void build_ac() {
     while (q.size()) {
         int u = q.front(); q.pop();
         for (int c = 0; c < alpha; ++c) {
-            int nx = trie[u][c];
-            if (!nx) continue;
-            q.push(nx);
-            if (!u) continue;
-            node &v = trie[nx];
-            v.link = trie[u].link;
-            while (v.link && !trie[v.link][c])
-                v.link = trie[v.link].link;
-            v.link = trie[v.link][c];
-            v.exit = trie[v.link].end ? v.link : trie[v.link].exit;
-            v.cnt += trie[v.link].cnt; // obtener informacion del padre
+            int v = trie[u][c];
+            if (!v) trie[u][c] = trie[trie[u].link][c];
+            else q.push(v);
+            if (!u || !v) continue;
+            trie[v].link = trie[trie[u].link][c];
+			trie[v].exit = trie[trie[v].link].end ? trie[v].link : trie[trie[v].link].exit;
+            trie[v].cnt += trie[trie[v].link].cnt;
         }
     }
 }
