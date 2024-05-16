@@ -1,24 +1,24 @@
-Dado un grafo acíclico dirigido (DAG), ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.
-Este ordenamiento es una manera de poner todos los nodos en una línea recta de tal manera que las aristas vayan de izquierda a derecha.
+Dado un grafo aciclico dirigido (DAG), ordena los nodos linealmente de tal manera que si existe una arista entre los nodos u y v entonces u aparece antes que v.
+Este ordenamiento es una manera de poner todos los nodos en una linea recta de tal manera que las aristas vayan de izquierda a derecha.
 
-const int MAX = 100005; //Cantidad maxima de nodos
-vector<int> g[MAX]; //Lista de adyacencia
-bitset<MAX> vis; //Marca los nodos ya visitados
-deque<int> topoSort; //Orden topologico del grafo
-int N, M; //Cantidad de nodos y aristas
+const int MX = 1e5+5; //Cantidad maxima de nodos
+vector<int> g[MX]; //Lista de adyacencia
+vector<bool> vis; //Marca los nodos ya visitados
+deque<int> order; //Orden topologico del grafo
+int n, m; //Cantidad de nodos y aristas
 
-void dfs(int u) {
+void toposort(int u) {
     vis[u] = true;
-    for (auto v : g[u]) {
-        if (!vis[v]) dfs(v);
+    for (auto &v : g[u]) {
+        if (!vis[v]) toposort(v);
     }
-    topoSort.push_front(u);
+    order.push_front(u);
 }
 
 void init() {
-    topoSort.clear();
-    for(int i = 0; i <= N; i++) {
+    order.clear();
+    vis.assign(n, false);
+    for (int i = 0; i <= n; i++) {
         g[i].clear();
-        vis[i] = false;
     }
 }

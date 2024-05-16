@@ -1,4 +1,4 @@
-El inverso multiplicativo modular de a % m es un entero b tal que (a*b) % m = 1. Éste existe siempre y cuando a y m sean coprimos (gcd(a, m) = 1).
+El inverso multiplicativo modular de a % m es un entero b tal que (a*b) % m = 1. Este existe siempre y cuando a y m sean coprimos (gcd(a, m) = 1).
 El inverso modular de a se utiliza para calcular (n/a) % m como (n*b) % m.
 
 * Se puede calcular usando el algoritmo de Euclides extendido. Agregar Extended Euclides.
@@ -10,20 +10,20 @@ int invmod(int a, int m) {
     return (x % m + m) % m;
 }
 
-* Si m es un número primo, se puede calcular aplicando el pequeño teorema de Fermat. Agregar Modular Exponentiation.
+* Si m es un numero primo, se puede calcular aplicando el pequeño teorema de Fermat. Agregar Modular Exponentiation.
 
 /// O(log(m))
 int invmod(int a, int m) {
     return expmod(a, m-2, m);
 }
 
-* Calcular el inverso modulo m para todos los numeros menores o iguales a MAX
+* Calcular el inverso modulo m para todos los numeros menores o iguales a MX
 
-const int MAX = 1000000;
-ll inv[MAX+1];
-/// O(MAX)
+const int MX = 1e6;
+ll inv[MX+1];
+/// O(MX)
 void invmod(ll m) {
     inv[1] = 1;
-    for(int i = 2; i <= MAX; i++)
-        inv[i] = ((m - m/i) * inv[m%i]) % m;
+    for(int i = 2; i <= MX; i++)
+        inv[i] = m - (m/i) * inv[m%i] % m;
 }

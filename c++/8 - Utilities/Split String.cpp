@@ -1,13 +1,11 @@
-Divide el string s por espacios. Devuelve un vector<> con los substrings resultantes.
-* Tambien puede dividir el string s por cada ocurrencia de un char c. (Para esto quitar los "//")
+Divide el string s por cada espacio ' ' y devuelve un vector<> con los substrings resultantes.
+Para dividir el string por un caracter especifico, agregar el parametro c y cambiar el while.
 
-vector<string> split(string &s/*, char c*/) {
+vector<string> split(const string &s/*, char c*/) {
     vector<string> v;
-    istringstream iss(s);
+    stringstream ss(s);
     string sub;
-    while (iss >> sub) {
-    //while (getline(iss, sub, c)) {
-        v.push_back(sub);
-    }
+    while (ss >> sub) v.pb(sub);
+    //while (getline(ss, sub, c)) v.pb(sub);
     return v;
 }

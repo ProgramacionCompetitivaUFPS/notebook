@@ -1,37 +1,51 @@
-Guarda en f los factores primos de n con sus exponentes.
+Tres funciones diferentes que guardan en el map f los pares <primo, exponente> de la descomposicion en factores primos de n.
 
+1.1) Iterando hasta sqrt(n)
 /// O(sqrt(n))
-void fact(ll n, map<ll, int>& f) {
-    for (ll p = 2; p*p <= n; p++)
+void fact(ll n, map<ll, int> &f) {
+    for (int p = 2; 1ll*p*p <= n; p++)
         while (n%p == 0) f[p]++, n /= p;
     if (n > 1) f[n]++;
 }
 
-* Agregar Pollard Rho y Miller Rabin.
+1.2) Funcion anterior optimizada. Precalcular los primos <= sqrt(n) (con Sieve of Eratosthenes) y en el for iterar sobre los numeros primos.
+/// O(sqrt(n)/log(sqrt(n)))
 
-void fact(ll n, map<ll, int>& f) {
+2.1) Utilizando Pollard Rho y Miller Rabin. Agregar estas funciones.
+/// O(log(n)^3) aprox
+void fact(ll n, map<ll, int> &f) {
     if (n == 1) return;
-    if (isPrime(n)) { f[n]++; return; }
+    if (is_prime(n)) { f[n]++; return; }
     ll q = rho(n);
     fact(q, f); fact(n/q, f);
 }
 
-* Precalculando los factores con Sieve of Eratosthenes (solo para int).
+2.2) Funcion anterior optimizada. Precalculando los factores con la Sieve of Eratosthenes del siguiente metodo.
 
-const int MAX = 10000000;
-int prime[MAX+1];
-/// O(MAX log(log(MAX)))
+void fact(ll n, map<ll, int> &f) {
+    for (auto &p : f) while (n%p.F == 0) { p.S++; n /= p.F; }
+    if (n <= MX) while (n > 1) { f[prime[n]]++; n /= prime[n]; }
+    else if (is_prime(n)) f[n]++;
+    else { ll q = rho(n); fact(q, f); fact(n/q, f); }
+}
+
+3) Precalculando los factores con Sieve of Eratosthenes (solo para n <= 1e6 aprox).
+
+const int MX = 1e6;
+int prime[MX+1];
+/// O(MX log(log(MX)))
 void sieve() {
-    for (int i = 2; i <= MAX; i++) if (!prime[i]) {
+    for (int i = 2; i <= MX; i++) {
+        if (prime[i]) continue;
         prime[i] = i;
-        for (ll j = 1ll*i*i; j <= MAX; j += i) {
+        for (ll j = 1ll*i*i; j <= MX; j += i) {
             if (!prime[j]) prime[j] = i;
         }
     }
 }
 /// O(log(n))
-void fact(int n, map<int, int>& f) {
-    while (n != 1) {
+void fact(int n, map<int, int> &f) {
+    while (n > 1) {
         f[prime[n]]++;
         n /= prime[n];
     }

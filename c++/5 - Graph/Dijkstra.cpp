@@ -1,22 +1,20 @@
-Dado un grafo con pesos no negativos halla la ruta de costo mínimo entre un nodo inicial u y todos los demás nodos.
-
-#define INF (1ll<<62)
+Dado un grafo con pesos no negativos halla la ruta de costo minimo entre un nodo inicial u y todos los demas nodos.
 
 struct edge {
-    int v;
-    long long w;
-    
-    bool operator < (const edge &b) const {
-        return w > b.w; //Orden invertido
+    int v; ll w;
+
+    bool operator < (const edge &o) const {
+        return o.w < w; //invertidos para que la pq ordene de < a >
     }
 };
 
-const int MAX = 100005; //Cantidad maxima de nodos
-vector<edge> g[MAX]; //Lista de adyacencia
-bitset<MAX> vis; //Marca los nodos ya visitados
-int pre[MAX]; //Almacena el nodo anterior para construir las rutas
-long long dist[MAX]; //Almacena la distancia a cada nodo
-int N, M; //Cantidad de nodos y aristas
+const ll inf = 1e18;
+const int MX = 1e5+5; //Cantidad maxima de nodos
+vector<edge> g[MX]; //Lista de adyacencia
+vector<bool> vis; //Marca los nodos ya visitados
+vector<ll> dist; //Almacena la distancia a cada nodo
+int pre[MX]; //Almacena el nodo anterior para construir las rutas
+int n, m; //Cantidad de nodos y aristas
 
 void dijkstra(int u) {
     priority_queue<edge> pq;
@@ -24,14 +22,13 @@ void dijkstra(int u) {
     dist[u] = 0;
     
     while (pq.size()) {
-        u = pq.top().v;
-        pq.pop();
+        u = pq.top().v; pq.pop();
         if (!vis[u]) {
             vis[u] = true;
-            for (auto nx : g[u]) {
-                int v = nx.v;
-                if(!vis[v] && dist[v] > dist[u] + nx.w) {
-                    dist[v] = dist[u] + nx.w;
+            for (auto &ed : g[u]) {
+                int v = ed.v;
+                if (!vis[v] && dist[v] > dist[u] + ed.w) {
+                    dist[v] = dist[u] + ed.w;
                     pre[v] = u;
                     pq.push({v, dist[v]});
                 }
@@ -41,9 +38,9 @@ void dijkstra(int u) {
 }
 
 void init() {
-    for(int i = 0; i <= N; i++) {
+    vis.assign(n, false);
+    dist.assign(n, inf);
+    for (int i = 0; i <= n; i++) {
         g[i].clear();
-        dist[i] = INF;
-        vis[i] = false;
     }
 }

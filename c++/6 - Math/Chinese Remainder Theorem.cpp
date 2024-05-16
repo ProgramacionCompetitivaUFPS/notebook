@@ -1,6 +1,6 @@
 Encuentra un x tal que para cada i : x es congruente con A_i mod M_i
-Devuelve {x, lcm}, donde x es la solución con modulo lcm (lcm = LCM(M_0, M_1, ...)). Dado un k : x + k*lcm es solución tambien.
-Si la solución no existe o la entrada no es válida devuelve {-1, -1}
+Devuelve {x, lcm}, donde x es la solucion con modulo lcm (lcm = LCM(M_0, M_1, ...)). Dado un k : x + k*lcm es solucion tambien.
+Si la solucion no existe o la entrada no es valida devuelve {-1, -1}
 Agregar Extended Euclides.
 
 pair<int, int> crt(vector<int> A, vector<int> M) {

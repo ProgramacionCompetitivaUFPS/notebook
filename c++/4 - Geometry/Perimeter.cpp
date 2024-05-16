@@ -3,9 +3,9 @@ Calcula el perímetro de un polígono representado como un vector de puntos. IMP
 #include <vector>
 
 double perimeter(vector<point> P) {
-	double result = 0.0;
+    double result = 0.0;
   for (int i = 0; i < P.size()-1; i++){
-  	result += euclideanDistance(P[i], P[i+1]);
+      result += euclideanDistance(P[i], P[i+1]);
   }
   return result; 
 }

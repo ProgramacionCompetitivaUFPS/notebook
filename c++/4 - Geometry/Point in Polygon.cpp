@@ -7,7 +7,7 @@ bool ccw(point p, point q, point r) {
 }
   
 bool inPolygon(point pt, vector<point> P) {
-	if (P.size() == 0) return false; 
+    if (P.size() == 0) return false; 
   double sum = 0;    
   for (int i = 0; i < P.size()-1; i++) {
     if (ccw(pt, P[i], P[i+1])) sum += angle(P[i], pt, P[i+1]); 
