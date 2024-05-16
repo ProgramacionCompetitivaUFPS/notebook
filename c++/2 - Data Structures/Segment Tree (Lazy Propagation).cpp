@@ -2,11 +2,10 @@ Dado un vector de valores permite hacer consultas sobre rangos y actualizaciones
 Para hacer actualizaciones sobre rangos se deben descomentar las lineas de Lazy Propagation.
 El valor neutro depende del tipo de consulta. Para sumas: 0, minimos: infinito, maximos: -infinito, etc.
 
-typedef int T; // data type of segtree
-T neutro = 1e9; // "infinity", depends on segtree operation
+typedef int T; //tipo de dato del segtree
 struct segtree {
     vector<T> st;//, lazy;
-    int n;
+    int n; T neutro = 1e9; // "infinito"
 
     segtree(const vector<int> &v) {
         n = v.size();
