@@ -8,18 +8,18 @@ static int pre[] = new int[MAX]; // Almacena el nodo anterior para construir las
 static long dist[] = new long[MAX]; // Almacena la distancia a cada nodo
 static int N, M; // Cantidad de nodos y aristas
 
-static class edge implements Comparable<edge>{
+static class edge implements Comparable<edge> {
     int v;
     long w;
 
-    edge(int _v, long _w){
+    edge(int _v, long _w) {
         v = _v;
         w = _w;
     }
 
     @Override
     public int compareTo(edge o) {
-        if(w > o.w)return 1;
+        if (w > o.w) return 1;
         else return -1;
     }
 }
@@ -34,7 +34,7 @@ static void dijkstra(int u) {
             vis[u] = true;
             for (edge nx : g[u]) {
                 int v = nx.v;
-                if(!vis[v] && dist[v] > dist[u] + nx.w) {
+                if (!vis[v] && dist[v] > dist[u] + nx.w) {
                     dist[v] = dist[u] + nx.w;
                     pre[v] = u;
                     pq.add(new edge(v, dist[v]));
@@ -45,7 +45,7 @@ static void dijkstra(int u) {
 }
 
 static void init() {
-    for(int i = 0; i <= N; i++) {
+    for (int i = 0; i <= N; i++) {
         g[i] = new ArrayList<>();
         dist[i] = INF;
         vis[i] = false;

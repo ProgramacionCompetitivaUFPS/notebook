@@ -22,7 +22,7 @@ static class dsu {
     // Une los conjuntos de u y v
     void unite(int u, int v) {
         if ((u = find(u)) == (v = find(v))) return;
-        if (sz[u] > sz[v]){
+        if (sz[u] > sz[v]) {
             int aux = u;
             u = v;
             v = aux;

@@ -35,8 +35,8 @@ static void suffixArray() {
         Collections.sort(wrapper, new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
-                    if(rk2[o1.intValue()] > rk2[o2.intValue()]) return 1;
-                    else if(rk2[o1.intValue()] == rk2[o2.intValue()]) return 0;
+                    if (rk2[o1.intValue()] > rk2[o2.intValue()]) return 1;
+                    else if (rk2[o1.intValue()] == rk2[o2.intValue()]) return 0;
                     else return -1;
                 }
         });

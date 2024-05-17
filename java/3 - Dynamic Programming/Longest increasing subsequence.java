@@ -12,16 +12,16 @@ static int lis() {
     I[0] = -inf;
     for (i = 1; i <= n; i++) I[i] = inf;
     int ans = 0;
-    for(i = 0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         low = mid = 0;
         high = ans;
-        while(low <= high) {
+        while (low <= high) {
             mid = (low + high) / 2;
-            if(I[mid] < values[i]) low = mid + 1;
+            if (I[mid] < values[i]) low = mid + 1;
             else high = mid - 1;
         }
         I[low] = values[i];
-        if(ans < low) ans = low;
+        if (ans < low) ans = low;
     }
     return ans;
 }

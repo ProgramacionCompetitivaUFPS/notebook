@@ -13,7 +13,7 @@ struct pt {
     bool operator < (const pt &o) const { return y < o.y || (y == o.y && x < o.x); }
     bool operator > (const pt &o) const { return y > o.y || (y == o.y && x > o.x); }
 };
-int cmp (lf a, lf b) { return (a + eps < b ? -1 :(b + eps < a ? 1 : 0)); } // double comparator
+int cmp(lf a, lf b) { return (a + eps < b ? -1 :(b + eps < a ? 1 : 0)); } // double comparator
 
 T norm(pt a) { return a.x*a.x + a.y*a.y; }
 lf abs(pt a) { return sqrt(norm(a)); }
@@ -22,7 +22,7 @@ pt unit(pt a) { return a/abs(a); }
 
 T dot(pt a, pt b) { return a.x*b.x + a.y*b.y; } // x = 90 -> cos = 0
 T cross(pt a, pt b) { return a.x*b.y - a.y*b.x; } // x = 180 -> sin = 0
-T orient(pt a, pt b, pt c) { return cross(b-a,c-a); }// clockwise = -
+T orient(pt a, pt b, pt c) { return cross(b-a,c-a); } // clockwise = -
 pt rot(pt p, lf a) { return {p.x*cos(a) - p.y*sin(a), p.x*sin(a) + p.y*cos(a)}; }
 pt rotate_to_b(pt a, pt b, lf ang) { return rot(a-b, ang)+b; } // rotate by ang center b
 pt rot90ccw(pt p) { return {-p.y, p.x}; }

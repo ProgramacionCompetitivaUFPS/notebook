@@ -8,7 +8,7 @@ static void calculateLCP() {
             int j = sa[rk[i] - 1];
             while (_s[i + l] == _s[j + l]) l++;
             lcp[rk[i]] = l;
-            if(l > 0) l--;
+            if (l > 0) l--;
         }
     }
 }

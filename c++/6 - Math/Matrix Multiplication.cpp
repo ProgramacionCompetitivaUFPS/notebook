@@ -19,7 +19,7 @@ struct matrix {
         return ans;
     }
 
-    vector<int>& operator[] (int i) { return v[i]; }
+    vector<int>& operator [] (int i) { return v[i]; }
 };
 
 matrix pow(matrix b, ll e) {

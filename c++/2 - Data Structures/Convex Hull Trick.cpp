@@ -6,7 +6,7 @@ struct cht {
     vector<line> c;
     int pos = 0;
 
-    T inter(line a, line b){
+    T inter(line a, line b) {
         T x = b.h-a.h, y = a.m-b.m;
         return x/y + (x%y ? (x>0)==(y>0) : 0); // == ceil(x/y)
     }

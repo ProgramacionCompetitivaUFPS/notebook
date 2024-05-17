@@ -9,7 +9,7 @@ static double result[] = new double[MAX];
 
 static ArrayList<Double> gauss() {
     ArrayList<Double> ans = new ArrayList<Double>();
-    for(int i = 0; i < n; i++) ans.add(0.0);
+    for (int i = 0; i < n; i++) ans.add(0.0);
     double temp;
     for (int i = 0; i < n; i++) {
         int pivot = i;

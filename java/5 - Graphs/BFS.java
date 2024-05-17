@@ -22,7 +22,7 @@ void bfs(int u) {
 }
 
 static void init() {
-    for(int i = 0; i <= N; i++) {
+    for (int i = 0; i <= N; i++) {
         g[i] = new ArrayList<>();
         dist[i] = -1;
     }

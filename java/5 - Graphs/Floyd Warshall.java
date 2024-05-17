@@ -13,8 +13,8 @@ static void floydWarshall() {
 }
 
 static void init() {
-    for(int i = 0; i <= N; i++) {
-        for(int j = 0; j <= N; j++) {
+    for (int i = 0; i <= N; i++) {
+        for (int j = 0; j <= N; j++) {
             g[i][j] = INF;
         }
     }

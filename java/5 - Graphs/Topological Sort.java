@@ -17,7 +17,7 @@ static void dfs(int u) {
 
 static void init() {
     topoSort.clear();
-    for(int i = 0; i <= N; i++) {
+    for (int i = 0; i <= N; i++) {
         g[i] = new ArrayList<>();
         vis[i] = false;
     }

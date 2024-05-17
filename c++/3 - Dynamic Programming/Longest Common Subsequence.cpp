@@ -7,7 +7,7 @@ string X; // String 1
 string Y; // String 2
 int memo[M_MAX + 1][N_MAX + 1];
 
-int lcs (int m, int n) {
+int lcs(int m, int n) {
   for (int i = 0; i <= m; i++) {
     for (int j = 0; j <= n; j++) {
       if (i == 0 || j == 0) memo[i][j] = 0;

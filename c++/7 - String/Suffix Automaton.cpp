@@ -80,5 +80,5 @@ struct suffixAutomaton {
         return sa[u].out;
     }
 
-    node& operator[](int i) { return sa[i]; }
+    node& operator [] (int i) { return sa[i]; }
 };

@@ -11,15 +11,15 @@ static class edge implements Comparable<edge> {
 
     @Override
     public int compareTo(edge o) {
-        if(w > o.w)return 1;
+        if (w > o.w) return 1;
         else return -1;
     }
 }
 
-static class par{
+static class par {
     int F, S;
 
-    par(int f, int s){
+    par(int f, int s) {
         F = f;
         S = s;
     }

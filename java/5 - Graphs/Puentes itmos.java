@@ -13,33 +13,33 @@ static ArrayList<Edge> bridges;
 static int dfsRoot, rootChildren, cont;
 
 /* Recibe el nodo inicial */
-static void dfs(int u){
+static void dfs(int u) {
     dfs_low[u] = dfs_num[u] = cont;
     cont++;
     marked[u] = true;
     int j, v;
 
-    for(j = 0; j < ady[u].size(); j++){
+    for (j = 0; j < ady[u].size(); j++) {
         v = ady[u].get(j);
-        if( !marked[v] ){
+        if (!marked[v]) {
             prev[v] = u;
             // Caso especial
-            if( u == dfsRoot ) rootChildren++;
+            if (u == dfsRoot) rootChildren++;
             dfs(v);
 
             // Itmos
-            if( dfs_low[v] >= dfs_num[u] ) itsmos[u] = true;
+            if (dfs_low[v] >= dfs_num[u]) itsmos[u] = true;
 
             // Puentes
-            if( dfs_low[v] > dfs_num[u] ) bridges.add(new Edge( Math.min(u,v),Math.max(u,v)) );
+            if (dfs_low[v] > dfs_num[u]) bridges.add(new Edge(Math.min(u,v),Math.max(u,v)));
 
             dfs_low[u] = Math.min(dfs_low[u], dfs_low[v]);
-        }else if( v != prev[u] ) dfs_low[u] = Math.min(dfs_low[u], dfs_num[v]);
+        } else if (v != prev[u]) dfs_low[u] = Math.min(dfs_low[u], dfs_num[v]);
     }
 }
 
-public static void main(String args[]){
-    dfs( dfsRoot );
+public static void main(String args[]) {
+    dfs(dfsRoot);
     /* Caso especial */
-    itmos[dfsRoot] = ( itmos[ dfsRoot ] && rootChildren > 1 ) ? true : false;
+    itmos[dfsRoot] = (itmos[dfsRoot] && rootChildren > 1) ? true : false;
 }

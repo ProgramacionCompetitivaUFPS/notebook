@@ -3,7 +3,7 @@ El algoritmo de Euclides extendido retorna el gcd(a, b) y calcula los coeficient
 int x, y;
 // O(log(max(a, b)))
 int euclid(int a, int b) {
-    if(b == 0) { x = 1; y = 0; return a; }
+    if (b == 0) { x = 1; y = 0; return a; }
     int d = euclid(b, a%b);
     int aux = x;
     x = y;

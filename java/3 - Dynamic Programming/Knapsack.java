@@ -9,7 +9,7 @@ static int weights[] = new int[MAX_N];// pesos de cada producto
 static int memo[][]= new int[MAX_N][MAX_WEIGHT];// tabla dp
 
 // El metodo debe llamarse con 0 en el id, y la capacidad de la mochila en w
-static int knapsack (int id, int w) {
+static int knapsack(int id, int w) {
     if (id == N || w == 0) return 0;
     if (memo[id][w] != -1) return memo[id][w];
     if (weights[id] > w) memo[id][w] = knapsack(id + 1, w);

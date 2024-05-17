@@ -7,7 +7,7 @@ const char L = 'a'; // primera letra del lenguaje
 struct node {
     int next[alpha], end;
     // int link, exit, cnt; // para aho corasick
-    int& operator[](int i) { return next[i]; }
+    int& operator [] (int i) { return next[i]; }
 };
 
 vector<node> trie = {node()};

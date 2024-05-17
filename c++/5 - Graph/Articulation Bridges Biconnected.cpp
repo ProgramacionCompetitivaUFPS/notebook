@@ -17,7 +17,7 @@ bool art[MX]; // Si el nodo es un punto de articulacion
 int BCC; // Cantidad de componentes biconexas
 int n, m; // Cantidad de nodos y aristas
 
-void add_edge(int u, int v){
+void add_edge(int u, int v) {
     g[u].push_back(e.size());
     g[v].push_back(e.size());
     e.push_back({u, v, -1, false});

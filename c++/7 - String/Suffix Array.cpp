@@ -15,11 +15,11 @@ struct suffixArray {
 
     void radix_sort(int k) {
         vector<int> cnt(MX, 0);
-        for(int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++) 
             cnt[(i+k < n) ? ra[i+k]+1 : 1]++;
-        for(int i = 1; i < MX; i++) 
+        for (int i = 1; i < MX; i++) 
             cnt[i] += cnt[i-1];
-        for(int i = 0; i < n; i++) 
+        for (int i = 0; i < n; i++) 
             tsa[cnt[(sa[i]+k < n) ? ra[sa[i]+k] : 0]++] = sa[i];
         sa = tsa;
     }
@@ -40,7 +40,7 @@ struct suffixArray {
         }
     }
 
-    int& operator[] (int i) { return sa[i]; }
+    int& operator [] (int i) { return sa[i]; }
 
     void build_lcp() {
         lcp[0] = 0;

@@ -14,7 +14,7 @@ static int N, M; // Cantidad de nodos y aristas
 /*static class edge {
     int v, w;
 
-    edge(int _v, int _w){
+    edge(int _v, int _w) {
         v = _v;
         w = _w;
     }
@@ -22,7 +22,7 @@ static int N, M; // Cantidad de nodos y aristas
 
 static int lca(int u, int v) {
     // int ans = -1;
-    if (dep[u] < dep[v]){
+    if (dep[u] < dep[v]) {
         int aux = u;
         u = v;
         v = aux;
@@ -60,17 +60,17 @@ static void dfs(int u, int p, int d) {
 }
 
 static void build() {
-    for(int i = 0; i < N; i++) dep[i] = -1;
-    for(int i = 0; i < N; i++) {
-        if(dep[i] == -1) {
+    for (int i = 0; i < N; i++) dep[i] = -1;
+    for (int i = 0; i < N; i++) {
+        if (dep[i] == -1) {
             // rmq[i][0] = -1;
             dfs(i, i, 0);
         }
     }
-    for(int j = 0; j < LOG2-1; j++) {
-        for(int i = 0; i < N; i++) {
-            par[i][j+1] = par[ par[i][j] ][j];
-            // rmq[i][j+1] = Math.max(rmq[ par[i][j] ][j], rmq[i][j]);
+    for (int j = 0; j < LOG2-1; j++) {
+        for (int i = 0; i < N; i++) {
+            par[i][j+1] = par[par[i][j]][j];
+            // rmq[i][j+1] = Math.max(rmq[par[i][j]][j], rmq[i][j]);
         }
     }
 }

@@ -24,6 +24,6 @@ ll inv[MX+1];
 // O(MX)
 void invmod(ll m) {
     inv[1] = 1;
-    for(int i = 2; i <= MX; i++) 
+    for (int i = 2; i <= MX; i++) 
         inv[i] = m - (m/i) * inv[m%i] % m;
 }

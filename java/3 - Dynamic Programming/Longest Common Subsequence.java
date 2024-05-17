@@ -7,7 +7,7 @@ static char X[]; // toCharArray del String 1
 static char Y[]; // toCharArray del String 2
 static int memo[][] = new int[M_MAX + 1][N_MAX + 1];
 
-static int lcs (int m, int n) {
+static int lcs(int m, int n) {
     for (int i = 0; i <= m; i++) {
         for (int j = 0; j <= n; j++) {
             if (i == 0 || j == 0) memo[i][j] = 0;
