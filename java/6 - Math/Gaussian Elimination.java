@@ -26,7 +26,7 @@ static ArrayList<Double> gauss() {
         result[pivot] = temp;
         if (!(Math.abs(matrix[i][i]) < 0.000001)) {
             for (int k = i + 1; k < n; k++) {
-                temp = -matrix[k][i] /  matrix[i][i];
+                temp = -matrix[k][i] / matrix[i][i];
                 matrix[k][i] = 0;
                 for (int l = i + 1; l < n; l++) {
                     matrix[k][l] += matrix[i][l] * temp;

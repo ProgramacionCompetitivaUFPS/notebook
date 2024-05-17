@@ -21,7 +21,7 @@ static void graphCheck( int u ){
     dfs_num[u] = 2;
     for(j = 0; j < ady[u].size(); j++ ){
         next = ady[u].get(j);
-        if( dfs_num[next] == -1 )    graphCheck( next );
+        if( dfs_num[next] == -1 ) graphCheck( next );
         else if( dfs_num[next] == 2 ){
             loops = true;
             break;

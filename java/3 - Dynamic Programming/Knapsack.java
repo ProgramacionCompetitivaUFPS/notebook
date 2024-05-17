@@ -4,7 +4,7 @@ Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la moc
 static int MAX_WEIGHT = 40;// Peso maximo de la mochila
 static int MAX_N = 1000; // Numero maximo de objetos
 static int N;// Numero de objetos
-static int prices[] = new  int[MAX_N];// precios de cada producto
+static int prices[] = new int[MAX_N];// precios de cada producto
 static int weights[] = new int[MAX_N];// pesos de cada producto
 static int memo[][]= new int[MAX_N][MAX_WEIGHT];// tabla dp
 

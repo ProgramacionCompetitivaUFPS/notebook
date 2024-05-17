@@ -31,7 +31,7 @@ set<pt> inter_ss(pt a, pt b, pt c, pt d) {
 lf pt_to_seg(pt a, pt b, pt p) { // p to ab
     if(a != b) {
         line l(a,b);
-        if (l.cmp_proj(a,p) && l.cmp_proj(p,b)) // if closest to  projection = (a, p, b)
+        if (l.cmp_proj(a,p) && l.cmp_proj(p,b)) // if closest to projection = (a, p, b)
             return l.dist(p); // output distance to line
     }
     return min(abs(p-a), abs(p-b)); // otherwise distance to A or B

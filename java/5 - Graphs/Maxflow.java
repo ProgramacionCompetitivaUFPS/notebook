@@ -3,7 +3,7 @@ SE DEBEN LIMPIAR LAS ESTRUCTURAS DE DATOS ANTES DE UTILIZARSE
 
 static int n; // Cantidad de nodos del grafo
 static ArrayList<Integer> ady[] = new ArrayList[105]; // lista de Adyacencia
-static int capacity[][]  = new int[105][105]; // Capacidad de aristas de la red
+static int capacity[][] = new int[105][105]; // Capacidad de aristas de la red
 static int flow[][] = new int[105][105]; // Flujo de cada arista
 static int prev[] = new int[105];
 
@@ -33,7 +33,7 @@ static int maxflow(int s, int t, int n){ // s=fuente, t=sumidero, n=numero de no
             if( u == t ) break;
             for( j = 0; j < ady[u].size(); j++){
                 v = ady[u].get(j);
-                if( prev[v] == -1  && capacity[u][v] - flow[u][v] > 0 ){
+                if( prev[v] == -1 && capacity[u][v] - flow[u][v] > 0 ){
                     q.add(v);
                     prev[v] = u;
                 }
@@ -61,5 +61,5 @@ static int maxflow(int s, int t, int n){ // s=fuente, t=sumidero, n=numero de no
 
 public static void main( String args[] ){
     // Para cada arista
-    connect( s, d, f);  // origen, destino, flujo
+    connect( s, d, f); // origen, destino, flujo
 }

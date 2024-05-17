@@ -21,7 +21,7 @@ void build() {
         for(ic = 0; ic < m; ic++) 
             table[ 0 ][ ir ][ 0 ][ ic ] = MAT[ ir ][ ic ];
         for(jc = 1; jc < KM; jc++) 
-            for(ic = 0; ic + (1 <<(jc-1)) < m;  ic++) 
+            for(ic = 0; ic + (1 <<(jc-1)) < m; ic++) 
                 table[0 ][ir ][jc ][ic ] = min(table[0 ][ir ][jc-1 ][ic ],table[0 ][ir ][ jc-1 ][ ic + (1 << (jc-1)) ]);
     }
 

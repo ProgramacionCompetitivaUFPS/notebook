@@ -2,7 +2,7 @@ Búsqueda en anchura sobre grafos. Recibe un nodo inicial u y visita todos los n
 BFS tambien halla la distancia mas corta entre el nodo inicial u y los demas nodos si todas las aristas tienen peso 1.
 
 static final int MAX = 100005; // Cantidad maxima de nodos
-static ArrayList<Integer> g[] =  new ArrayList[MAX]; // Lista de adyacencia
+static ArrayList<Integer> g[] = new ArrayList[MAX]; // Lista de adyacencia
 static long dist[] = new long[MAX]; // Almacena la distancia a cada nodo
 static int N, M; // Cantidad de nodos y aristas
 

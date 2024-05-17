@@ -16,7 +16,7 @@ int max_range_sum2D(){
     for(int i=0; i<n;i++){
         for(int j=0; j<m; j++){
             for(int h = i; h<n; h++){
-                for(int k  = j; k<m; k++){
+                for(int k = j; k<m; k++){
                     int sub_mat = values[h][k];
                     if(i>0) sub_mat -= values[i-1][k];
                     if(j>0) sub_mat -= values[h][j-1];

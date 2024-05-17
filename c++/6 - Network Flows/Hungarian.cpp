@@ -1,4 +1,4 @@
-Halla el máximo match en un grafo bipartito con pesos (min cost)  O(V ^ 3)
+Halla el máximo match en un grafo bipartito con pesos (min cost) O(V ^ 3)
 
 typedef ll T;
 const T inf = 1e18;
