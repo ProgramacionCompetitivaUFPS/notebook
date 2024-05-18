@@ -16,7 +16,7 @@ static ArrayList<Point> ConvexHull (ArrayList<Point> P) {
     int P0 = 0;
     for (i = 1; i < n; i++) 
         if (P.get(i).y < P.get(P0).y || (P.get(i).y == P.get(P0).y && P.get(i).x > P.get(P0).x)) P0 = i;
-    Point temp = P.get(0); P.set(0, P.get(P0)); P.set(P0 ,temp);
+    Point temp = P.get(0); P.set(0, P.get(P0)); P.set(P0temp);
     Point pivot = P.get(0);
     Collections.sort(P, new Comparator<Point>() {
         public int compare(Point a, Point b) {

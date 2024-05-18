@@ -38,7 +38,7 @@ int rmq(int x1, int y1, int x2, int y2) {
     int leny = y2-y1+1;
     int ky = _log2M[leny];
 
-    int min_R1 = min(table[kx][x1][ky][y1] , table[kx][x1][ky][y2 + 1 - (1<<ky)]);
+    int min_R1 = min(table[kx][x1][ky][y1] table[kx][x1][ky][y2 + 1 - (1<<ky)]);
     int min_R2 = min(table[kx][x2+1-(1<<kx)][ky][y1], table[kx][x2+1- (1<<kx)][ky][y2 + 1 - (1<<ky)]);
     return min(min_R1, min_R2);
 }
