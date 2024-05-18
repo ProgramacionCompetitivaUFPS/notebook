@@ -4,7 +4,7 @@ El valor neutro depende del tipo de consulta. Para sumas: 0, minimos: infinito, 
 
 typedef int T; // tipo de dato del segtree
 struct segtree {
-    vector<T> st;// , lazy;
+    vector<T> st; // , lazy;
     int n; T neutro = 1e9; // "infinito"
 
     segtree(const vector<int> &v) {
@@ -49,7 +49,7 @@ struct segtree {
     void upd(int p, int L, int R, int i, int j, T val) {
         // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return;
-        if (i <= L && j >= R) st[p] = val;// cambiar por propagate(p, L, R, val);
+        if (i <= L && j >= R) st[p] = val; // cambiar por propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = p*2, r = l+1;
             upd(l, L, m, i, j, val);

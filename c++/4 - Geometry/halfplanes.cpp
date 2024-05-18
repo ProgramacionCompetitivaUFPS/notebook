@@ -5,8 +5,8 @@ struct halfplane {
     halfplane(pt a, pt b): p(a), pq(b - a) {
         angle = atan2(pq.y, pq.x);
     }
-    bool operator < (halfplane b)const {return angle < b.angle;}
-    bool out(pt q) {return cross(pq, (q-p)) < -eps;} // checks if p is inside the half plane
+    bool operator < (halfplane b) const { return angle < b.angle; }
+    bool out(pt q) { return cross(pq, (q-p)) < -eps; } // checks if p is inside the half plane
 };
 
 const lf inf = 1e100;
@@ -19,7 +19,7 @@ pt inter(halfplane& h1, halfplane& h2) {
 
 // intersection of halfplanes
 vector<pt> intersect(vector<halfplane>& b) {
-    vector<pt> box = { {inf, inf}, {-inf, inf}, {-inf, -inf}, {inf, -inf} };
+    vector<pt> box = {{inf, inf}, {-inf, inf}, {-inf, -inf}, {inf, -inf}};
     for (int i = 0; i < 4; i++) {
         b.push_back({box[i], box[(i + 1) % 4]});
     }

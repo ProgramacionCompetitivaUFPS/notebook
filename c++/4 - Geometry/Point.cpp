@@ -52,7 +52,7 @@ bool half(pt p) { // true if is in (0, 180] (line is x axis)
 bool half_from(pt p, pt v = {1, 0}) { // line is v (above v is true)
     return cross(v, p) < 0 || (cross(v, p) == 0 && dot(v, p) < 0);
 }
-bool polar_cmp(const pt &a, const pt &b) {// polar sort
+bool polar_cmp(const pt &a, const pt &b) { // polar sort
     return make_tuple(half(a), 0) < make_tuple(half(b), cross(a, b));
     // return make_tuple(half(a), 0, sq(a)) < make_tuple(half(b), cross(a, b), sq(b)); // further ones appear later
 }

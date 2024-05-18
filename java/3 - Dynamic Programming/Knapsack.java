@@ -1,12 +1,12 @@
 Dados N articulos, cada uno con su propio valor y peso y un tamaño maximo de una mochila, se debe calcular el valor maximo de los elementos que es posible llevar.
 Debe seleccionarse un subconjunto de objetos, de tal manera que quepan en la mochila y representen el mayor valor posible.
 
-static int MAX_WEIGHT = 40;// Peso maximo de la mochila
+static int MAX_WEIGHT = 40; // Peso maximo de la mochila
 static int MAX_N = 1000; // Numero maximo de objetos
-static int N;// Numero de objetos
-static int prices[] = new int[MAX_N];// precios de cada producto
-static int weights[] = new int[MAX_N];// pesos de cada producto
-static int memo[][]= new int[MAX_N][MAX_WEIGHT];// tabla dp
+static int N; // Numero de objetos
+static int prices[] = new int[MAX_N]; // precios de cada producto
+static int weights[] = new int[MAX_N]; // pesos de cada producto
+static int memo[][]= new int[MAX_N][MAX_WEIGHT]; // tabla dp
 
 // El metodo debe llamarse con 0 en el id, y la capacidad de la mochila en w
 static int knapsack(int id, int w) {

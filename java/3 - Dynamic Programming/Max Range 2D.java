@@ -5,7 +5,7 @@ static final int MAX_N = 105, MAX_M = 105;
 static int values[][] = new int[MAX_N][MAX_M];
 
 static int max_range_sum2D() {
-    for (int i=0; i<n;i++) {
+    for (int i=0; i<n; i++) {
         for (int j=0; j<m; j++) {
             if (i>0) values[i][j] += values[i-1][j];
             if (j>0) values[i][j] += values[i][j-1];
@@ -13,7 +13,7 @@ static int max_range_sum2D() {
         }
     }
     int max_mat = INF;
-    for (int i=0; i<n;i++) {
+    for (int i=0; i<n; i++) {
         for (int j=0; j<m; j++) {
             for (int h = i; h<n; h++) {
                 for (int k = j; k<m; k++) {

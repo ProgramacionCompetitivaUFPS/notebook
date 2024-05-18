@@ -3,7 +3,7 @@ Recibe como parametro en el constructor un arreglo de valores.
 IMPORTANTE: Para para procesar actualizaciones por rangos se deben descomentar los lineas de Lazy Propagation.
 
 static class SegmentTree {
-    int[] st;// , lazy;
+    int[] st; // , lazy;
     int n, neutro = 1 << 30;
 
     SegmentTree(int[] arr) {
@@ -53,7 +53,7 @@ static class SegmentTree {
     void update(int p, int L, int R, int i, int j, int val) {
         // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return;
-        if (i <= L && j >= R) st[p] = val;// propagate(p, L, R, val);
+        if (i <= L && j >= R) st[p] = val; // propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = left(p), r = right(p);
             update(l, L, m, i, j, val);
