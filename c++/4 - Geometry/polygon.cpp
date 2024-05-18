@@ -35,7 +35,7 @@ struct polygon {
     }
     bool above(pt a, pt p) { return p.y >= a.y; }
     bool crosses_ray(pt a, pt p, pt q) { // pq crosses ray from a
-        return (above(a,q)-above(a,p))*orient(a,p,q) > 0;
+        return (above(a, q)-above(a, p))*orient(a, p, q) > 0;
     }
     int in_polygon(pt a) {
         int crosses = 0;

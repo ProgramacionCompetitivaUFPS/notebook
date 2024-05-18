@@ -1,4 +1,4 @@
-Halla la distancia euclideana de 2 puntos en dos dimensiones (x,y). Para usar el primer método, debe definirse previamente la clase Point
+Halla la distancia euclideana de 2 puntos en dos dimensiones (x, y). Para usar el primer método, debe definirse previamente la clase Point
 
 /*Trabajando con la clase Point*/
 static double euclideanDistance(Point p1, Point p2) {

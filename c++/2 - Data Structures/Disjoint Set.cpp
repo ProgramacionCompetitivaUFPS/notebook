@@ -17,7 +17,7 @@ struct dsu {
     void unite(int u, int v) {
         u = find(u), v = find(v);
         if (u == v) return;
-        if (sz[u] > sz[v]) swap(u,v);
+        if (sz[u] > sz[v]) swap(u, v);
         par[u] = v;
         sz[v] += sz[u];
         size--;

@@ -17,7 +17,7 @@ bool test(ll n, int a) {
 
 bool is_prime(ll n) {
     if (n == 1) return false;
-    int ar[] = {2,3,5,7,11,13,17,19,23};
+    int ar[] = {2, 3, 5, 7, 11, 13, 17, 19, 23};
     for (auto &p : ar) if (!test(n, p)) return false;
     return true;
 }

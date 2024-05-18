@@ -18,9 +18,9 @@ static ArrayList<Double> gauss() {
             if (temp > 0.000001) pivot = j;
         }
         double temp2[] = new double[n];
-        System.arraycopy(matrix[i],0,temp2,0,n);
-        System.arraycopy(matrix[pivot],0,matrix[i],0,n);
-        System.arraycopy(temp2,0,matrix[pivot],0,n);
+        System.arraycopy(matrix[i], 0, temp2, 0, n);
+        System.arraycopy(matrix[pivot], 0, matrix[i], 0, n);
+        System.arraycopy(temp2, 0, matrix[pivot], 0, n);
         temp = result[i];
         result[i] = result[pivot];
         result[pivot] = temp;
@@ -40,7 +40,7 @@ static ArrayList<Double> gauss() {
         for (int i = n - 1; i > m; i--) {
             temp -= ans.get(i) * matrix[m][i];
         }
-        ans.set(m,temp / matrix[m][m]);
+        ans.set(m, temp / matrix[m][m]);
     }
     return ans;
 }

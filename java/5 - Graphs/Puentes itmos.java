@@ -31,7 +31,7 @@ static void dfs(int u) {
             if (dfs_low[v] >= dfs_num[u]) itsmos[u] = true;
 
             // Puentes
-            if (dfs_low[v] > dfs_num[u]) bridges.add(new Edge(Math.min(u,v),Math.max(u,v)));
+            if (dfs_low[v] > dfs_num[u]) bridges.add(new Edge(Math.min(u, v), Math.max(u, v)));
 
             dfs_low[u] = Math.min(dfs_low[u], dfs_low[v]);
         } else if (v != prev[u]) dfs_low[u] = Math.min(dfs_low[u], dfs_num[v]);

@@ -3,7 +3,7 @@ struct halfplane {
     pt p, pq;
     halfplane() {}
     halfplane(pt a, pt b): p(a), pq(b - a) {
-        angle = atan2(pq.y,pq.x);
+        angle = atan2(pq.y, pq.x);
     }
     bool operator < (halfplane b)const {return angle < b.angle;}
     bool out(pt q) {return cross(pq, (q-p)) < -eps;} // checks if p is inside the half plane

@@ -2,8 +2,8 @@ Dado un grafo implicito como matriz, "colorea" y cuenta el tamaño de las compon
 Esta funcion debe ser llamada con las coordenadas (i, j) donde se inicia el recorrido, busca cada caracter c1 de la componente, los remplaza por el caracter c2 y retorna el tamaño.
 
 const int MX = 1e3; // Tamanio maximo de la matriz
-int dy[] = {1,1,0,-1,-1,-1, 0, 1}; // Posibles movimientos:
-int dx[] = {0,1,1, 1, 0,-1,-1,-1}; // (8 direcciones)
+int dy[] = {1, 1, 0,-1,-1,-1, 0, 1}; // Posibles movimientos:
+int dx[] = {0, 1, 1, 1, 0,-1,-1,-1}; // (8 direcciones)
 char grid[MX][MX]; // Matriz de caracteres
 int n, m; // Tamanio de la matriz
 

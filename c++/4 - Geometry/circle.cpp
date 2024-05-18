@@ -5,8 +5,8 @@ struct circle {
 // circle that passes through abc
 circle center(pt a, pt b, pt c) {
     b = b-a, c = c-a;
-    assert(cross(b,c) != 0); // no circumcircle if A,B,C aligned
-    pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b,c)/2;
+    assert(cross(b, c) != 0); // no circumcircle if A, B, C aligned
+    pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b, c)/2;
     return {cen, abs(a-cen)};
 }
 // centers of the circles that pass through ab and has radius r
@@ -39,12 +39,12 @@ int inter_cc(circle c1, circle c2, pair<pt, pt> &out) {
     return 1 + sign(h2);
 }
 // circle-line inter = 1
-int tangents(circle c1, circle c2, bool inner, vector<pair<pt,pt>> &out) {
+int tangents(circle c1, circle c2, bool inner, vector<pair<pt, pt>> &out) {
     if (inner) c2.r = -c2.r; // inner tangent
     pt d = c2.c-c1.c;
     double dr = c1.r-c2.r, d2 = norm(d), h2 = d2-dr*dr;
     if (d2 == 0 || h2 < 0) { assert(h2 != 0); return 0; } // (identical)
-    for (double s : {-1,1}) {
+    for (double s : {-1, 1}) {
         pt v = (d*dr + rot90ccw(d)*sqrt(h2)*s)/d2;
         out.push_back({c1.c + v*c1.r, c2.c + v*c2.r});
     }

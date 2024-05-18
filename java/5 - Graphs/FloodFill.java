@@ -2,8 +2,8 @@ Dado un grafo implicito como matriz, "colorea" y cuenta el tamaño de las compon
 Este método debe ser llamado con las coordenadas (i, j) donde se inicia el recorrido, busca cada caracter c1 de la componente, los remplaza por el caracter c2 y retorna el tamaño.
 
 static final int tam = 1000; // Tamanio maximo de la matriz
-static int dy[] = {1,1,0,-1,-1,-1, 0, 1}; // Posibles movimientos:
-static int dx[] = {0,1,1, 1, 0,-1,-1,-1}; // (8 direcciones)
+static int dy[] = {1, 1, 0,-1,-1,-1, 0, 1}; // Posibles movimientos:
+static int dx[] = {0, 1, 1, 1, 0,-1,-1,-1}; // (8 direcciones)
 static char grid[][] = new char[tam][tam]; // Matriz de caracteres
 static int Y, X; // Tamanio de la matriz
 

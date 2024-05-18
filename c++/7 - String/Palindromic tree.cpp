@@ -34,7 +34,7 @@ struct palindromic_tree {
             int link = getlink(tree[p].link);
             link = max(1, tree[link][c]);
             tree[p][c] = SZ(tree);
-            tree.pb(node(tree[p].len + 2,link, 0));
+            tree.pb(node(tree[p].len + 2, link, 0));
         }
         last = tree[p][c];
         tree[last].cnt++;
