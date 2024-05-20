@@ -1,4 +1,4 @@
-Halla el máximo match en un grafo bipartito con pesos (min cost)  O(V ^ 3)
+Halla el máximo match en un grafo bipartito con pesos (min cost) O(V ^ 3)
 
 typedef ll T;
 const T inf = 1e18;
@@ -7,13 +7,13 @@ struct hung {
     int n, m;
     vector<T> u, v; vector<int> p, way;
     vector<vector<T>> g;
-    
+
     hung(int n, int m):
         n(n), m(m), g(n+1, vector<T>(m+1, inf-1)),
         u(n+1), v(m+1), p(m+1), way(m+1) {}
-        
+
     void set(int u, int v, T w) { g[u+1][v+1] = w; }
-    
+
     T assign() {
         for (int i = 1; i <= n; ++i) {
             int j0 = 0; p[0] = i;
@@ -27,7 +27,7 @@ struct hung {
                     if (cur < minv[j]) minv[j] = cur, way[j] = j0;
                     if (minv[j] < delta) delta = minv[j], j1 = j;
                 }
-                for (int j = 0; j <= m; ++j)
+                for (int j = 0; j <= m; ++j) 
                     if (used[j]) u[p[j]] += delta, v[j] -= delta;
                     else minv[j] -= delta;
                 j0 = j1;

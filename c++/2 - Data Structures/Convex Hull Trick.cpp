@@ -5,12 +5,12 @@ struct line { T m, h; };
 struct cht {
     vector<line> c;
     int pos = 0;
-    
-    T inter(line a, line b){
+
+    T inter(line a, line b) {
         T x = b.h-a.h, y = a.m-b.m;
         return x/y + (x%y ? (x>0)==(y>0) : 0); // == ceil(x/y)
     }
-    
+
     void add(T m, T h) {
         line l = {m, h};
         if (c.size() && m == c.back().m) {
@@ -22,9 +22,9 @@ struct cht {
         }
         c.pb(l);
     }
-    
+
     inline bool fbin(T x, int m) { return inter(c[m], c[m+1]) > x; }
-    
+
     T query(T x) {
         // O(log n) query:
         int l = 0, r = c.size();

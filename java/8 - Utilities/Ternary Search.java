@@ -1,7 +1,7 @@
 Retorna el valor minimo de una funcion entre l y r. Se recomienda usar 50 iteraciones.
 
 static double f(double x) {
-    return //funcion a evaluar que depende de x
+    return // funcion a evaluar que depende de x
 }
 
 static double ternary_search(double l, double r, int it) {

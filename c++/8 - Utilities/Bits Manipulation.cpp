@@ -19,18 +19,18 @@ __builtin_ctz(x)      -> Cantidad de bits apagados por la derecha. Indice del bi
 __builtin_popcount(x) -> Cantida de bits encendidos
 
 * Logaritmo en base 2 (entero). Indice del bit encendido mas a la izquierda. Si x es ll usar 63 y clzll(x).
-/// O(1)
+// O(1)
 int lg2(const int &x) { return 31-__builtin_clz(x); }
 
 * Itera, con indices, los bits encendidos de una mascara.
-/// O(#bits_encendidos)
+// O(#bits_encendidos)
 for (int x = mask; x; x &= x-1) {
     int i = __builtin_ctz(x);
-    
+
 }
 
 * Itera todas las submascaras de una mascara. (Iterar todas las submascaras de todas las mascaras es O(3^n)).
-/// O(2^(#bits_encendidos))
+// O(2^(#bits_encendidos))
 for (int sub = mask; sub; sub = (sub-1)&mask) {
-    
+
 }

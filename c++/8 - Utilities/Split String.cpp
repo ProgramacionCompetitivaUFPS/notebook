@@ -6,6 +6,6 @@ vector<string> split(const string &s/*, char c*/) {
     stringstream ss(s);
     string sub;
     while (ss >> sub) v.pb(sub);
-    //while (getline(ss, sub, c)) v.pb(sub);
+    // while (getline(ss, sub, c)) v.pb(sub);
     return v;
 }

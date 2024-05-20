@@ -16,18 +16,18 @@ struct matching_weighted {
         vector<int> idx(r), prev(r);
         iota(idx.begin(), idx.end(), 0);
         auto residue = [&](int i, int j) { return c[i][j]-v[j]; };
-        for(int f = 0; f < l; ++f) {
-            for(int j = 0; j < r; ++j) {
+        for (int f = 0; f < l; ++f) {
+            for (int j = 0; j < r; ++j) {
                 d[j] = residue(f, j);
                 prev[j] = f;
             }
             type w;
             int j, l;
             for (int s = 0, t = 0;;) {
-                if(s == t) {
+                if (s == t) {
                     l = s;
-                    w = d[ idx[t++] ];
-                    for(int k = t; k < r; ++k) {
+                    w = d[idx[t++]];
+                    for (int k = t; k < r; ++k) {
                         j = idx[k];
                         type h = d[j];
                         if (h <= w) {
@@ -48,8 +48,8 @@ struct matching_weighted {
                     if (h < d[j]) {
                         d[j] = h;
                         prev[j] = i;
-                        if(h == w) {
-                            if(mr[j] < 0) goto aug;
+                        if (h == w) {
+                            if (mr[j] < 0) goto aug;
                             idx[k] = idx[t];
                             idx[t++] = j;
                         }
@@ -57,8 +57,8 @@ struct matching_weighted {
                 }
             }
             aug:
-            for (int k = 0; k < l; ++k)
-                v[ idx[k] ] += d[ idx[k] ] - w;
+            for (int k = 0; k < l; ++k) 
+                v[idx[k]] += d[idx[k]] - w;
             int i;
             do {
                 mr[j] = i = prev[j];
@@ -66,7 +66,7 @@ struct matching_weighted {
             } while (i != f);
         }
         type opt = 0;
-        for (int i = 0; i < l; ++i)
+        for (int i = 0; i < l; ++i) 
             opt += c[i][ml[i]]; // (i, ml[i]) is a solution
         return opt;
     }

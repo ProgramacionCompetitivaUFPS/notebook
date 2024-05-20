@@ -4,12 +4,12 @@ Busca el substring común mas largo entre dos strings. Retorna un int[2], con el
 // m debe almacenar el size del string2.
 
 static int[] longestCommonSubstring() {
-  int i, ans[] = new int[2]; 
-  ans[0] = -1; ans[1] = 0;
-  for (i = 1; i < n; i++) {
-    if (((sa[i] < n - m - 1) != (sa[i - 1] < n - m - 1)) && lcp[i] > ans[0]) { 
-      ans[0] = lcp[i]; ans[1] = i;
+    int i, ans[] = new int[2];
+    ans[0] = -1; ans[1] = 0;
+    for (i = 1; i < n; i++) {
+        if (((sa[i] < n - m - 1) != (sa[i - 1] < n - m - 1)) && lcp[i] > ans[0]) {
+            ans[0] = lcp[i]; ans[1] = i;
+        }
     }
-  }
-  return ans;
+    return ans;
 }

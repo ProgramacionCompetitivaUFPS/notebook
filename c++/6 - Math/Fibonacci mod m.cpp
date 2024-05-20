@@ -1,6 +1,6 @@
 Calcula fibonacci(n) % m.
 
-/// O(log(n))
+// O(log(n))
 int fibmod(ll n, int m) {
     int a = 0, b = 1, c;
     for (int i = 63-__builtin_clzll(n); i >= 0; i--) {

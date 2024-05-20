@@ -12,6 +12,6 @@ static ArrayList<Integer> prefix_function(String s) {
             else lps.set(i++, len);
         } else lps.set(i++, ++len);
     }
-    //lps.add(0, -1); //Para SuffixLink
+    // lps.add(0, -1); // Para SuffixLink
     return lps;
 }

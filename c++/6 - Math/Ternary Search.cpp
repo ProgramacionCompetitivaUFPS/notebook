@@ -1,7 +1,7 @@
 Retorna el valor minimo de una funcion entre l y r. Se recomienda usar de 50 a 90 iteraciones.
 
 double f(double x) {
-    double y = x; //funcion a evaluar que depende de x
+    double y = x; // funcion a evaluar que depende de x
     return y;
 }
 

@@ -7,7 +7,7 @@ struct mbm {
 
     mbm(int l, int r) : l(l), r(r), g(l) {}
 
-    void add_edge(int l, int r) { 
+    void add_edge(int l, int r) {
         g[l].push_back(r);
     }
 
@@ -41,9 +41,9 @@ struct mbm {
     vector<vector<int>> g;
     vector<int> d, match;
     int nil, l, r;
-    /// u -> 0 to l, v -> 0 to r
+    // u -> 0 to l, v -> 0 to r
     mbm(int l, int r) : l(l), r(r), nil(l+r), g(l+r),
-                        d(1+l+r, INF), match(l+r, l+r) {}
+        d(1+l+r, INF), match(l+r, l+r) {}
 
     void add_edge(int a, int b) {
         g[a].push_back(l+b);
@@ -52,8 +52,8 @@ struct mbm {
 
     bool bfs() {
         queue<int> q;
-        for(int u = 0; u < l; u++) {
-            if(match[u] == nil) {
+        for (int u = 0; u < l; u++) {
+            if (match[u] == nil) {
                 d[u] = 0;
                 q.push(u);
             } else {
@@ -61,12 +61,12 @@ struct mbm {
             }
         }
         d[nil] = INF;
-        while(q.size()) {
+        while (q.size()) {
             int u = q.front(); q.pop();
-            if(u == nil) continue;
-            for(auto v : g[u]) {
-                if(d[ match[v] ] == INF) {
-                    d[ match[v] ] = d[u]+1;
+            if (u == nil) continue;
+            for (auto v : g[u]) {
+                if (d[match[v]] == INF) {
+                    d[match[v]] = d[u]+1;
                     q.push(match[v]);
                 }
             }
@@ -75,9 +75,9 @@ struct mbm {
     }
 
     bool dfs(int u) {
-        if(u == nil) return true;
-        for(int v : g[u]) {
-            if(d[ match[v] ] == d[u]+1 && dfs(match[v])) {
+        if (u == nil) return true;
+        for (int v : g[u]) {
+            if (d[match[v]] == d[u]+1 && dfs(match[v])) {
                 match[v] = u; match[u] = v;
                 return true;
             }
@@ -88,8 +88,8 @@ struct mbm {
 
     int max_matching() {
         int ans = 0;
-        while(bfs()) {
-            for(int u = 0; u < l; u++) {
+        while (bfs()) {
+            for (int u = 0; u < l; u++) {
                 ans += (match[u] == nil && dfs(u));
             }
         }

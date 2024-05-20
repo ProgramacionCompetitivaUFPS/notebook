@@ -4,7 +4,7 @@ Si n es libre de cuadrados entonces devuelve 1 o -1 si n tiene un numero par o i
 
 const int MX = 1e6;
 short mu[MX+1] = {0, 1};
-///  O(MX log(log(MX)))
+// O(MX log(log(MX)))
 void mobius() {
     for (int i = 1; i <= MX; i++) {
         if (!mu[i]) continue;

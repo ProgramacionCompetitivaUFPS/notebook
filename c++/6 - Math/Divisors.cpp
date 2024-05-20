@@ -14,7 +14,7 @@ ll sumDiv(ll n) {
 
 ll cantDiv(ll n) {
     map<ll, int> f;
-	fact(n, f);
+    fact(n, f);
     ll ans = 1;
     for (auto p : f) ans *= (p.second + 1);
     return ans;

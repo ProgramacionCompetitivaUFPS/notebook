@@ -16,22 +16,22 @@ struct simplex {
     void pivot(int x, int y) {
         swap(X[y], Y[x]);
         b[x] /= a[x][y];
-        for(int i = 0; i < m; i++){
-            if(i != y) a[x][i] /= a[x][y];
+        for (int i = 0; i < m; i++) {
+            if (i != y) a[x][i] /= a[x][y];
         }
         a[x][y] = 1 / a[x][y];
-        for(int i = 0; i < n; i++){
-            if(i != x && abs(a[i][y]) > EPS) {
+        for (int i = 0; i < n; i++) {
+            if (i != x && abs(a[i][y]) > EPS) {
                 b[i] -= a[i][y] * b[x];
-                for(int j = 0; j < m; j++){
-                    if(j != y) a[i][j] -= a[i][y] * a[x][j];
+                for (int j = 0; j < m; j++) {
+                    if (j != y) a[i][j] -= a[i][y] * a[x][j];
                 }
                 a[i][y] =- a[i][y] * a[x][y];
             }
         }
         z += c[y] * b[x];
-        for(int i = 0; i < m; i++){
-            if(i != y) c[i] -= c[y] * a[x][i];
+        for (int i = 0; i < m; i++) {
+            if (i != y) c[i] -= c[y] * a[x][i];
         }
         c[y] =- c[y] * a[x][y];
     }
@@ -44,40 +44,40 @@ struct simplex {
     }
 
     pair<double, vector<double>> maximize() {
-        while(true) {
+        while (true) {
             int x = -1, y = -1;
             double mn = -EPS;
-            for(int i = 0; i < n; i++){
-                if(b[i] < mn) mn = b[i], x = i;
+            for (int i = 0; i < n; i++) {
+                if (b[i] < mn) mn = b[i], x = i;
             }
-            if(x < 0) break;
-            for(int i = 0; i < m; i++){
-                if(a[x][i] < -EPS) { 
-                    y = i; 
-                    break; 
+            if (x < 0) break;
+            for (int i = 0; i < m; i++) {
+                if (a[x][i] < -EPS) {
+                    y = i;
+                    break;
                 }
             }
             assert(y >= 0); // no hay solucion para Ax <= b
             pivot(x, y);
         }
-        while(true) {
+        while (true) {
             double mx = EPS;
             int x = -1, y = -1;
-            for(int i = 0; i < m; i++){
-                if(c[i] > mx) mx = c[i], y = i;
+            for (int i = 0; i < m; i++) {
+                if (c[i] > mx) mx = c[i], y = i;
             }
-            if(y < 0) break;
+            if (y < 0) break;
             double mn = 1e200;
-            for(int i = 0; i < n; i++){
-                if(a[i][y] > EPS && b[i] / a[i][y] < mn)
+            for (int i = 0; i < n; i++) {
+                if (a[i][y] > EPS && b[i] / a[i][y] < mn) 
                 mn = b[i] / a[i][y], x = i;
             }
             assert(x >= 0); // unbounded
             pivot(x, y);
         }
         vector<double> r(m);
-        for(int i = 0; i < n; i++){
-            if(Y[i] < m) r[ Y[i] ] = b[i];
+        for (int i = 0; i < n; i++) {
+            if (Y[i] < m) r[Y[i]] = b[i];
         }
         return {z, r};
     }

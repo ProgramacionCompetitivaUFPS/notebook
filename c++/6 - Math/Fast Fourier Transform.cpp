@@ -1,7 +1,7 @@
 Multiplicacion de polinomios en O(n log n)
 
 const double PI = acos(-1.0);
- 
+
 namespace fft {
     struct pt {
         double r, i;
@@ -11,10 +11,10 @@ namespace fft {
         pt operator * (const pt &b) { return pt(r*b.r - i*b.i, r*b.i + i*b.r); }
     };
     vector<int> rev;
- 
+
     void fft(vector<pt> &y, int on) {
         int n = y.size();
-        for (int i = 1; i < n; i++)
+        for (int i = 1; i < n; i++) 
             if (i < rev[i]) swap(y[i], y[rev[i]]);
         for (int m = 2; m <= n; m <<= 1) {
             double ang = -on * 2 * PI / m;
@@ -32,7 +32,7 @@ namespace fft {
         }
         if (on == -1) for (int i = 0; i < n; i++) y[i].r /= n;
     }
- 
+
     vector<ll> mul(vector<ll> &a, vector<ll> &b) {
         int n = 1, t = 0, la = a.size(), lb = b.size();
         for (; n <= (la+lb+1); n <<= 1, t++); t = 1<<(t-1);

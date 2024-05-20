@@ -3,14 +3,14 @@ Recibe como parametro en el constructor un arreglo de valores.
 IMPORTANTE: Para para procesar actualizaciones por rangos se deben descomentar los lineas de Lazy Propagation.
 
 static class SegmentTree {
-    int[] st;//, lazy;
+    int[] st; // , lazy;
     int n, neutro = 1 << 30;
 
     SegmentTree(int[] arr) {
         n = arr.length;
         st = new int[n << 2];
-        //lazy = new int[n << 2];
-        //Arrays.fill(lazy, neutro);
+        // lazy = new int[n << 2];
+        // Arrays.fill(lazy, neutro);
         build(1, 0, n - 1, arr);
     }
 
@@ -41,7 +41,7 @@ static class SegmentTree {
     }
     */
     int query(int p, int L, int R, int i, int j) {
-        //propagate(p, L, R, lazy[p]);
+        // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return neutro;
         if (i <= L && j >= R) return st[p];
         int m = (L+R)/2, l = left(p), r = right(p);
@@ -51,9 +51,9 @@ static class SegmentTree {
     }
 
     void update(int p, int L, int R, int i, int j, int val) {
-        //propagate(p, L, R, lazy[p]);
+        // propagate(p, L, R, lazy[p]);
         if (i > R || j < L) return;
-        if (i <= L && j >= R) st[p] = val;//propagate(p, L, R, val);
+        if (i <= L && j >= R) st[p] = val; // propagate(p, L, R, val);
         else {
             int m = (L+R)/2, l = left(p), r = right(p);
             update(l, L, m, i, j, val);

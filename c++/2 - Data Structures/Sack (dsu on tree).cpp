@@ -18,8 +18,8 @@ void pre(int u, int p) {
 
 void upd(int u, int p, int x) {
     cnt[u] += x;
-    for (auto &v : g[u])
-        if (v != p && !big[v])
+    for (auto &v : g[u]) 
+        if (v != p && !big[v]) 
             upd(v, u, x);
 }
 
@@ -36,7 +36,7 @@ void dfs(int u, int p, bool keep) {
         big[id] = true;
     }
     upd(u, p, 1);
-    /*Aqui se responden las queries. cnt[u] es el numero de 
+    /*Aqui se responden las queries. cnt[u] es el numero de
     vertices en el subarbol de u que cumplen la propiedad.*/
     if (id != -1) 
         big[id] = false;

@@ -12,7 +12,7 @@ void init(int k) {
     for (int i = 0; i < k-1; i++) T[i][i+1] = 1;
     for (int i = 0; i < k; i++) T[k-1][i] = 1;
 }
-/// O(k^3 log(n))
+// O(k^3 log(n))
 int fib(ll n, int k = 2) {
     init(k);
     matrix ans = pow(T, n+k-1) * F;
