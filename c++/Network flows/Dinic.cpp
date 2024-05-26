@@ -10,8 +10,8 @@ struct network {
     network(int n) : n(n), lvl(n), g(n) {}
 
     void add_edge(int u, int v, int c) {
-        g[u].push_back({v, c, (int)g[v].size(), 0});
-        g[v].push_back({u, 0, (int)g[u].size()-1, c});
+        g[u].pb({v, c, (int)g[v].size(), 0});
+        g[v].pb({u, 0, (int)g[u].size()-1, c});
     }
 
     bool bfs() {

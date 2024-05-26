@@ -8,7 +8,7 @@ void sieve() {
     marked[0] = marked[1] = true;
     for (int i = 2; i <= MX; i++) {
         if (marked[i]) continue;
-        primes.push_back(i);
+        primes.pb(i);
         for (ll j = 1ll*i*i; j <= MX; j += i) marked[j] = true;
     }
 }

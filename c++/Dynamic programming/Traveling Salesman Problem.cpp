@@ -38,7 +38,7 @@ void build(int mask, int u) {
     if (u == -1) {
         for (int i = 0; i < N; i++) {
             if (TSP(mask, u) == TSP(mask | (1<<i), i)) {
-                rb.push_back(i);
+                rb.pb(i);
                 build(mask | (1<<i), i);
                 return;
             }
@@ -47,7 +47,7 @@ void build(int mask, int u) {
         for (int i = 0; i < N; i++) {
             if (!(mask & (1<<i))) {
                 if (TSP(mask, u) == TSP(mask | (1<<i), i) + dist[u][i]) {
-                    rb.push_back(i);
+                    rb.pb(i);
                     build(mask | (1<<i), i);
                     return;
                 }

@@ -52,7 +52,7 @@ struct suffixArray {
         }
     }
     // Longest Common Substring: construir el suffixArray s = s1 + "#" + s2 + "$" y m = s2.size()
-    pair<int, int> lcs() {
+    pii lcs() {
         int mx = -1, ind = -1;
         for (int i = 1; i < n; i++) {
             if (((sa[i] < n-m-1) != (sa[i-1] < n-m-1)) && mx < lcp[i]) {

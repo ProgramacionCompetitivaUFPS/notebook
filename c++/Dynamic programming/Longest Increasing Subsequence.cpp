@@ -25,7 +25,7 @@ int lis_opt() {
     for (int i = 0; i < N; i++) {
         auto id = lower_bound(LIS.begin(), LIS.end(), A[i]);
         if (id == LIS.end()) {
-            LIS.push_back(A[i]);
+            LIS.pb(A[i]);
             dp[i] = LIS.size();
         }
         else {

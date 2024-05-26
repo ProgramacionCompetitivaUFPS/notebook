@@ -7,7 +7,7 @@ bool cmp(edge &a, edge &b) {
 }
 
 const int MX = 1e5+5; // Cantidad maxima de nodos
-vector<pair<int, int>> g[MX]; // Lista de adyacencia
+vector<pii> g[MX]; // Lista de adyacencia
 vector<edge> e; // Lista de aristas
 int n, m; // Cantidad de nodos y aristas
 
@@ -18,8 +18,8 @@ void kruskall() {
     for (auto &ed : e) {
         if (ds.find(ed.u) != ds.find(ed.v)) {
             ds.unite(ed.u, ed.v);
-            g[ed.u].push_back({ed.v, ed.w});
-            g[ed.v].push_back({ed.u, ed.w});
+            g[ed.u].pb({ed.v, ed.w});
+            g[ed.v].pb({ed.u, ed.w});
             if (++cnt == n-1) break;
         }
     }

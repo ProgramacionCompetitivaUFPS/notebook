@@ -15,10 +15,10 @@ int mxflow, mncost; // Flujo maximo y costo minimo
 int N; // Cantidad TOTAL de nodos
 
 void add_edge(int u, int v, int cap, int cost) {
-    g[u].push_back(e.size());
-    e.push_back({u, v, cap, 0, cost});
-    g[v].push_back(e.size());
-    e.push_back({v, u, 0, 0, -cost});
+    g[u].pb(e.size());
+    e.pb({u, v, cap, 0, cost});
+    g[v].pb(e.size());
+    e.pb({v, u, 0, 0, -cost});
 }
 
 void flow(int s, int t) {
@@ -79,10 +79,10 @@ struct mcmf {
     mcmf(int n) : n(n), g(n), p(n), d(n), phi(n) {}
 
     void add_edge(int u, int v, int cap, type cost) {
-        g[u].push_back(ed.size());
-        ed.push_back({u, v, cap, 0, cost});
-        g[v].push_back(ed.size());
-        ed.push_back({v, u, 0, 0, -cost});
+        g[u].pb(ed.size());
+        ed.pb({u, v, cap, 0, cost});
+        g[v].pb(ed.size());
+        ed.pb({v, u, 0, 0, -cost});
     }
 
     bool dijkstra(int s, int t) {
