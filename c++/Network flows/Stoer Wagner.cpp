@@ -29,7 +29,7 @@ struct stoer_wagner {
                     for (int j = 0; j < n; j++) 
                         g[j][prv] = g[prv][j];
                     used[lst] = true;
-                    cut.push_back(lst);
+                    cut.pb(lst);
                     if (best_weight == -1 || w[lst] < best_weight) {
                         best_cut = cut;
                         best_weight = w[lst];

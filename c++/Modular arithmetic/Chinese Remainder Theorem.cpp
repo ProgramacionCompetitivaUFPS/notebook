@@ -3,7 +3,7 @@ Devuelve {x, lcm}, donde x es la solucion con modulo lcm (lcm = LCM(M_0, M_1, ..
 Si la solucion no existe o la entrada no es valida devuelve {-1, -1}
 Agregar Extended Euclides.
 
-pair<int, int> crt(vector<int> A, vector<int> M) {
+pii crt(vector<int> A, vector<int> M) {
     int n = A.size(), ans = A[0], lcm = M[0];
     for (int i = 1; i < n; i++) {
         int d = euclid(lcm, M[i]);

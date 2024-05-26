@@ -18,7 +18,7 @@ void add_str(string &s, int id = 1) {
         int c = ch-L;
         if (!trie[u][c]) {
             trie[u][c] = trie.size();
-            trie.push_back(node());
+            trie.pb(node());
         }
         u = trie[u][c];
     }

@@ -18,9 +18,9 @@ int BCC; // Cantidad de componentes biconexas
 int n, m; // Cantidad de nodos y aristas
 
 void add_edge(int u, int v) {
-    g[u].push_back(e.size());
-    g[v].push_back(e.size());
-    e.push_back({u, v, -1, false});
+    g[u].pb(e.size());
+    g[v].pb(e.size());
+    e.pb({u, v, -1, false});
 }
 
 void dfs(int u, int p = -1) {
@@ -36,7 +36,7 @@ void dfs(int u, int p = -1) {
             if (low[v] >= num[u]) {
                 art[u] = (num[u] > 0 || num[v] > 1); // articulation
                 int last; // start biconnected
-                // comps.push_back({});
+                // comps.pb({});
                 do {
                     last = st.top(); st.pop();
                     e[last].comp = BCC;
@@ -58,16 +58,16 @@ void build_tree() {
     for (int u = 0; u < n; u++) {
         if (art[u]) {
             id[u] = tree.size();
-            tree.push_back({});
+            tree.pb({});
         }
     }
     for (auto &comp : comps) {
         int node = tree.size();
-        tree.push_back({});
+        tree.pb({});
         for (auto &u : comp) {
             if (art[u]) {
-                tree[id[u]].push_back(node);
-                tree[node].push_back(id[u]);
+                tree[id[u]].pb(node);
+                tree[node].pb(id[u]);
             } else id[u] = node;
         }
     }

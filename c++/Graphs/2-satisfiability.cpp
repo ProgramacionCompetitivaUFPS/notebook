@@ -22,8 +22,8 @@ struct sat2 {
     }
 
     void add_edge(int u, int v) {
-        g[0][u].push_back(v);
-        g[1][v].push_back(u);
+        g[0][u].pb(v);
+        g[1][v].pb(u);
     }
 
     void dfs(int id, int u, int t = 0) {

@@ -46,7 +46,7 @@ int tangents(circle c1, circle c2, bool inner, vector<pair<pt, pt>> &out) {
     if (d2 == 0 || h2 < 0) { assert(h2 != 0); return 0; } // (identical)
     for (double s : {-1, 1}) {
         pt v = (d*dr + rot90ccw(d)*sqrt(h2)*s)/d2;
-        out.push_back({c1.c + v*c1.r, c2.c + v*c2.r});
+        out.pb({c1.c + v*c1.r, c2.c + v*c2.r});
     }
     return 1 + (h2 > 0); // if 1: circle are tangent
 }

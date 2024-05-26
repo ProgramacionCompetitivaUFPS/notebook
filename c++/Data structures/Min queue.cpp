@@ -4,9 +4,9 @@ struct mnque {
     deque<int> dq, mn;
 
     void push(int x) {
-        dq.push_back(x);
+        dq.pb(x);
         while (mn.size() && mn.back() > x) mn.pop_back();
-        mn.push_back(x);
+        mn.pb(x);
     }
 
     void pop() {

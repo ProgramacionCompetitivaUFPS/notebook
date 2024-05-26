@@ -21,7 +21,7 @@ pt inter(halfplane& h1, halfplane& h2) {
 vector<pt> intersect(vector<halfplane>& b) {
     vector<pt> box = {{inf, inf}, {-inf, inf}, {-inf, -inf}, {inf, -inf}};
     for (int i = 0; i < 4; i++) {
-        b.push_back({box[i], box[(i + 1) % 4]});
+        b.pb({box[i], box[(i + 1) % 4]});
     }
     sort(b.begin(), b.end());
     int n = b.size(), q = 1, h = 0;

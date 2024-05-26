@@ -8,7 +8,7 @@ struct mbm {
     mbm(int l, int r) : l(l), r(r), g(l) {}
 
     void add_edge(int l, int r) {
-        g[l].push_back(r);
+        g[l].pb(r);
     }
 
     bool dfs(int u) {
@@ -46,8 +46,8 @@ struct mbm {
         d(1+l+r, INF), match(l+r, l+r) {}
 
     void add_edge(int a, int b) {
-        g[a].push_back(l+b);
-        g[l+b].push_back(a);
+        g[a].pb(l+b);
+        g[l+b].pb(a);
     }
 
     bool bfs() {
