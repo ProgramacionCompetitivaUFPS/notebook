@@ -17,6 +17,6 @@ class Main {
         // Locale.setDefault(Locale.US);
         // out.printf("%.6f\n", c);
         out.println(c);
-	    out.close(); // Obligatorio al finalizar el programa
+        out.close(); // Obligatorio al finalizar el programa
     }
 }
