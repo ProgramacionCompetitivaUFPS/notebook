@@ -1,10 +1,10 @@
-Estructura de datos que permite procesar consultas por rangos y actualizaciones individuales sobre un arreglo.
+> 🚨 Usar indexando desde 1 en vez de 0. Permite procesar consultas de suma en rangos y actualizaciones puntuales sobre un arreglo.
 
-const int MX = 1e5;
-int bit[MX+1];
+const int N = 1e5;
+int bit[N+1];
 
 void add(int k, int val) {
-    for (; k <= MX; k += k&-k) bit[k] += val;
+    for (; k <= N; k += k&-k) bit[k] += val;
 }
 
 int rsq(int k) {
@@ -14,15 +14,15 @@ int rsq(int k) {
 }
 
 int rsq(int i, int j) { return rsq(j) - rsq(i-1); }
-
-int lower_find(int val) { // last value < or <= to val
+// last value <= or < to val
+int lower_find(int val) {
     int id = 0;
-    for (int i = 31-__builtin_clz(MX); i >= 0; --i) {
+    for (int i = 31-__builtin_clz(N); i >= 0; --i) {
         int nid = id | (1<<i);
-        if (nid <= MX && bit[nid] <= val) { // change <= to <
+        if (nid <= N && bit[nid] <= val) { // or bit[nid] < val
             val -= bit[nid];
             id = nid;
         }
     }
-    return idx;
+    return id;
 }
