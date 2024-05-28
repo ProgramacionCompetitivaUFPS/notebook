@@ -1,5 +1,4 @@
-Estructura de datos para modelar una coleccion de conjuntos disyuntos.
-Permite determinar de manera eficiente a que conjunto pertenece un elemento, si dos elementos se encuentran en un mismo conjunto y unir dos conjuntos en un uno.
+> Permite mantener una colección de conjuntos disyuntos. find(u) indica a qué conjunto pertenece u. unite(u, v) une los conjuntos de u y v en uno.
 
 struct dsu {
     vector<int> par, sz;
@@ -22,6 +21,6 @@ struct dsu {
         sz[v] += sz[u];
         size--;
     }
-    // Retorna la cantidad de elementos del conjunto de u
+    // Cantidad de elementos en el conjunto de u
     int count(int u) { return sz[find(u)]; }
 };
