@@ -1,4 +1,4 @@
-> 🚨 Usar build() para inicializar. Para consultas sobre aristas guardar el valor de cada arista en su nodo hijo y cambiar pos[u] por pos[u]+1 en la linea 54.
+> 🚨 Usar build() para inicializar. Para consultas sobre aristas: guardar el valor de cada arista en su nodo hijo y cambiar pos[u] por pos[u]+1 en la linea 55.
 > Agregar Segment Tree con un constructor vacío y actualizaciones puntuales.
 
 typedef int T; // Tipo de dato del segtree
