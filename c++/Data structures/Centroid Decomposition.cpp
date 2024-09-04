@@ -1,10 +1,10 @@
-> 🚨 Usar build() para inicializar. Problema de ejemplo: dado un árbol, las actualizaciones son marcar nodos y las consultas son hallar la distancia mínima entre un nodo u y un nodo marcado.
+> 🚨 Usar build() para inicializar. Problema de ejemplo: dado un árbol, las actualizaciones son marcar nodos, y las consultas son hallar la distancia mínima entre un nodo u y un nodo marcado.
 
 const int N = 1e5+5;
 vector<int> g[N];
 int par[N], dep[N], sz[N];
 map<int, int> dist[N]; // Distancia entre dos nodos en el árbol original
-vector<int> cans; // Respuesta optima de cada centroide hacía su subárbol
+vector<int> c_ans; // Respuesta optima de cada centroide hacía su subárbol
 
 int pre(int u, int p) {
     sz[u] = 1;
@@ -48,14 +48,14 @@ int lca(int u, int v) {
 // O((logn)^2) Actualiza la respuesta de los ancestros de u
 void upd(int u) {
     for (int c = u; c != -1; c = par[c]) {
-        cans[c] = min(cans[c], dist[c][u]);
+        c_ans[c] = min(c_ans[c], dist[c][u]);
     }
 }
 // O((logn)^2) Combina la respuesta del centroide c + el costo de c a u
 int query(int u) {
     int mn = N;
     for (int c = u; c != -1; c = par[c]) {
-        mn = min(mn, cans[c] + dist[c][u]);
+        mn = min(mn, c_ans[c] + dist[c][u]);
     }
     return mn;
 }
