@@ -1,3 +1,6 @@
+> Guarda el estado del segment tree después de cada actualización para permitir hacer consultas sobre estados pasados.
+> Consultas y actualizaciones en O(logn), ocupa O(nlogn) en memoria.
+
 struct node {
     node *left, *right;
     int val;

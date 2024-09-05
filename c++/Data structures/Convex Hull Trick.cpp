@@ -1,4 +1,4 @@
-Agregar líneas en orden no-creciente por pendiente m. Permite consultar el mínimo f(x). Para máximo, cambiar el signo de las lineas: -m, -h.
+> Agregar líneas en orden no-creciente por pendiente m. Permite consultar el mínimo f(x). Para máximo, cambiar el signo de las lineas: -m, -h.
 
 typedef ll T;
 struct line { T m, h; };

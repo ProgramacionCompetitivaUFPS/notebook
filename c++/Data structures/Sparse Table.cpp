@@ -1,9 +1,11 @@
-Estructura de datos que permite procesar consultas por rangos.
+> Permite realizar consultas sobre rangos, no actualizaciones.
+> Soporta operaciones en las que no importa si se solapan los rangos, por ejemplo: max y min se pueden pero suma no.
+> Construcción y memoria O(nlon), consultas en O(1).
 
-const int MX = 1e5+5;
-const int LG = log2(MX)+1;
-int spt[LG][MX];
-int arr[MX];
+const int N = 1e5+5;
+const int LG = log2(N)+1;
+int spt[LG][N];
+int arr[N];
 int n;
 
 void build() {
