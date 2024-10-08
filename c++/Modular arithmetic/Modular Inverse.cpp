@@ -20,10 +20,10 @@ int invmod(int a, int m) {
 * Calcular el inverso modulo m para todos los numeros menores o iguales a MX
 
 const int MX = 1e6;
-ll inv[MX+1];
+int inv[MX+1];
 // O(MX)
-void invmod(ll m) {
+void invmod(int m) {
     inv[1] = 1;
     for (int i = 2; i <= MX; i++) 
-        inv[i] = m - (m/i) * inv[m%i] % m;
+        inv[i] = m - ll(m/i) * inv[m%i] % m;
 }

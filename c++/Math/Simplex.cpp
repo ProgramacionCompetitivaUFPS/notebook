@@ -6,12 +6,20 @@ C: costos de las variables
 
 const double EPS = 1e-6;
 
+typedef double lf;
 struct simplex {
     vector<int> X, Y;
-    vector<vector<double>> a;
-    vector<double> b, c;
-    double z;
+    vector<vector<lf>> a;
+    vector<lf> b, c;
+    lf z;
     int n, m;
+
+    simplex(vector<vector<lf>> &A, vector<lf> &B, vector<lf> &C) {
+        a = A; b = B; c = C;
+        n = b.size(); m = c.size(); z = 0.0;
+        X.resize(m); iota(X.begin(), X.end(), 0);
+        Y.resize(n); iota(Y.begin(), Y.end(), m);
+    }
 
     void pivot(int x, int y) {
         swap(X[y], Y[x]);
@@ -36,17 +44,10 @@ struct simplex {
         c[y] =- c[y] * a[x][y];
     }
 
-    simplex(vector<vector<double>> &A, vector<double> &B, vector<double> &C) {
-        a = A; b = B; c = C;
-        n = b.size(); m = c.size(); z = 0.0;
-        X.resize(m); iota(X.begin(), X.end(), 0);
-        Y.resize(n); iota(Y.begin(), Y.end(), m);
-    }
-
-    pair<double, vector<double>> maximize() {
+    pair<lf, vector<lf>> maximize() {
         while (true) {
             int x = -1, y = -1;
-            double mn = -EPS;
+            lf mn = -EPS;
             for (int i = 0; i < n; i++) {
                 if (b[i] < mn) mn = b[i], x = i;
             }
@@ -57,17 +58,17 @@ struct simplex {
                     break;
                 }
             }
-            assert(y >= 0); // no hay solucion para Ax <= b
+            assert(y >= 0); // no hay solución para Ax <= b
             pivot(x, y);
         }
         while (true) {
-            double mx = EPS;
+            lf mx = EPS;
             int x = -1, y = -1;
             for (int i = 0; i < m; i++) {
                 if (c[i] > mx) mx = c[i], y = i;
             }
             if (y < 0) break;
-            double mn = 1e200;
+            lf mn = 1e200;
             for (int i = 0; i < n; i++) {
                 if (a[i][y] > EPS && b[i] / a[i][y] < mn) 
                 mn = b[i] / a[i][y], x = i;
@@ -75,7 +76,7 @@ struct simplex {
             assert(x >= 0); // unbounded
             pivot(x, y);
         }
-        vector<double> r(m);
+        vector<lf> r(m);
         for (int i = 0; i < n; i++) {
             if (Y[i] < m) r[Y[i]] = b[i];
         }

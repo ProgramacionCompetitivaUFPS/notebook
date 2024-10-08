@@ -1,4 +1,4 @@
-> 🚨 Usar build() para inicializar. Problema de ejemplo: dado un árbol, las actualizaciones son marcar nodos, y las consultas son hallar la distancia mínima entre un nodo u y un nodo marcado.
+> !! Usar build() para inicializar. Problema de ejemplo: dado un árbol, las actualizaciones son marcar nodos, y las consultas son hallar la distancia mínima entre un nodo u y un nodo marcado.
 
 const int N = 1e5+5;
 vector<int> g[N];
