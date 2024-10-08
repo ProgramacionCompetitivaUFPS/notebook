@@ -1,4 +1,4 @@
-Encuentra x, y en la ecuación de la forma ax + by = c 
+Encuentra x, y en la ecuación de la forma ax + by = c
 Agregar Extended Euclides.
 
 ll g;
