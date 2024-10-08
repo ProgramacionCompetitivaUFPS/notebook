@@ -1,5 +1,6 @@
 typedef double lf;
 const lf eps = 1e-9;
+const lf PI = acos(-1.0);
 typedef double T;
 struct pt {
     T x, y;
@@ -37,9 +38,12 @@ bool in_angle(pt a, pt b, pt c, pt x) { // x inside angle abc (center in a)
     if (orient(a, b, c) < 0) swap(b, c);
     return orient(a, b, x) >= 0 && orient(a, c, x) <= 0;
 }
-// angle bwn 2 vectors
+// angle bwn 2 vectors [0, pi] -> [0, 180] and (-pi, 0) -> (180, 360)
 lf angle(pt a, pt b) { return acos(max(-1.0, min(1.0, dot(a, b)/abs(a)/abs(b)))); }
 lf angle(pt a, pt b) { return atan2(cross(a, b), dot(a, b)); }
+lf angle360(pt a, pt b) { // [0, 360)
+    lf ang = angle(a, b); return (ang < 0 ? ang+2*PI : ang) * 360/(2*PI);
+}
 // returns vector to transform points
 pt get_linear_transformation(pt p, pt q, pt r, pt fp, pt fq) {
     pt pq = q-p, num{cross(pq, fq-fp), dot(pq, fq-fp)};
