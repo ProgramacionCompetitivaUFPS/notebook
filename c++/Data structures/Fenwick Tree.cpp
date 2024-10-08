@@ -1,4 +1,4 @@
-> 🚨 Usar indexando desde 1 en vez de 0. Permite procesar consultas de suma en rangos y actualizaciones puntuales sobre un arreglo.
+> !! Usar indexando desde 1 en vez de 0. Permite procesar consultas de suma en rangos y actualizaciones puntuales sobre un arreglo.
 
 const int N = 1e5;
 int bit[N+1];
