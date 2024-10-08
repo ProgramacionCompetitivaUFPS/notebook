@@ -1,6 +1,4 @@
-La funcion Rho de Pollard calcula un divisor no trivial de n. Agregar Modular Multiplication.
-
-ll gcd(ll a, ll b) { return a ? gcd(b%a, a) : b; }
+La función Rho de Pollard calcula un divisor no trivial de n. Agregar Modular Multiplication.
 
 ll rho(ll n) {
     if (!(n&1)) return 2;
@@ -10,7 +8,7 @@ ll rho(ll n) {
         x = (mulmod(x, x, n) + c) % n;
         y = (mulmod(y, y, n) + c) % n;
         y = (mulmod(y, y, n) + c) % n;
-        d = gcd(abs(x-y), n);
+        d = __gcd(abs(x-y), n);
     }
     return d == n ? rho(n) : d;
 }
@@ -30,12 +28,12 @@ ll rho(ll n) {
             if ((x = *px++) == y) break;
             ll t = p;
             p = mulmod(p, abs(y-x), n);
-            if (!p) return gcd(t, n);
+            if (!p) return __gcd(t, n);
             if (++v == 26) {
-                if ((p = gcd(p, n)) > 1 && p < n) return p;
+                if ((p = __gcd(p, n)) > 1 && p < n) return p;
                 v = 0;
             }
         }
-        if (v && (p = gcd(p, n)) > 1 && p < n) return p;
+        if (v && (p = __gcd(p, n)) > 1 && p < n) return p;
     }
 }
