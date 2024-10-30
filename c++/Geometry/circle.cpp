@@ -9,7 +9,7 @@ circle center(pt a, pt b, pt c) {
     pt cen = a + rot90ccw(b*norm(c) - c*norm(b))/cross(b, c)/2;
     return {cen, abs(a-cen)};
 }
-// centers of the circles that pass through ab and has radius r
+// centers of the circles that pass through ab and have radius r
 vector<pt> centers(pt a, pt b, T r) {
     if (abs(a-b) > 2*r + eps) return {};
     pt m = (a+b)/2;
